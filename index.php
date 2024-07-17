@@ -15,7 +15,7 @@
             echo "<p class='lead'>Esta es una prueba.</p>";
             echo "<hr class='my-4'>";
             echo "<p>Puse bootstrap XD.</p>";
-            echo "<a class='btn btn-primary btn-lg' href='#' role='button'>ª</a>";
+            echo "<h1 class='display-4'>ª</h1>";
             echo "</div>";
         ?>
     </div>
