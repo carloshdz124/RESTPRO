@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<?php 
+include_once ("header.php");
+?>
 <body>
     <div class="container mt-5">
         <?php
             echo "<div class='jumbotron'>";
             echo "<h1 class='display-4'>Bienvenido a mi Proyecto Modular</h1>";
-            echo "<p class='lead'>Esta es una prueba.</p>";
+            echo "<p class='lead'>Esta es una prueba x2.</p>";
             echo "<hr class='my-4'>";
             echo "<p>Puse bootstrap XD.</p>";
             echo "<h1 class='display-4'>ª</h1>";
