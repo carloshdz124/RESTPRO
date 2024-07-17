@@ -23,6 +23,10 @@ include_once ("header.php");
         <p>FUR<p>
         <p>FUR<p>
         <p>FUR<p>
+        <p>puro pinche chivas<p>
+        <p>puro pinche chivas<p>
+        <p>puro pinche chivas<p>
+        <p>puro pinche chivas<p>
 
         <?php
         echo "<h1 class='display-4'>ª</h1>";
