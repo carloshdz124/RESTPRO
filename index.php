@@ -8,7 +8,7 @@
 <body>
     <?php
         echo "<h1>Bienvenido a mi sitio web</h1>";
-        echo "<p>Esta es una página simple en PHP.</p>";
+        echo "<p>Aqui haremos nuestro Proyecto Modular.</p>";
     ?>
 </body>
 </html>
