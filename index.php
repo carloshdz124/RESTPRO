@@ -18,6 +18,11 @@ include_once ("header.php");
         
         <p>Esto es una modificacion de prueba</p>
         <p>FUR<p>
+        <p>FUR<p>
+        <p>FUR<p>
+        <p>FUR<p>
+        <p>FUR<p>
+        <p>FUR<p>
 
         <?php
         echo "<h1 class='display-4'>ª</h1>";
