@@ -15,9 +15,11 @@ include_once ("header.php");
         echo "<h1 class='display-4'>ª</h1>";
         echo "<h1 class='display-4'>ª</h1>";
         ?>
+        
         <p>
             Esto es una modificacion de prueba
         </p>
+
         <?php
         echo "<h1 class='display-4'>ª</h1>";
         echo "<h1 class='display-4'>ª</h1>";
