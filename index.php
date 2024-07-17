@@ -11,9 +11,6 @@ include_once ("header.php");
         echo "<hr class='my-4'>";
         echo "<p>Puse bootstrap XD.</p>";
         echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
         ?>
         
         <p>PRUEBA<p>
@@ -29,12 +26,9 @@ include_once ("header.php");
         <p>puro pinche chivas<p>
         <p>puro pinche chivas<p>
         <p>puro pinche chivas<p>
+        <p>Arriba las chivaaaaaaaaaaas</p>
 
         <?php
-        echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
-        echo "<h1 class='display-4'>ª</h1>";
         echo "<h1 class='display-4'>ª</h1>";
         echo "<h3 class='display-4'>PRUEBAS</h3>";
         echo "</div>";
