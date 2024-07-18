@@ -1,3 +1,21 @@
+.bg-custom {
+    background-image: url('../imagenes/fondo_login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-box {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
 
 .icon-index{
     font-size: 100px; 
@@ -8,3 +26,4 @@
     display: flex;
     row-gap: 48px;
 }
+
