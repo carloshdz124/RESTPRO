@@ -1,0 +1,10 @@
+
+.icon-index{
+    font-size: 100px; 
+    text-align: center;
+}
+
+.row{
+    display: flex;
+    row-gap: 48px;
+}
