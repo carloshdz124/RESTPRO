@@ -18,8 +18,8 @@
 }
 
 .icon-index{
-    font-size: 100px; 
-    text-align: center;
+    font-size: 40px; 
+    align-items: center;
 }
 
 .row{
@@ -33,4 +33,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}.sidebar-color{
+    background-color: #1a2640;
+}
+
+.sidebar-color-tittle{
+    background-color: #4f6086;
+}
+
+.navbar-color{
+    background-color: rgb(95, 95, 95);
+    color:  rgb(95, 95, 95);
 }

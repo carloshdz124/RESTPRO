@@ -17,7 +17,8 @@ include_once"header.php";
                 </div>
                 <br>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary btn-block d-block w-50">Ingresar</button>
+                    <br>
+                <button type="button" class="btn btn-primary btn-block d-block w-50">Ingresar</button>
                 </div>
                 <div class="loading">
                     <img src="imagenes/login.gif" alt="Ingresando...">
