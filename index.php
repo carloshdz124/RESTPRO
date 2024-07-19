@@ -19,7 +19,7 @@ include_once "header.php";
                 <i class="bi bi-bounding-box-circles icon-index"></i>
                 <div class="card-body">
                     <h5 class="card-title">Mesas</h5>
-                    <a href="#" class="btn btn-primary">Ir a mesas</a>
+                    <a href="mesas.php" class="btn btn-primary">Ir a mesas</a>
                 </div>
             </div>
         </div>
