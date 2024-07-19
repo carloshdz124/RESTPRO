@@ -14,6 +14,7 @@ include_once"header.php";
                     <label for="password">Contraseña</label>
                     <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
             </form>
         </div>

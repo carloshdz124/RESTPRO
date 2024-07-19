@@ -27,3 +27,15 @@
     row-gap: 48px;
 }
 
+.sidebar-color{
+    background-color: #1a2640;
+}
+
+.sidebar-color-tittle{
+    background-color: #4f6086;
+}
+
+.navbar-color{
+    background-color: rgb(95, 95, 95);
+    color:  rgb(95, 95, 95);
+}

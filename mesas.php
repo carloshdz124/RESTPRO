@@ -1,13 +1,15 @@
 <?php
 $titulo = "MESAS";
 include ("header.php");
-include ("sidebar.php");
+include ("navbar.php");
 
 ?>
 
+<div class="container mt-5">
 
-Content area...
-
+    Content area...
+    
+</div>
 
 <?php
 
