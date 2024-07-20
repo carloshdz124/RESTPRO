@@ -56,7 +56,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="login.php">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="eliminar_sesion.php">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>

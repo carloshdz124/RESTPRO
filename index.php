@@ -1,9 +1,20 @@
 <?php
+session_start(); // Iniciar la sesión
+
+// Verificar si el usuario está conectado
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+    $tipo_user = $_SESSION['tipo_user'];
+} else {
+    header('Location: login.php');
+}
 include_once "header.php";
+include_once "navbar.php";
 ?>
 
 <div class="container mt-5">
-
+    <h1>User: <?php echo $user; ?></h1>
+    <h1>Tipo user: <?php echo $tipo_user; ?></h1>
     <div class="row">
         <div class="col">
             <div class="card" style="width: 18rem;">

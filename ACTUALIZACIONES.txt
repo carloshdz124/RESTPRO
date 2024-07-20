@@ -1,0 +1,24 @@
+Que onda carlos cree este archivo para ponerte las actualizaciones 
+que hice:
+
+1. Cree la base de datos, deje el respaldo en aqui mismo para que la 
+importes.
+
+2. Cree la conexion a la base de datos.
+
+3. Le añadi una validacion para que si no te has logueado siempre estes
+en el login, y ya una vez logueado te mande al index
+
+4. ya que importes la base de datos, solo tiene una tabla con 3 
+registros 1: admin contraseña:admin, 2: capitan contraseña:capitan
+y 3:usuario contraseeña:usuario
+
+5. para cerrar la sesion hay en la el nabvar hay un boton de 3 rallitas
+le picas se abre un menu le das en usuario y te aparecen 3 opciones
+ahi esta la opcion de cerrar sesion.
+
+
+
+PD: te dejo estas notas por si le quieres avanzar y estoy en el jale
+y no sabes que pedo porque si necesitas la base de datos para que 
+funcione, p
