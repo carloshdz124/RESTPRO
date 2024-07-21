@@ -52,3 +52,15 @@
 .centrar{
     text-align: center;
 }
+
+.container {
+    margin-top: 50px;
+}
+.form-group {
+    margin-bottom: 30px;
+}
+
+.btn-custom {
+    width: 150px;
+    height: 50px;
+}
