@@ -24,12 +24,10 @@ if (isset($_GET['respuesta_login'])) {
                 <label for="user">Nombre de usuario</label>
                 <input name="user" type="text" class="form-control" id="user" placeholder="Ingresa tu nombre de usuario" required>
             </div>
-            <br>
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input name="password" type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
             </div>
-            <br>
             <div class="d-flex justify-content-center">
                 <br>
                 <button type="submit" id="loginButton" class="btn btn-primary d-block w-50">Ingresar</button>
