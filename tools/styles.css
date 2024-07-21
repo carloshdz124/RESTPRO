@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .login-box {
     background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
     padding: 30px;
@@ -33,7 +34,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}.sidebar-color{
+}
+
+.sidebar-color{
     background-color: #1a2640;
 }
 
