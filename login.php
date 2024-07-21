@@ -56,7 +56,7 @@ if (isset($_GET['respuesta_login'])) {
         var loginButton = document.getElementById('loginButton');
         var originalButtonContent = loginButton.innerHTML;
         loginButton.disabled = true; // Deshabilita el botón
-        loginButton.innerHTML = '<img src="imagenes/login.gif" alt="Ingresando..." style="height: 20px;">'; // Muestra el GIF en el botón
+        loginButton.innerHTML = '<img src="imagenes/login.gif" alt="Ingresando..." style="height: 30px;">'; // Muestra el GIF en el botón
 
         // Espera 3 segundos y luego envía el formulario
         setTimeout(function() {
