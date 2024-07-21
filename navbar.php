@@ -16,17 +16,19 @@
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
                         <a href="mesas.php" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">MESAS</span>
+                            <i class="fs-4 bi-house"></i>
+                            <span class="ms-1 d-none d-sm-inline">MESAS</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">ROL</span></a>
                     </li>
-                    <li>
-                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-list-task icon-index"></i> <span class="ms-1 d-none d-sm-inline">TAREAS
-                                PREAPERTURA</span></a>
+                    <li class="nav-item">
+                        <a href="tareas_preapertura.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-list-task icon-index"></i>
+                            <span class="ms-1 d-none d-sm-inline">TAREAS PREAPERTURA</span>
+                        </a>
                     </li>
                     <li>
                         <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">

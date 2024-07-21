@@ -39,7 +39,7 @@ include_once "navbar.php";
                 <i class="bi bi-list-task icon-index"></i>
                 <div class="card-body">
                     <h5 class="card-title">Tareas pre-apertura</h5>
-                    <a href="#" class="btn btn-primary">Ir a tareas</a>
+                    <a href="tareas_preapertura.php" class="btn btn-primary">Ir a tareas</a>
                 </div>
             </div>
         </div>
