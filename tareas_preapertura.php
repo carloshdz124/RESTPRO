@@ -31,7 +31,7 @@ include ("navbar.php");
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_2_example.jpeg" class="card-img-top" alt="Cargando...">
+                                                    <img src="imagenes/mesero_2_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 2</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
@@ -133,7 +133,7 @@ include ("navbar.php");
                     <div class="col-md-4">
                         <div class="form-group">
                             <h2 for="columna3">Tareas Seleccionadas</h2>
-                            <select multiple class="form-control" id="columna2" name="columna2[]">
+                            <select multiple class="form-control" id="columna3" name="columna3[]">
                                 <option value="Opción 2-1">Limpiar T1</option>
                                 <option value="Opción 2-2">Limpiar T2</option>
                                 <option value="Opción 2-3">Limpiar TV</option>
@@ -160,58 +160,58 @@ include ("navbar.php");
 
 <!-- Script de los Meseros -->
 <script>
-    // Obtener el modal
-    var modal = document.getElementById("meserosModal");
+    // Obtener el modal 1
+    var modal1 = document.getElementById("meserosModal");
 
-    // Obtener el botón que abre el modal
-    var btn = document.getElementById("abreModal1");
+    // Obtener el botón que abre el modal 1
+    var btn1 = document.getElementById("abreModal1");
 
-    // Obtener el <span> que cierra el modal
-    var span = document.getElementsByClassName("cerrar1")[0];
+    // Obtener el <span> que cierra el modal 1
+    var span1 = document.querySelector("#meserosModal .cerrar1");
 
-    // Cuando el usuario haga clic en el botón, abre el modal
-    btn.onclick = function() {
-        modal.style.display = "block";
+    // Cuando el usuario haga clic en el botón, abrir el modal 1
+    btn1.onclick = function() {
+        modal1.style.display = "block";
     }
 
-    // Cuando el usuario haga clic en <span> (x), cierra el modal
-    span.onclick = function() {
-        modal.style.display = "none";
+    // Cuando el usuario haga clic en <span> (x), cerrar el modal 1
+    span1.onclick = function() {
+        modal1.style.display = "none";
     }
 
-    // Cuando el usuario haga clic en cualquier lugar fuera del modal, ciérralo
+    // Cuando el usuario haga clic en cualquier lugar fuera del modal, cerrar el modal 1
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == modal1) {
+            modal1.style.display = "none";
         }
     }
 </script>
 
 <!-- Script de las Tareas para Asignar -->
 <script>
-    // Obtener el modal
-    var modal = document.getElementById("tareasModal");
+    // Obtener el modal 2
+    var modal2 = document.getElementById("tareasModal");
 
-    // Obtener el botón que abre el modal
-    var btn = document.getElementById("abreModal2");
+    // Obtener el botón que abre el modal 2
+    var btn2 = document.getElementById("abreModal2");
 
-    // Obtener el <span> que cierra el modal
-    var span = document.getElementsByClassName("cerrar2")[0];
+    // Obtener el <span> que cierra el modal 2
+    var span2 = document.querySelector("#tareasModal .cerrar2");
 
-    // Cuando el usuario haga clic en el botón, abre el modal
-    btn.onclick = function() {
-        modal.style.display = "block";
+    // Cuando el usuario haga clic en el botón, abrir el modal 2
+    btn2.onclick = function() {
+        modal2.style.display = "block";
     }
 
-    // Cuando el usuario haga clic en <span> (x), cierra el modal
-    span.onclick = function() {
-        modal.style.display = "none";
+    // Cuando el usuario haga clic en <span> (x), cerrar el modal 2
+    span2.onclick = function() {
+        modal2.style.display = "none";
     }
 
-    // Cuando el usuario haga clic en cualquier lugar fuera del modal, ciérralo
+    // Cuando el usuario haga clic en cualquier lugar fuera del modal, cerrar el modal 2
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == modal2) {
+            modal2.style.display = "none";
         }
     }
 </script>
