@@ -6,13 +6,13 @@ include ("navbar.php");
 ?>
 
 <div class="container mt-5">
-    <h1 class="text-center">Tareas PRE - Apertura</h1>
+    <h1 class="text-center">Tareas PRE Apertura</h1><br><br><br>
             <form method="POST" action="#">
                 <div class="row">
                     <!-- Primera Columna -->
                     <div class="col-md-4">
                         <div class="form-group">
-                            <h2 for="columna1">Meseros</h2>
+                            <h2 class="text-center" for="columna1">Meseros para Asignar Tareas</h2>
                             <div class="d-flex justify-content-center">
                                 <button id="abreModal1" type="button" class="btn btn-primary">Seleccione al Mesero</button>
                                 <div id="meserosModal" class="custom-modal-1">
@@ -72,7 +72,7 @@ include ("navbar.php");
                     <!-- Segunda Columna -->
                     <div class="col-md-4">
                         <div class="form-group">
-                            <h2 for="columna2">Tareas</h2>
+                            <h2 class="text-center" for="columna2">Tareas por Asignar</h2>
                             <div class="d-flex justify-content-center">
                                 <button id="abreModal2" type="button" class="btn btn-primary">Seleccione las Tareas a Asignar</button>
                                 <div id="tareasModal" class="custom-modal-2">
@@ -132,7 +132,7 @@ include ("navbar.php");
                     <!-- Tercera Columna -->
                     <div class="col-md-4">
                         <div class="form-group">
-                            <h2 for="columna3">Tareas Seleccionadas</h2>
+                            <h2 class="text-center" for="columna3">Checking</h2>
                             <select multiple class="form-control" id="columna3" name="columna3[]">
                                 <option value="Opción 2-1">Limpiar T1</option>
                                 <option value="Opción 2-2">Limpiar T2</option>
