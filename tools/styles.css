@@ -142,27 +142,14 @@
 
 /*------------ INICIO DEL CSS PARA LAS CARDS DENTRO DEL MODAL "tareas_preapertura.php" ------------*/
 
-.card-container-1 {
+.card-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px; /* Espacio entre las tarjetas */
     justify-content: center; /* Centrar las tarjetas */
 }
 
-.card-container-2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Espacio entre las tarjetas */
-    justify-content: center; /* Centrar las tarjetas */
-}
-
-.card-1 {
-    width: 200px; /* Tamaño fijo para las tarjetas */
-    margin: 10px; /* Espacio alrededor de las tarjetas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-2 {
+.card {
     width: 200px; /* Tamaño fijo para las tarjetas */
     margin: 10px; /* Espacio alrededor de las tarjetas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
