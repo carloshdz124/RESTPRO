@@ -1,0 +1,18 @@
+NUEVA actualizaciones
+
+que onda charly, te explico lo que se modifico para que estes al tanto, porque esta medio confuso
+
+Se agregaron las rutas para directorios, ahora cuando crees una nueva vista o algo asi, tienes
+que escribirlo con la siguiente sintaxis: 
+
+<img src="<?php echo $ubicacion; ?>/assets/imagenes/tv_example.jpg"alt="Cargando...">
+
+y al inicio de la pagina asignas la variable así:
+
+$ubicacion="../";
+
+basicamente son los niveles que debemos salir para estar en la carpeta principal del proyecto
+y ya solo pones la ubicacion del archivo que buscas, igual si no entiendes me dices.
+
+
+pd. Te quedo chido las vistas de pre apertura jajaja

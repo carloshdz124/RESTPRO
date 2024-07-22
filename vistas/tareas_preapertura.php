@@ -24,35 +24,35 @@ include ($ubicacion."includes/header.php");
                                         <div class="modal-body">
                                             <div class="card-container">
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_1_example.jpeg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesero_1_example.jpeg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 1</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_2_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesero_2_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 2</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_3_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesero_3_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 3</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_4_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesero_4_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 4</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesero_5_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesero_5_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Mesero 5</h5>
                                                         <a href="#" class="btn btn-dark">Seleccionar</a>
@@ -84,35 +84,35 @@ include ($ubicacion."includes/header.php");
                                         <div class="modal-body">
                                             <div class="card-container">
                                                 <div class="card">
-                                                    <img src="imagenes/terraza_1_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/terraza_1_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Limpiar Terraza 1</h5>
                                                         <a href="#" class="btn btn-dark">Asignar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/terraza_2_example.jpeg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/terraza_2_example.jpeg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Limpiar Terraza 2</h5>
                                                         <a href="#" class="btn btn-dark">Asignar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/salon_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/salon_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Limpiar Salón</h5>
                                                         <a href="#" class="btn btn-dark">Asignar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/tv_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/tv_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Limpiar TV</h5>
                                                         <a href="#" class="btn btn-dark">Asignar</a>
                                                     </div>
                                                 </div>
                                                 <div class="card">
-                                                    <img src="imagenes/mesas_example.jpg" class="card-img-top" alt="Cargando...">
+                                                    <img src="<?php echo $ubicacion; ?>/assets/imagenes/mesas_example.jpg" class="card-img-top" alt="Cargando...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Limpiar Mesas</h5>
                                                         <a href="#" class="btn btn-dark">Asignar</a>
