@@ -1,5 +1,6 @@
 <?php
 $titulo = "Index";
+$ubicacion = "";
 session_start(); // Iniciar la sesión
 
 // Verificar si el usuario está conectado
@@ -9,8 +10,7 @@ if (isset($_SESSION['user'])) {
 } else {
     header('Location: login.php');
 }
-include_once "header.php";
-include_once "navbar.php";
+include_once "includes/header.php";
 ?>
 
 <div class="container mt-5 centrar">
@@ -35,7 +35,7 @@ include_once "navbar.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Mesas</h5>
-                    <a href="mesas.php" class="btn btn-primary">Ir a mesas</a>
+                    <a href="vistas/mesas.php" class="btn btn-primary">Ir a mesas</a>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@ include_once "navbar.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Tareas pre-apertura</h5>
-                    <a href="tareas_preapertura.php" class="btn btn-primary">Ir a tareas</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura.php" class="btn btn-primary">Ir a tareas</a>
                 </div>
             </div>
         </div>
@@ -88,5 +88,5 @@ include_once "navbar.php";
 
 
 <?php
-include_once "footer.php";
+include_once "includes/footer.php";
 ?>

@@ -1,7 +1,7 @@
 <?php
+$ubicacion="../";
 $titulo = "TAREAS PREAPERTURA";
-include ("header.php");
-include ("navbar.php");
+include ($ubicacion."includes/header.php");
 
 ?>
 
@@ -218,6 +218,6 @@ include ("navbar.php");
 
 <?php
 
-include_once("footer.php");
+include_once($ubicacion."includes/footer.php");
 
 ?>

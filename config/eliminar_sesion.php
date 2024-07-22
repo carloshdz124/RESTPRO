@@ -18,6 +18,6 @@ if (ini_get('session.use_cookies')) {
 }
 
 // Redirigir a la página de inicio o de login
-header('Location: login.php');
+header('Location: ../login.php');
 exit();
 ?>

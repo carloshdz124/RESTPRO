@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand color-text-navbar" href="index.php">
-            <img src="imagenes/logo-white.png" width="100" height="100" alt="...">
+        <a class="navbar-brand color-text-navbar" href="<?php echo $ubicacion; ?>index.php">
+            <img src="<?php echo $ubicacion; ?>assets/imagenes/logo-white.png" width="100" height="100" alt="...">
             RestPro
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -61,7 +61,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="eliminar_sesion.php">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="<?php echo $ubicacion; ?>config/eliminar_sesion.php">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
