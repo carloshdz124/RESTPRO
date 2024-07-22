@@ -10,7 +10,8 @@
 }
 
 .login-box {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Fondo blanco semitransparente */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,39 +19,49 @@
     max-width: 400px;
 }
 
-.icon-index{
-    font-size: 40px; 
+.card-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px; /* Puedes ajustar la altura según sea necesario */
+}
+
+.icon-index {
+    font-size: 40px;
     align-items: center;
 }
 
-.row{
+.row {
     display: flex;
     row-gap: 48px;
 }
 
 .loading {
-    display: none; /* Ocultar por defecto */
+    display: none;
+    /* Ocultar por defecto */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.sidebar-color{
+.sidebar-color {
     background-color: #1a2640;
 }
 
-.sidebar-color-tittle{
+.sidebar-color-tittle {
     background-color: #4f6086;
 }
 
-.navbar-color{
+.navbar-color {
     background-color: rgb(95, 95, 95);
-    color:  rgb(95, 95, 95);
+    color: rgb(95, 95, 95);
 }
 
-.centrar{
+.centrar {
     text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -145,19 +156,29 @@
 .card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Espacio entre las tarjetas */
-    justify-content: center; /* Centrar las tarjetas */
+    gap: 10px;
+    /* Espacio entre las tarjetas */
+    justify-content: center;
+    /* Centrar las tarjetas */
 }
 
 .card {
-    width: 200px; /* Tamaño fijo para las tarjetas */
-    margin: 10px; /* Espacio alrededor de las tarjetas */
+    width: 200px;
+    /* Tamaño fijo para las tarjetas */
+    margin: 10px;
+    /* Espacio alrededor de las tarjetas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
-    height: 150px; /* Altura fija para las imágenes */
-    object-fit: cover; /* Ajustar imagen dentro del contenedor */
+    height: 150px;
+    /* Altura fija para las imágenes */
+    object-fit: cover;
+    /* Ajustar imagen dentro del contenedor */
 }
 
 /*------------ FIN DEL CSS PARA LAS CARDS DENTRO DEL MODAL "tareas_preapertura.php" ------------*/
+
+.color-text-navbar {
+    color: #e4c8ba;
+}
