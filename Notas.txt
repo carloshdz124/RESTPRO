@@ -1,0 +1,5 @@
+Corregir modal de lista de espera
+
+corregir boton estaciones 
+
+No aparecen nombres en el sidebar en pequeño

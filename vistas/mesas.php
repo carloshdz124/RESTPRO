@@ -193,15 +193,13 @@ include ($ubicacion . "assets/tools/styles/estilos_mesas.php");
                         </tbody>
                     </table>
                 </div>
-            </form>
-        </div>
         </form>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary">Registrar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Registrar</button>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <!-- Modal Reservacion Del dia -->

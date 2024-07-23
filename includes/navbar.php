@@ -9,43 +9,40 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header sidebar-color-tittle">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Restpro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body sidebar-color">
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="mesas.php" class="nav-link align-middle px-0">
+                        <a href="<?php echo $ubicacion; ?>vistas/mesas.php" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i>
-                            <span class="ms-1 d-none d-sm-inline">MESAS</span>
+                            <span class="ms-1">MESAS</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">ROL</span></a>
+                        <a href="<?php echo $ubicacion; ?>vistas/rol.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1">ROL</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="tareas_preapertura.php" class="nav-link px-0 align-middle">
+                        <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura.php" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-list-task icon-index"></i>
-                            <span class="ms-1 d-none d-sm-inline">TAREAS PREAPERTURA</span>
+                            <span class="ms-1">TAREAS PREAPERTURA</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">REPORTES</span>
-                        </a>
-
+                        <a href="<?php echo $ubicacion; ?>vistas/reportes.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1">REPORTES</span> </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">ESTACIONES</span> </a>
+                        <a href="<?php echo $ubicacion; ?>vistas/estaciones.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-grid"></i> <span class="ms-1">ESTACIONES</span> </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">PERSONAL</span> </a>
+                        <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-people"></i> <span class="ms-1">PERSONAL</span> </a>
                     </li>
                 </ul>
                 <hr>
@@ -53,7 +50,7 @@
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fs-4 bi-person-circle"></i>
-                        <span class="d-none d-sm-inline mx-1">Usuario</span>
+                        <span class="mx-1">Usuario</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#">Configuración</a></li>

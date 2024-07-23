@@ -24,7 +24,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Mesas</h5>
-                    <a href="vistas/mesas.php" class="btn btn-primary">Ir a mesas</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/mesas.php" class="btn btn-primary">Ir a mesas</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ include_once "includes/header.php";
             </div>
             <div class="card-body">
                 <h5 class="card-title">Estaciones</h5>
-                <a href="<?php echo $ubicacion; ?>vistas/estaciones.php class="btn btn-primary">Ir a estaciones</a>
+                <a href="<?php echo $ubicacion; ?>vistas/estaciones.php" class="btn btn-primary">Ir a estaciones</a>
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@ include_once "includes/header.php";
             </div>
             <div class="card-body">
                 <h5 class="card-title">Rol</h5>
-                <a href="#" class="btn btn-primary">Rol</a>
+                <a href="<?php echo $ubicacion; ?>vistas/rol.php" class="btn btn-primary">Rol</a>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@ include_once "includes/header.php";
             </div>
             <div class="card-body">
                 <h5 class="card-title">Personal</h5>
-                <a href="#" class="btn btn-primary">Ir a personal</a>
+                <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="btn btn-primary">Ir a personal</a>
             </div>
         </div>
     </div>
