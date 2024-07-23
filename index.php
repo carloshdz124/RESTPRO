@@ -20,17 +20,6 @@ include_once "includes/header.php";
         <div class="col">
             <div class="card" style="width: 18rem;">
                 <div class="card-icon-container">
-                    <i class="bi bi-door-open icon-index"></i>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">login</h5>
-                    <a href="login.php" class="btn btn-primary">Ir a login</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;">
-                <div class="card-icon-container">
                     <i class="bi bi-bounding-box-circles icon-index"></i>
                 </div>
                 <div class="card-body">
@@ -57,7 +46,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">reportes</h5>
-                    <a href="#" class="btn btn-primary">Ir a reportes</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/reportes.php" class="btn btn-primary">Ir a reportes</a>
                 </div>
             </div>
         </div>
@@ -68,7 +57,18 @@ include_once "includes/header.php";
             </div>
             <div class="card-body">
                 <h5 class="card-title">Estaciones</h5>
-                <a href="#" class="btn btn-primary">Ir a estaciones</a>
+                <a href="<?php echo $ubicacion; ?>vistas/estaciones.php class="btn btn-primary">Ir a estaciones</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-icon-container">
+                <i class="bi bi-table icon-index"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Rol</h5>
+                <a href="#" class="btn btn-primary">Rol</a>
             </div>
         </div>
     </div>

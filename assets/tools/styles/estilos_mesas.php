@@ -1,14 +1,16 @@
 <style>
+    .btn-estilo {
+        height: 60px;
+        width: 150px;
+        background-color: #e4c8ba;
+    }
 
-.btn-estilo {
-    height:60px;
-    width:150px; 
-    background-color: #e4c8ba;
-}
 
+    .mapa {
+        display: none;
+    }
 
-.mapa {
-    display: none;
-}
-
+    .mapa.active {
+        display: block;
+    }
 </style>
