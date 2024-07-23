@@ -8,7 +8,6 @@ if (isset($_SESSION['user'])) {
 }
 
 $titulo = "INICIAR SESIÓN";
-include_once "includes/header.php";
 
 if (isset($_GET['respuesta_login'])) {
     // Obtener y sanitizar el valor del parámetro
@@ -84,4 +83,4 @@ if (isset($_GET['respuesta_login'])) {
     });
 </script>
 
-<?php include_once "footer.php"; ?>
+<?php include_once "includes/footer.php"; ?>
