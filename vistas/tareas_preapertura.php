@@ -6,15 +6,15 @@ include ($ubicacion."includes/header.php");
 ?>
 
 <div class="container mt-5">
-    <h1 class="text-center">Tareas PRE Apertura</h1><br><br><br>
+    <h1 class="text-center">Tareas PRE Apertura</h1><br><br>
             <form method="POST" action="#">
                 <div class="row">
                     <!-- Primera Columna -->
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <h2 class="text-center" for="columna1">Meseros para Asignar Tareas</h2><br><br>
+                        <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                            <h2 class="text-center" for="columna1">Meseros</h2><br>
                             <div class="d-flex justify-content-center">
-                                <button id="abreModal1" type="button" class="btn btn-primary">Seleccione al Mesero</button>
+                                <button id="abreModal1" type="button" class="btn btn-primary btn-lg d-block w-75">Seleccione Mesero</button>
                                 <div id="meserosModal" class="custom-modal">
                                     <div class="custom-modal-content">
                                         <span class="cerrar1">&times;</span>
@@ -66,15 +66,27 @@ include ($ubicacion."includes/header.php");
                                         </div>
                                     </div>
                                 </div>
+                            </div><br>
+                        </div>
+                        <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                            <h2 class="text-center" for="columna3">Mesero Seleccionado</h2><br>
+                            <div class="justify-content-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item">An item</li>
+                                    <li class="list-group-item">A second item</li>
+                                    <li class="list-group-item">A third item</li>
+                                    <li class="list-group-item">A fourth item</li>
+                                    <li class="list-group-item">And a fifth one</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <!-- Segunda Columna -->
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <h2 class="text-center" for="columna2">Tareas por Asignar</h2><br><br>
+                        <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                            <h2 class="text-center" for="columna2">Tareas</h2><br>
                             <div class="d-flex justify-content-center">
-                                <button id="abreModal2" type="button" class="btn btn-primary">Seleccione las Tareas a Asignar</button>
+                                <button id="abreModal2" type="button" class="btn btn-primary btn-lg d-block w-75">Seleccione Tareas</button>
                                 <div id="tareasModal" class="custom-modal">
                                     <div class="custom-modal-content">
                                         <span class="cerrar2">&times;</span>
@@ -126,21 +138,38 @@ include ($ubicacion."includes/header.php");
                                         </div>
                                     </div>
                                 </div>
+                            </div><br>
+                        </div>
+                        <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                            <h2 class="text-center" for="columna3">Tareas Seleccionadas</h2><br>
+                            <div class="justify-content-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item">An item</li>
+                                    <li class="list-group-item">A second item</li>
+                                    <li class="list-group-item">A third item</li>
+                                    <li class="list-group-item">A fourth item</li>
+                                    <li class="list-group-item">And a fifth one</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <!-- Tercera Columna -->
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <h2 class="text-center" for="columna3">Checking</h2><br><br>
-                            <select multiple class="form-control" id="columna3" name="columna3[]">
-                                <option value="Opción 2-1">Limpiar T1</option>
-                                <option value="Opción 2-2">Limpiar T2</option>
-                                <option value="Opción 2-3">Limpiar TV</option>
-                            </select>
+                        <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                            <h2 class="text-center" for="columna3">Checking</h2><br>
+                            <div class="justify-content-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item">An item</li>
+                                    <li class="list-group-item">A second item</li>
+                                    <li class="list-group-item">A third item</li>
+                                    <li class="list-group-item">A fourth item</li>
+                                    <li class="list-group-item">And a fifth one</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Termina la columna e inicia la otra -->
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-auto">
