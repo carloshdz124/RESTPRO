@@ -1,5 +1,1 @@
-Corregir modal de lista de espera
-
-corregir boton estaciones 
-
-No aparecen nombres en el sidebar en pequeño
+Corregir el descarga pdf de roles antiguos en la seccion rol

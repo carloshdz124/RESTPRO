@@ -2,7 +2,7 @@
 $ubicacion = "../";
 $titulo = "MESAS";
 include ($ubicacion . "includes/header.php");
-include ($ubicacion . "assets/tools/styles/estilos_mesas.php");
+include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
 
 
 ?>

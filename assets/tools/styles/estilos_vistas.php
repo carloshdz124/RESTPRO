@@ -5,7 +5,6 @@
         background-color: #e4c8ba;
     }
 
-
     .mapa {
         display: none;
     }
