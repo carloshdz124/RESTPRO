@@ -2,12 +2,11 @@
 $ubicacion = "../";
 $titulo = "MESAS";
 include ($ubicacion . "includes/header.php");
-include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
-
-
 ?>
+<link rel="stylesheet" href="<?php echo $ubicacion;?>/assets/tools/styles/estilos_vistas.css" >
+
 <div class="container mt-3">
-    <h1 class="text-center">MESAS</h1><br>
+    <h1 class="text-center">MESAS</h1>
     <div class="row centrar">
         <div class="col">
             <button class="btn btn-estilo" data-bs-toggle="modal" data-bs-target="#modalAsignarMesa">
@@ -259,6 +258,7 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
 
 
 <script>
+    include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
     function seleccionaMapa(containerId) {
         // Oculta todos los contenedores
         document.querySelectorAll('.mapa').forEach(function (container) {
@@ -270,6 +270,7 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
     showContainer('mapa1');
 </script>
 
+<script src="<?php echo $ubicacion; ?>assets/tools/scripts/guardarRol.js"></script>
 <?php
 
 include_once ($ubicacion . "includes/footer.php");

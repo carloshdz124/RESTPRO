@@ -2,15 +2,16 @@
 $ubicacion = "../";
 $titulo = "Rol";
 include ($ubicacion . "includes/header.php");
-include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
 ?>
+<link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
+
 <div class="container mt-3">
     <!-- Alerta -->
     <div id="alertGenerar" class="alert alert-warning alert-dismissible fade" role="alert" style="display: none;">
         <strong>En proceso:</strong> Aquí generará roles distintos cada que se presione.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <h1 class="text-center"><?php echo $titulo; ?></h1><br>
+    <h1 class="text-center"><?php echo $titulo; ?></h1>
     <div class="row">
         <div class="col">
             <p><?php echo date('d-m-Y'); ?></p>
@@ -22,69 +23,71 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
         </div>
     </div>
     <br>
-    <table class="table table-bordered table-dark">
-        <thead>
-            <tr>
-                <th scope="col">Salon</th>
-                <th scope="col">Mesas</th>
-            </tr>
-        </thead>
-        <tbody class="table-secondary">
-            <tr>
-                <th scope="row">Juan</th>
-                <td>1 - 2 - 10 - 11</td>
-            </tr>
-            <tr>
-                <th scope="row">Pedro</th>
-                <td>3 - 4 - 12 - 13</td>
-            </tr>
-            <tr>
-                <th scope="row">Manuel</th>
-                <td>20 - 21 - 30 - 31</td>
-            </tr>
-        </tbody>
-        <thead>
-            <tr>
-                <th scope="col">Terraza</th>
-                <th scope="col">Mesas</th>
-            </tr>
-        </thead>
-        <tbody class="table-secondary">
+    <div class="centrar d-flex">
+        <table class="table table-bordered table-dark"style="width: 500px;">
+            <thead>
+                <tr>
+                    <th scope="col">Salon</th>
+                    <th scope="col">Mesas</th>
+                </tr>
+            </thead>
+            <tbody class="table-secondary">
+                <tr>
+                    <th scope="row">Juan</th>
+                    <td>1 - 2 - 10 - 11</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pedro</th>
+                    <td>3 - 4 - 12 - 13</td>
+                </tr>
+                <tr>
+                    <th scope="row">Manuel</th>
+                    <td>20 - 21 - 30 - 31</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Terraza</th>
+                    <th scope="col">Mesas</th>
+                </tr>
+            </thead>
+            <tbody class="table-secondary">
 
-            <tr>
-                <th scope="row">Juan</th>
-                <td>1 - 2 - 10 - 11</td>
-            </tr>
-            <tr>
-                <th scope="row">Pedro</th>
-                <td>3 - 4 - 12 - 13</td>
-            </tr>
-            <tr>
-                <th scope="row">Manuel</th>
-                <td>20 - 21 - 30 - 31</td>
-            </tr>
-        </tbody>
-        <thead>
-            <tr>
-                <th scope="col">Area Infantil</th>
-                <th scope="col">Mesas</th>
-            </tr>
-        </thead>
-        <tbody class="table-secondary">
+                <tr>
+                    <th scope="row">Juan</th>
+                    <td>1 - 2 - 10 - 11</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pedro</th>
+                    <td>3 - 4 - 12 - 13</td>
+                </tr>
+                <tr>
+                    <th scope="row">Manuel</th>
+                    <td>20 - 21 - 30 - 31</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Area Infantil</th>
+                    <th scope="col">Mesas</th>
+                </tr>
+            </thead>
+            <tbody class="table-secondary">
 
-            <tr>
-                <th scope="row">Juan</th>
-                <td>1 - 2 - 10 - 11</td>
-            </tr>
-            <tr>
-                <th scope="row">Pedro</th>
-                <td>3 - 4 - 12 - 13</td>
-            </tr>
-            <tr>
-                <th scope="row">Manuel</th>
-                <td>20 - 21 - 30 - 31</td>
-    </table>
-</div>
+                <tr>
+                    <th scope="row">Juan</th>
+                    <td>1 - 2 - 10 - 11</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pedro</th>
+                    <td>3 - 4 - 12 - 13</td>
+                </tr>
+                <tr>
+                    <th scope="row">Manuel</th>
+                    <td>20 - 21 - 30 - 31</td>
+        </table>
+    </div>
+</div> <!-- Final del container -->
 
 <!-- Modal Lista de días de roles -->
 <div class="modal fade" id="modalHistorial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -94,8 +97,8 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
                 <h5 class="modal-title" id="exampleModalLabel">Roles de días anteriores</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body centrar">
-                <table class="table table-dark">
+            <div class="modal-body d-flex centrar" >
+                <table class="table table-dark"style="width: 300px;">
                     <thead>
                         <tr>
                             <th scope="col"><strong>Día</strong></th>
@@ -136,7 +139,7 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
                 <h5 class="modal-title" id="exampleModalLabel">Rol dia xx-xx-xxxx</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body centrar">
+            <div class="modal-body centrar d-flex">
                 <table class="table table-bordered table-dark" id="myTable">
                     <thead>
                         <tr>
@@ -165,7 +168,6 @@ include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
                         </tr>
                     </thead>
                     <tbody class="table-secondary">
-
                         <tr>
                             <th scope="row">Juan</th>
                             <td>1 - 2 - 10 - 11</td>
