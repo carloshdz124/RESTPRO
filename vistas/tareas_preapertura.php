@@ -1,10 +1,10 @@
 <?php
-$ubicacion="../";
+$ubicacion = "../";
 $titulo = "TAREAS PREAPERTURA";
 include ($ubicacion."includes/header.php");
 ?>
 <div class="container mt-5">
-    <h1 class="text-center">Tareas PRE Apertura</h1><br><br>
+    <h1 class="text-center"><?php echo $titulo; ?></h1><br><br>
     <form method="POST" action="#">
         <div class="row">
             <!-- Primera Columna -->
@@ -191,13 +191,13 @@ include ($ubicacion."includes/header.php");
         <div class="row">
             <div class="row justify-content-center">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-primary btn-custom">EDITAR 📝</button>
+                    <button type="submit" class="btn btn-primary btn-custom">EDITAR 📝</button>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-danger btn-custom">ELIMINAR ❌</button>
+                    <button type="submit" class="btn btn-danger btn-custom">ELIMINAR ❌</button>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-success btn-custom">CHECK ✅</button>
+                    <button type="submit" class="btn btn-success btn-custom">CHECK ✅</button>
                 </div>
             </div>
         </div><br><br><br>
