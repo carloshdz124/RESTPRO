@@ -2,10 +2,26 @@
 $ubicacion = "../";
 $titulo = "MESAS";
 include ($ubicacion . "includes/header.php");
+
+$message = isset($_GET['message']) ? $_GET['message'] : '';
+if ($message == 'ok') {
+    $message = 'Se registro mesa correctamente';
+} else if ($message == 'no') {
+    $message = 'Error al insertar datos';
+}
 ?>
-<link rel="stylesheet" href="<?php echo $ubicacion;?>/assets/tools/styles/estilos_vistas.css" >
+<link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
 <div class="container mt-3">
+    <!-- Alerta de aviso de accion -->
+    <?php if ($message != '') { ?>
+        <div class="alert alert-success mt-3" style="text-align: center;">
+            <?php echo $message; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php } ?>
+
+
     <h1 class="text-center">MESAS</h1>
     <div class="row centrar">
         <div class="col">
@@ -60,12 +76,12 @@ include ($ubicacion . "includes/header.php");
                 <h5 class="modal-title" id="exampleModalLabel">Registrar mesa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="was-validated" action="#" method="POST">
+            <form class="was-validated" action="mesas_registro_procesar.php" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input placeholder="A nombre de quien sera su mesa" type="text" class="form-control" id="nombre"
-                            name="nombre" required>
+                            name="tb_nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="number" class="form-label">Numero de adultos.</label>
@@ -73,24 +89,24 @@ include ($ubicacion . "includes/header.php");
                             name="tb_nadultos" required>
                     </div>
                     <div class="mb-3">
-                        <label for="number" class="form-label">Numero de niños.</label>
-                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="email"
+                        <label for="n_niños" class="form-label">Numero de niños.</label>
+                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="n_niños"
                             name="tb_nniños" required>
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Area deseada</label>
-                        <select name="sg_area" class="form-select" aria-label="Default select example">
+                        <select name="sb_area" class="form-select" aria-label="Default select example">
                             <option value="salon">Salon</option>
                             <option value="terraza">Terraza</option>
                             <option value="infantil">Area infantil</option>
                         </select>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
             </form>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Registrar</button>
-            </div>
         </div>
     </div>
 </div>
@@ -111,13 +127,18 @@ include ($ubicacion . "includes/header.php");
                             name="nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label for="number" class="form-label">Numero de adultos.</label>
-                        <input placeholder="Cantidad de adultos" type="number" class="form-control" id="email"
+                        <label for="telefono" class="form-label">telefono</label>
+                        <input placeholder="A nombre de quien sera su mesa" type="tel" class="form-control"
+                            id="telefono" name="tb_telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="n_adultos" class="form-label">Numero de adultos.</label>
+                        <input placeholder="Cantidad de adultos" type="number" class="form-control" id="n_adultos"
                             name="tb_nadultos" required>
                     </div>
                     <div class="mb-3">
-                        <label for="number" class="form-label">Numero de niños.</label>
-                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="email"
+                        <label for="n_niños" class="form-label">Numero de niños.</label>
+                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="n_niños"
                             name="tb_nniños" required>
                     </div>
                     <div class="mb-3">
@@ -130,8 +151,8 @@ include ($ubicacion . "includes/header.php");
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Fecha de reservacion</label>
-                        <input min="<?php echo date('Y-m-d'); ?>" type="date" class="form-control" name="tb_fecha"
-                            required>
+                        <input min="<?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?>" type="date"
+                            class="form-control" name="tb_fecha" required>
                     </div>
                     <div class="mb-3">
                         <label for="time" class="form-label">Hora (Disponible solo de 12pm a 10pm)</label>
@@ -192,8 +213,8 @@ include ($ubicacion . "includes/header.php");
                         </tbody>
                     </table>
                 </div>
-        </form>
-        <div class="modal-footer">
+            </form>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary">Registrar</button>
             </div>
@@ -258,7 +279,7 @@ include ($ubicacion . "includes/header.php");
 
 
 <script>
-    include ($ubicacion . "assets/tools/styles/estilos_vistas.php");
+    include($ubicacion. "assets/tools/styles/estilos_vistas.php");
     function seleccionaMapa(containerId) {
         // Oculta todos los contenedores
         document.querySelectorAll('.mapa').forEach(function (container) {
@@ -268,6 +289,7 @@ include ($ubicacion . "includes/header.php");
         document.getElementById(containerId).style.display = 'block';
     }
     showContainer('mapa1');
+
 </script>
 
 <script src="<?php echo $ubicacion; ?>assets/tools/scripts/guardarRol.js"></script>

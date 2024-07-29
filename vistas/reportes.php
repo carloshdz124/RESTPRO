@@ -3,22 +3,7 @@ $ubicacion = "../";
 $titulo = "Reportes";
 include ($ubicacion . "includes/header.php");
 ?>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-    }
 
-    canvas {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: auto;
-    }
-</style>
 <!-- Incluir Chart.js desde un CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container mt-3">
@@ -58,4 +43,24 @@ include ($ubicacion . "includes/header.php");
             });
         });
     </script>
+
+
 </div>
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    canvas {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+</style>

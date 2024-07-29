@@ -141,7 +141,7 @@ include ($ubicacion . "includes/header.php");
                 <div id="cuantosDias" class="hidden">
                     <div class="mb-3">
                         <label for="extraOption1" class="form-label">Fecha inicio</label>
-                        <input min="<?php echo date('Y-m-d'); ?>" type="date" class="form-control" id="startDate"
+                        <input min="<?php echo isset($fecha)? $fecha : date('Y-m-d'); ?>" type="date" class="form-control" id="startDate"
                             onchange="setMinEndDate()">
                     </div>
                     <div class="mb-3">

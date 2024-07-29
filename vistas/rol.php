@@ -14,7 +14,7 @@ include ($ubicacion . "includes/header.php");
     <h1 class="text-center"><?php echo $titulo; ?></h1>
     <div class="row">
         <div class="col">
-            <p><?php echo date('d-m-Y'); ?></p>
+            <p><?php echo isset($fecha)? $fecha : date('Y-m-d'); ?></p>
         </div>
 
         <div class="col" style="text-align: right;">

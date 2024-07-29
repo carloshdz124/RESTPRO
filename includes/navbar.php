@@ -1,3 +1,5 @@
+<?php $fecha = "2024-07-07" ?>
+
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand color-text-navbar" href="<?php echo $ubicacion; ?>index.php">
@@ -43,6 +45,10 @@
                     <li>
                         <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-people"></i> <span class="ms-1">PERSONAL</span> </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $ubicacion; ?>vistas/agregar.php" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-file-earmark-plus"></i> <span class="ms-1">Agregar</span> </a>
                     </li>
                 </ul>
                 <hr>
