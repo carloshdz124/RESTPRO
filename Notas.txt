@@ -1,1 +1,1 @@
-Corregir el descarga pdf de roles antiguos en la seccion rol
+Agregar funcion al boton de lista de espera

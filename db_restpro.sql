@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-07-2024 a las 23:06:12
+-- Tiempo de generación: 30-07-2024 a las 00:33:52
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -100,6 +100,31 @@ INSERT INTO `registro_mesa` (`id`, `nombre`, `n_adultos`, `n_ninos`, `area`, `ho
 (7, 'Martin', 4, 0, 'salon', NULL),
 (8, 'Alfredo', 2, 1, 'salon', NULL),
 (9, '', 0, 0, '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reservaciones`
+--
+
+DROP TABLE IF EXISTS `reservaciones`;
+CREATE TABLE IF NOT EXISTS `reservaciones` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `telefono` int NOT NULL,
+  `n_adultos` int NOT NULL,
+  `n_ninos` int NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `reservaciones`
+--
+
+INSERT INTO `reservaciones` (`id`, `nombre`, `telefono`, `n_adultos`, `n_ninos`, `fecha`, `hora`) VALUES
+(1, 'Javier Mendoza', 2147483647, 4, 1, '2024-07-25', '18:07:00');
 
 -- --------------------------------------------------------
 

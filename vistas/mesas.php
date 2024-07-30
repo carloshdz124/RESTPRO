@@ -1,7 +1,14 @@
 <?php
 $ubicacion = "../";
 $titulo = "MESAS";
+include ($ubicacion . "config/conexion.php");
 include ($ubicacion . "includes/header.php");
+
+$result = $pdo->query("SELECT * FROM reservaciones");
+if ($result->rowCount() > 0) {
+    $existeArea = 'ok';
+    $resultReservaciones = $result->fetchAll(PDO::FETCH_OBJ);
+}
 
 $message = isset($_GET['message']) ? $_GET['message'] : '';
 if ($message == 'ok') {
@@ -119,17 +126,17 @@ if ($message == 'ok') {
                 <h5 class="modal-title" id="exampleModalLabel">Registrar Reservacion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="was-validated" action="#" method="POST">
+            <form class="was-validated" action="mesas_reservacion_procesar.php" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input placeholder="A nombre de quien sera su mesa" type="text" class="form-control" id="nombre"
-                            name="nombre" required>
+                            name="tb_nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="telefono" class="form-label">telefono</label>
-                        <input placeholder="A nombre de quien sera su mesa" type="tel" class="form-control"
-                            id="telefono" name="tb_telefono" required>
+                        <input placeholder="Telefono de contacto" type="tel" class="form-control"
+                            id="tb_telefono" name="tb_telefono" required>
                     </div>
                     <div class="mb-3">
                         <label for="n_adultos" class="form-label">Numero de adultos.</label>
@@ -137,13 +144,13 @@ if ($message == 'ok') {
                             name="tb_nadultos" required>
                     </div>
                     <div class="mb-3">
-                        <label for="n_niños" class="form-label">Numero de niños.</label>
-                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="n_niños"
-                            name="tb_nniños" required>
+                        <label for="n_ninos" class="form-label">Numero de niños.</label>
+                        <input placeholder="Cantidad de niños" type="number" class="form-control" id="n_ninos"
+                            name="tb_nninos" required>
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Area deseada</label>
-                        <select name="sg_area" class="form-select" aria-label="Default select example">
+                        <select name="sb_area" class="form-select" aria-label="Default select example">
                             <option value="salon">Salon</option>
                             <option value="terraza">Terraza</option>
                             <option value="infantil">Area infantil</option>
@@ -159,11 +166,11 @@ if ($message == 'ok') {
                         <input min="12:00:00" max="21:00:00" type="time" class="form-control" name="tb_hora" required>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
             </form>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Registrar</button>
-            </div>
         </div>
     </div>
 </div>
@@ -231,39 +238,27 @@ if ($message == 'ok') {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="was-validated" action="#" method="POST">
-                <div class="modal-body">
-                    <table class="table table-dark">
+                <div class="modal-body d-flex">
+                    <table class="table table-dark centrar" style="width:100%;">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Cliente</th>
-                                <th scope="col">Mesa</th>
-                                <th scope="col">N. personas</th>
-                                <th scope="col">Hora</th>
+                                <td scope="col">Cliente</td>
+                                <td scope="col">Mesa</td>
+                                <td scope="col">N. personas</t>
+                                <td scope="col">Hora</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultReservaciones as $reservaciones): ?>
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Juan</td>
+                                <td scope="row">1</td>
+                                <td><?php echo $reservaciones->nombre; ?></td>
                                 <td>21</td>
-                                <td>8</td>
-                                <td>3:00</td>
+                                <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
+                                <td><?php echo $reservaciones->hora; ?></td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Manuel</td>
-                                <td>101</td>
-                                <td>6</td>
-                                <td>2:30</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>2</td>
-                                <td>171</td>
-                                <td>2:00</td>
-                            </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>
@@ -279,7 +274,6 @@ if ($message == 'ok') {
 
 
 <script>
-    include($ubicacion. "assets/tools/styles/estilos_vistas.php");
     function seleccionaMapa(containerId) {
         // Oculta todos los contenedores
         document.querySelectorAll('.mapa').forEach(function (container) {
@@ -288,11 +282,9 @@ if ($message == 'ok') {
         // Muestra el contenedor seleccionado
         document.getElementById(containerId).style.display = 'block';
     }
-    showContainer('mapa1');
-
+    
 </script>
 
-<script src="<?php echo $ubicacion; ?>assets/tools/scripts/guardarRol.js"></script>
 <?php
 
 include_once ($ubicacion . "includes/footer.php");
