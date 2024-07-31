@@ -48,7 +48,7 @@ if ($message == 'ok') {
         </div>
     <?php } ?>
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
-    <div class="row">
+    <div class="row ">
         <div class="col">
             <div class="card">
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarMesa" class="stretched-link">
@@ -59,7 +59,7 @@ if ($message == 'ok') {
                 </a>
             </div>
             <div class="centrar">
-                <table class="table table-bordered table-dark" style="width: 500px;">
+                <table class="table table-bordered table-dark" style="width: 50%px;">
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
@@ -68,11 +68,19 @@ if ($message == 'ok') {
                         </tr>
                     </thead>
                     <tbody class="table-secondary">
-                        <?php foreach ($resultMesas as $mesa) : ?>
+                        <?php foreach ($resultMesas as $mesa): ?>
                             <tr>
-                                <?php if($mesa->estado == 0) { $estado = 'success'; } if($mesa->estado == 1) { $estado = 'danger'; } if($mesa->estado == 2) { $estado = 'warning'; } ?>
+                                <?php if ($mesa->estado == 0) {
+                                    $estado = 'success';
+                                }
+                                if ($mesa->estado == 1) {
+                                    $estado = 'danger';
+                                }
+                                if ($mesa->estado == 2) {
+                                    $estado = 'warning';
+                                } ?>
                                 <td scope="row"><?php echo $mesa->nombre; ?></td>
-                                <td scope="row"><?php echo $mesa->area; ?></td>
+                                <td scope="row"><?php echo $mesa->area_id; ?></td>
                                 <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
                             </tr>
                         <?php endforeach ?>
@@ -89,7 +97,7 @@ if ($message == 'ok') {
                 </a>
             </div>
             <div>
-                <table class="table table-bordered table-dark" style="width: 500px;">
+                <table class="table table-bordered table-dark" style="width: 50%px;">
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
@@ -97,7 +105,7 @@ if ($message == 'ok') {
                         </tr>
                     </thead>
                     <tbody class="table-secondary">
-                        <?php foreach ($resultAreas as $area) : ?>
+                        <?php foreach ($resultAreas as $area): ?>
                             <tr>
                                 <td scope="row"><?php echo $area->nombre; ?></td>
                                 <td scope="row"><?php echo $area->descripcion; ?></td>
@@ -109,7 +117,7 @@ if ($message == 'ok') {
     </div>
 </div>
 
-
+<!-- Modal para agregar Mesas al restaurante -->
 <div class="modal fade" id="agregarMesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -120,6 +128,7 @@ if ($message == 'ok') {
             <form class="was-validated" action="agregar_procesamiento.php" method="POST">
                 <?php if (isset($existeArea)) { ?>
                     <div class="modal-body">
+                        <input type="hidden" name="formulario" value="agregarMesa"></input>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input placeholder="Nombre o numero de mesa" type="text" class="form-control" id="nombre"
@@ -155,6 +164,7 @@ if ($message == 'ok') {
     </div>
 </div>
 
+<!-- Modal para agregar Areas al restaurante -->
 <div class="modal fade" id="agregarArea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -163,6 +173,7 @@ if ($message == 'ok') {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="was-validated" action="agregar_procesamiento.php" method="POST">
+                <input type="hidden" name="formulario" value="agregarArea"></input>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>

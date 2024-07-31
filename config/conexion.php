@@ -21,4 +21,6 @@ try {
     echo "Conexión exitosa\n";
     echo "Error de conexión PDO: " . $e->getMessage();
 }
+
+date_default_timezone_set('America/Mexico_City');
 ?>

@@ -1,4 +1,4 @@
-<?php $fecha = "2024-07-07" ?>
+<?php $fecha = "2024-07-05" ?>
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">

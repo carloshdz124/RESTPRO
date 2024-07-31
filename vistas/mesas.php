@@ -4,10 +4,12 @@ $titulo = "MESAS";
 include ($ubicacion . "config/conexion.php");
 include ($ubicacion . "includes/header.php");
 
-$result = $pdo->query("SELECT * FROM reservaciones");
+$sql = "SELECT * FROM mesa_cliente WHERE estado = 1 and fecha='2024-07-05' ";
+$result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
-    $existeArea = 'ok';
     $resultReservaciones = $result->fetchAll(PDO::FETCH_OBJ);
+}else{
+    $resultReservaciones = array();
 }
 
 $message = isset($_GET['message']) ? $_GET['message'] : '';
@@ -16,6 +18,7 @@ if ($message == 'ok') {
 } else if ($message == 'no') {
     $message = 'Error al insertar datos';
 }
+echo date('H:i:s');
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
@@ -83,8 +86,9 @@ if ($message == 'ok') {
                 <h5 class="modal-title" id="exampleModalLabel">Registrar mesa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="was-validated" action="mesas_registro_procesar.php" method="POST">
+            <form class="was-validated" action="mesas_procesar.php" method="POST">
                 <div class="modal-body">
+                    <input type="hidden" name="formulario" value="registroMesa"></input>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input placeholder="A nombre de quien sera su mesa" type="text" class="form-control" id="nombre"
@@ -126,7 +130,8 @@ if ($message == 'ok') {
                 <h5 class="modal-title" id="exampleModalLabel">Registrar Reservacion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="was-validated" action="mesas_reservacion_procesar.php" method="POST">
+            <form class="was-validated" action="mesas_procesar.php" method="POST">
+                <input type="hidden" name="formulario" value="registroReservacion"></input>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
@@ -135,8 +140,8 @@ if ($message == 'ok') {
                     </div>
                     <div class="mb-3">
                         <label for="telefono" class="form-label">telefono</label>
-                        <input placeholder="Telefono de contacto" type="tel" class="form-control"
-                            id="tb_telefono" name="tb_telefono" required>
+                        <input placeholder="Telefono de contacto" type="tel" class="form-control" id="tb_telefono"
+                            name="tb_telefono" required>
                     </div>
                     <div class="mb-3">
                         <label for="n_adultos" class="form-label">Numero de adultos.</label>
@@ -251,13 +256,13 @@ if ($message == 'ok') {
                         </thead>
                         <tbody class="table-secondary">
                             <?php foreach ($resultReservaciones as $reservaciones): ?>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td><?php echo $reservaciones->nombre; ?></td>
-                                <td>21</td>
-                                <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
-                                <td><?php echo $reservaciones->hora; ?></td>
-                            </tr>
+                                <tr>
+                                    <td scope="row">1</td>
+                                    <td><?php echo $reservaciones->nombre; ?></td>
+                                    <td>21</td>
+                                    <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
+                                    <td><?php echo $reservaciones->hora_llegada; ?></td>
+                                </tr>
                             <?php endforeach ?>
                         </tbody>
                     </table>
@@ -265,7 +270,6 @@ if ($message == 'ok') {
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </div>
@@ -282,7 +286,7 @@ if ($message == 'ok') {
         // Muestra el contenedor seleccionado
         document.getElementById(containerId).style.display = 'block';
     }
-    
+
 </script>
 
 <?php
