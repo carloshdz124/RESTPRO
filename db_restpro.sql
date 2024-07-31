@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-07-2024 a las 00:33:52
+-- Tiempo de generación: 31-07-2024 a las 02:17:16
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `area` (
   `nombre` varchar(50) NOT NULL COMMENT 'Nombre de area',
   `descripcion` varchar(250) NOT NULL COMMENT 'Descripcion de area',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `area`
@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `area` (
 
 INSERT INTO `area` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Salon', 'Salon principal'),
-(2, 'Terraza', 'Zona de fumar, area libre');
+(2, 'Terraza', 'Zona de fumar, area libre'),
+(3, 'Mezzanin', 'Area infantil');
 
 -- --------------------------------------------------------
 
@@ -53,78 +54,59 @@ DROP TABLE IF EXISTS `mesa`;
 CREATE TABLE IF NOT EXISTS `mesa` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `area` int NOT NULL,
+  `area_id` int NOT NULL,
   `n_personas` int NOT NULL,
   `estado` int NOT NULL DEFAULT '0' COMMENT '0 = disponible,\r\n1 = Ocupada,\r\n2 = Reservada',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`),
+  KEY `area_id` (`area_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa`
 --
 
-INSERT INTO `mesa` (`id`, `nombre`, `area`, `n_personas`, `estado`) VALUES
+INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 (1, '01', 1, 4, 0),
 (2, '02', 1, 4, 1),
 (3, '03', 1, 4, 0),
-(4, '10', 1, 5, 2);
+(4, '10', 1, 5, 2),
+(5, '100', 2, 4, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `registro_mesa`
+-- Estructura de tabla para la tabla `mesa_cliente`
 --
 
-DROP TABLE IF EXISTS `registro_mesa`;
-CREATE TABLE IF NOT EXISTS `registro_mesa` (
+DROP TABLE IF EXISTS `mesa_cliente`;
+CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
+  `telefono` int DEFAULT NULL,
   `n_adultos` int NOT NULL,
   `n_ninos` int NOT NULL,
-  `area` varchar(50) NOT NULL,
-  `hora` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `registro_mesa`
---
-
-INSERT INTO `registro_mesa` (`id`, `nombre`, `n_adultos`, `n_ninos`, `area`, `hora`) VALUES
-(1, 'juan', 2, 3, 'salon', NULL),
-(2, 'Pedro', 3, 0, 'salon', NULL),
-(3, 'juan', 2, 3, 'salon', NULL),
-(4, 'Diego', 2, 3, 'salon', NULL),
-(5, 'javier', 8, 2, 'salon', NULL),
-(6, 'lopez', 2, 4, 'infantil', NULL),
-(7, 'Martin', 4, 0, 'salon', NULL),
-(8, 'Alfredo', 2, 1, 'salon', NULL),
-(9, '', 0, 0, '', NULL);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `reservaciones`
---
-
-DROP TABLE IF EXISTS `reservaciones`;
-CREATE TABLE IF NOT EXISTS `reservaciones` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  `telefono` int NOT NULL,
-  `n_adultos` int NOT NULL,
-  `n_ninos` int NOT NULL,
+  `hora_llegada` time DEFAULT NULL,
   `fecha` date NOT NULL,
-  `hora` time NOT NULL,
+  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Sentado',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `reservaciones`
+-- Volcado de datos para la tabla `mesa_cliente`
 --
 
-INSERT INTO `reservaciones` (`id`, `nombre`, `telefono`, `n_adultos`, `n_ninos`, `fecha`, `hora`) VALUES
-(1, 'Javier Mendoza', 2147483647, 4, 1, '2024-07-25', '18:07:00');
+INSERT INTO `mesa_cliente` (`id`, `nombre`, `telefono`, `n_adultos`, `n_ninos`, `hora_llegada`, `fecha`, `estado`) VALUES
+(1, 'juan', NULL, 2, 3, '13:30:00', '2024-07-05', 0),
+(2, 'Pedro', 2147483647, 3, 0, '14:16:50', '2024-07-05', 1),
+(3, 'juan', NULL, 2, 3, '14:25:00', '2024-07-05', 0),
+(4, 'Diego', NULL, 2, 3, '15:00:00', '2024-07-05', 0),
+(5, 'javier', NULL, 8, 2, '15:12:00', '2024-07-05', 0),
+(6, 'lopez', NULL, 2, 4, '15:20:00', '2024-07-05', 0),
+(7, 'Martin', NULL, 4, 0, '15:25:00', '2024-07-05', 0),
+(8, 'Alfredo', NULL, 2, 1, '15:33:00', '2024-07-05', 0),
+(9, 'Joaquin', NULL, 4, 0, '15:41:00', '2024-07-05', 0),
+(10, 'Carlos', NULL, 2, 0, '20:07:46', '2024-07-30', 0),
+(11, 'Fernando Reyes', 0, 1, 0, '18:14:00', '2024-07-05', 1);
 
 -- --------------------------------------------------------
 
