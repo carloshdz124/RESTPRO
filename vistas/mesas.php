@@ -4,29 +4,62 @@ $titulo = "MESAS";
 include ($ubicacion . "config/conexion.php");
 include ($ubicacion . "includes/header.php");
 
-$sql = "SELECT * FROM mesa_cliente WHERE estado = 1 and fecha='2024-07-05' ";
+// Se realiza consulta para revisar si existe alguna reservacion.
+$sql = "SELECT * FROM mesa_cliente WHERE estado = 1 and fecha='$fecha' ";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
     $resultReservaciones = $result->fetchAll(PDO::FETCH_OBJ);
-}else{
-    $resultReservaciones = array();
 }
 
-$message = isset($_GET['message']) ? $_GET['message'] : '';
-if ($message == 'ok') {
-    $message = 'Se registro mesa correctamente';
-} else if ($message == 'no') {
-    $message = 'Error al insertar datos';
+// Se realiza una consulta para revisar si existen areas.
+$sql = "SELECT * FROM area";
+$result = $pdo->query($sql);
+if ($result->rowCount() > 0) {
+    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $resultAreas = array();
 }
-echo date('H:i:s');
+
+// Se valida si recibe datos get, despues de la insercion.
+if (isset($_GET['areas']) || isset($_GET["message"])) {
+    $areasSeleccionadas = isset($_GET["areas"]) ? ($_GET["areas"]) : '';
+    $message = 'Se registro mesa correctamente';
+    if (is_array($areasSeleccionadas)) {
+        $condiciones = [];
+
+        //Agregamos a un array los id de las areas que se necesitan como opcion
+        foreach ($areasSeleccionadas as $areaSelec) {
+            $condiciones[] = ' area_id = ' . $pdo->quote($areaSelec) . ' AND estado = 0 ';
+        }
+        //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
+        $consulta = implode(' OR ', $condiciones);
+
+        $sql = 'SELECT * FROM mesa WHERE ' . $consulta;
+        $result = $pdo->query($sql);
+        if ($result->rowCount() > 0) {
+            $resultDisponibles = $result->fetchAll(PDO::FETCH_OBJ);
+        }
+    }
+} else {
+    $message = '';
+}
+
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
 <div class="container mt-3">
     <!-- Alerta de aviso de accion -->
     <?php if ($message != '') { ?>
-        <div class="alert alert-success mt-3" style="text-align: center;">
-            <?php echo $message; ?>
+        <div class="alert alert-success alert-dismissible mt-3" style="text-align: center;">
+            <?php echo $message;
+            if (isset($resultDisponibles)) { ?>
+                <br>
+                <button class="btn-open" data-bs-toggle="modal" data-bs-target="#modalVerMesa">
+                    Ver Mesas disponibles</button>
+            <?php } else { ?>
+                <br><i class="bi bi-exclamation-triangle-fill"></i>
+                <strong> No hay mesas disponibles </strong>
+            <?php } ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php } ?>
@@ -106,11 +139,14 @@ echo date('H:i:s');
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Area deseada</label>
-                        <select name="sb_area" class="form-select" aria-label="Default select example">
-                            <option value="salon">Salon</option>
-                            <option value="terraza">Terraza</option>
-                            <option value="infantil">Area infantil</option>
-                        </select>
+                        <?php foreach ($resultAreas as $area): ?>
+                            <div class="form-check">
+                                <input name="cb_areas[]" class="form-check-input" type="checkbox"
+                                    value="<?php echo $area->id; ?>" id="<?php echo $area->nombre; ?>" checked>
+                                <label class="form-check-label"
+                                    for="<?php echo $area->nombre; ?>"><?php echo $area->nombre; ?></label>
+                            </div>
+                        <?php endforeach ?>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -244,28 +280,30 @@ echo date('H:i:s');
             </div>
             <form class="was-validated" action="#" method="POST">
                 <div class="modal-body d-flex">
-                    <table class="table table-dark centrar" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <td scope="col">Cliente</td>
-                                <td scope="col">Mesa</td>
-                                <td scope="col">N. personas</t>
-                                <td scope="col">Hora</td>
-                            </tr>
-                        </thead>
-                        <tbody class="table-secondary">
-                            <?php foreach ($resultReservaciones as $reservaciones): ?>
+                    <?php if (isset($resultReservaciones)){ ?>
+                        <table class="table table-dark centrar" style="width:100%;">
+                            <thead>
                                 <tr>
-                                    <td scope="row">1</td>
-                                    <td><?php echo $reservaciones->nombre; ?></td>
-                                    <td>21</td>
-                                    <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
-                                    <td><?php echo $reservaciones->hora_llegada; ?></td>
+                                    <th scope="col">#</th>
+                                    <td scope="col">Cliente</td>
+                                    <td scope="col">Mesa</td>
+                                    <td scope="col">N. personas</t>
+                                    <td scope="col">Hora</td>
                                 </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="table-secondary">
+                                <?php foreach ($resultReservaciones as $reservaciones): ?>
+                                    <tr>
+                                        <td scope="row">1</td>
+                                        <td><?php echo $reservaciones->nombre; ?></td>
+                                        <td>21</td>
+                                        <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
+                                        <td><?php echo $reservaciones->hora_llegada; ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    <?php }else{ echo 'No hay reservaciones hoy'; }?>
                 </div>
             </form>
             <div class="modal-footer">
@@ -275,7 +313,29 @@ echo date('H:i:s');
     </div>
 </div>
 
-
+<?php if ($message != ''): ?>
+    <!-- Modal Ver mesas disponibles -->
+    <div class="modal fade" id="modalVerMesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mesas disponibles</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="was-validated" action="#" method="POST">
+                    <div class="modal-body d-flex">
+                        <?php foreach ($resultDisponibles as $mesa):
+                            echo $mesa->nombre . '<br>';
+                        endforeach ?>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
 
 <script>
     function seleccionaMapa(containerId) {

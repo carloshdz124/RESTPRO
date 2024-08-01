@@ -41,7 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     if ($result) {
-        header("Location: mesas.php?message=ok");
+        if (isset($_POST["cb_areas"])) {
+            $cb_areas = $_POST["cb_areas"];
+        }
+        $message = 'ok';
+        $queryString = http_build_query(['areas'=>$cb_areas, "message" => $message]);
+        header("Location: mesas.php?". $queryString);
         exit();
     } else {
         print_r($ejecucion->errorInfo());
