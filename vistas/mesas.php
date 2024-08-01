@@ -20,6 +20,14 @@ if ($result->rowCount() > 0) {
     $resultAreas = array();
 }
 
+// Se realiza una consulta para revisar si existen areas.
+$sql = "SELECT * FROM mesa_cliente WHERE estado = 0 ";
+$result = $pdo->query($sql);
+if ($result->rowCount() > 0) {
+    $n_espera = 1;
+    $resultEspera = $result->fetchAll(PDO::FETCH_OBJ);
+}
+
 // Se valida si recibe datos get, despues de la insercion.
 if (isset($_GET['areas']) || isset($_GET["message"])) {
     $areasSeleccionadas = isset($_GET["areas"]) ? ($_GET["areas"]) : '';
@@ -226,40 +234,30 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
             </div>
             <form class="was-validated" action="#" method="POST">
                 <div class="modal-body">
-                    <table class="table table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Cliente</th>
-                                <th scope="col">N. personas</th>
-                                <th scope="col">zona</th>
-                                <th scope="col">Tiempo de espera</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Juan</td>
-                                <td>8</td>
-                                <td>Salón</td>
-                                <td>0:15</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Manuel</td>
-                                <td>6</td>
-                                <td>Terraza</td>
-                                <td>0:13</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>6</td>
-                                <td>Area Infantil</td>
-                                <td>0:05</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <?php if (isset($resultEspera)) { ?>
+                        <table class="table table-dark centrar" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">N. personas</th>
+                                    <th scope="col">T. de espera</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($resultEspera as $espera): ?>
+                                    <tr>
+                                        <td><?php echo $n_espera; ?></td>
+                                        <td><?php echo $espera->nombre; ?></td>
+                                        <td><?php echo $espera->n_adultos + $espera->n_ninos; ?></td>
+                                        <td><?php echo calcularTiempo($espera->hora_llegada); ?></td>
+                                    </tr>
+                                    <?php $n_espera += 1; endforeach ?>
+                            </tbody>
+                        </table>
+                    <?php } else {
+                        echo "No hay lista de espera";
+                    } ?>
                 </div>
             </form>
             <div class="modal-footer">
@@ -280,7 +278,7 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
             </div>
             <form class="was-validated" action="#" method="POST">
                 <div class="modal-body d-flex">
-                    <?php if (isset($resultReservaciones)){ ?>
+                    <?php if (isset($resultReservaciones)) { ?>
                         <table class="table table-dark centrar" style="width:100%;">
                             <thead>
                                 <tr>
@@ -303,7 +301,9 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
                                 <?php endforeach ?>
                             </tbody>
                         </table>
-                    <?php }else{ echo 'No hay reservaciones hoy'; }?>
+                    <?php } else {
+                        echo 'No hay reservaciones hoy';
+                    } ?>
                 </div>
             </form>
             <div class="modal-footer">
@@ -350,7 +350,32 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
 </script>
 
 <?php
+function calcularTiempo($hora)
+{
+    $horaActual = date('H:i:s');
 
+    // Convertir las horas a timestamps
+    $timestampHoraLlegada = strtotime($hora);
+    $timestampHoraActual = strtotime($horaActual);
+
+    // Calcular la diferencia en segundos
+    $diferenciaSegundos = $timestampHoraActual - $timestampHoraLlegada;
+
+    // Asegúrate de que la diferencia no sea negativa (si es necesario)
+    if ($diferenciaSegundos < 0) {
+        $diferenciaSegundos += 24 * 3600; // Añadir un día completo en segundos para manejar la diferencia negativa
+    }
+
+    // Convertir la diferencia a horas, minutos y segundos
+    $diferenciaHoras = floor($diferenciaSegundos / 3600);
+    $diferenciaMinutos = floor(($diferenciaSegundos % 3600) / 60);
+    $diferenciaSegundos = $diferenciaSegundos % 60;
+
+    // Formatear la diferencia en 'H:i:s'
+    $diferenciaFormato = sprintf('%02d:%02d:%02d', $diferenciaHoras, $diferenciaMinutos, $diferenciaSegundos);
+
+    return $diferenciaFormato;
+}
 include_once ($ubicacion . "includes/footer.php");
 
 ?>
