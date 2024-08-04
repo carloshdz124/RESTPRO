@@ -10,28 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
         $sb_area = htmlspecialchars($_POST["sb_area"]);
         $tb_nPersonas = htmlspecialchars($_POST["tb_nPersonas"]);
-        try {
-            // Preparar la consulta SQL
-            $sql = "INSERT INTO mesa (nombre, area, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
-            $ejecucion = $pdo->prepare($sql);
+        // Preparar la consulta SQL
+        $sql = "INSERT INTO mesa (nombre, area_id, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
+        $ejecucion = $pdo->prepare($sql);
 
-            // Ejecutar la consulta
-            $result = $ejecucion->execute(
-                array(
-                    ":tb_nombre" => $tb_nombre,
-                    ":sb_area" => intval($sb_area),
-                    ":tb_nPersonas" => intval($tb_nPersonas)
-                )
-            );
-            if ($result) {
-                header("Location: agregar.php?message=ok");
-                exit();
-            } else {
-                print_r($ejecucion->errorInfo());
-                header("Location: agregar.php?message=no");
-            }
-        } catch (PDOException $e) {
-            echo 'Error: ' . $e->getMessage();
+        // Ejecutar la consulta
+        $result = $ejecucion->execute(
+            array(
+                ":tb_nombre" => $tb_nombre,
+                ":sb_area" => intval($sb_area),
+                ":tb_nPersonas" => intval($tb_nPersonas)
+            )
+        );
+        if ($result) {
+            header("Location: agregar.php?message=ok");
+            exit();
+        } else {
+            print_r($ejecucion->errorInfo());
+            header("Location: agregar.php?message=no");
         }
     }
 

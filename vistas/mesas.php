@@ -244,10 +244,10 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
                                     <th scope="col">T. de espera</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="table-secondary">
                                 <?php foreach ($resultEspera as $espera): ?>
                                     <tr>
-                                        <td><?php echo $n_espera; ?></td>
+                                        <th><?php echo $n_espera; ?></th>
                                         <td><?php echo $espera->nombre; ?></td>
                                         <td><?php echo $espera->n_adultos + $espera->n_ninos; ?></td>
                                         <td><?php echo calcularTiempo($espera->hora_llegada); ?></td>
