@@ -72,7 +72,9 @@ if ($result->rowCount() > 0) {
                                     data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
                                     data-apellido="<?php echo $mesero->apellido; ?>">
                                     <i class="fs-9 bi-pencil-square"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""><?php echo $icon; ?></a>
+                                <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""
+                                    data-id="<?php echo $mesero->id; ?>"
+                                    data-estado="<?php echo $mesero->estado; ?>"><?php echo $icon; ?></a>
                                 <a href="">
                                     <i class="fs-6 bi-trash3-fill text-danger"></i>
                                 </a>
@@ -153,39 +155,56 @@ if ($result->rowCount() > 0) {
 <div class="modal fade" id="modalBloquear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Bloquear</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label"><strong>Tiempo bloqueado</strong></label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rb_block" id="opcionHoy"
-                            onclick="toggleOptions()" checked>
-                        <label class="form-check-label" for="opcionHoy">Hoy</label>
+            <form class="was-validated" method="POST" action="personal_procesamiento.php">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bloquear</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="hidden" name="formulario" value="bloquarMesero"></input>
+                        <div class="mb-3">
+                            <label for="modal-id" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="modal-id" name="tb_id" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modal-estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" id="modal-estado" name="tb_estado" required>
+                        </div>
+                        <label for="nombre" class="form-label"><strong>Tiempo bloqueado</strong></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rb_block" id="opcionHoy"
+                                onclick="toggleOptions()" value="hoy" checked>
+                            <label class="form-check-label" for="opcionHoy">Hoy</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rb_block" id="opcionVarios"
+                                onclick="toggleOptions()" value="varios">
+                            <label class="form-check-label" for="opcionVarios">Varios días</label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rb_block" id="opcionVarios"
-                            onclick="toggleOptions()">
-                        <label class="form-check-label" for="opcionVarios">Varios días</label>
+                    <div id="cuantosDias" class="hidden">
+                        <div class="mb-3">
+                            <label for="extraOption1" class="form-label">Fecha inicio</label>
+                            <input min="<?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?>" type="date"
+                                class="form-control" id="startDate" onchange="setMinEndDate()" name="fechaInicio">
+                        </div>
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">Fecha de Fin</label>
+                            <input placeholder="Motivo por el que se bloqueara" type="date" class="form-control"
+                                id="endDate" name="endDate" name="fechaFin">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">Motivo</label>
+                        <input type="text" class="form-control" id="motivo" name="tb_motivo" required>
                     </div>
                 </div>
-                <div id="cuantosDias" class="hidden">
-                    <div class="mb-3">
-                        <label for="extraOption1" class="form-label">Fecha inicio</label>
-                        <input min="<?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?>" type="date"
-                            class="form-control" id="startDate" onchange="setMinEndDate()">
-                    </div>
-                    <div class="mb-3">
-                        <label for="endDate" class="form-label">Fecha de Fin</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate">
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -235,5 +254,21 @@ if ($result->rowCount() > 0) {
         modalId.value = id;
         modalName.value = name;
         modalApellido.value = apellido;
+    });
+
+    var modalBloquear = document.getElementById('modalBloquear');
+    modalBloquear.addEventListener('show.bs.modal', function (event) {
+        // Elemento que activó el modal
+        var link = event.relatedTarget;
+        // Extraer información de los atributos data-*
+        var id = link.getAttribute('data-id');
+        var estado = link.getAttribute('data-estado');
+
+        // Actualizar el contenido del modal
+        var modalId = modalBloquear.querySelector('#modal-id');
+        var modalEstado = modalBloquear.querySelector('#modal-estado');
+
+        modalId.value = id;
+        modalEstado.value = estado;
     });
 </script>

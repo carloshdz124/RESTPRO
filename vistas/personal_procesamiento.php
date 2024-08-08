@@ -1,4 +1,5 @@
 <?php
+$fecha = "2024-07-05";
 $ubicacion = "../";
 include_once ($ubicacion . "/config/conexion.php");
 
@@ -48,7 +49,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: personal.php?message=noEdit");
             exit();
         }
+    } elseif ($formulario == "bloquarMesero") {
+        $tb_id = htmlspecialchars($_POST["tb_id"]);
+        $tb_motivo = htmlspecialchars($_POST["tb_motivo"]);
+        $rb_block = htmlspecialchars($_POST["rb_block"]);
+        if ($rb_block == "hoy") {
+            $tb_fechaInicio = isset($fecha) ? $fecha : date('Y-m-d');
+            $tb_fechaFin = calcularDiaSiguiente($tb_fechaInicio);
+        }
+        $sql = "INSERT INTO personal_bloqueado (personal_id, fecha_inicio, fecha_fin, motivo) VALUES (:tb_id, :tb_fechaInicio, :tb_fechaFin, :tb_motivo)";
+        $ejecucion = $pdo->prepare($sql);
+        $result = $ejecucion->execute(
+            array(
+                ":tb_id" => $tb_id,
+                ":tb_fechaInicio" => $tb_fechaInicio,
+                ":tb_fechaFin" => $tb_fechaFin,
+                ":tb_motivo" => $tb_motivo
+            )
+        );
+        if ($result) {
+            //Si se ejecuto la inserción, modificamos el estado del elemento
+            $sql = "UPDATE personal SET estado = 0 WHERE id = :tb_id";
+        $ejecucion = $pdo->prepare($sql);
+        $ejecucion->execute(array(":tb_id"=>$tb_id));
+            header("Location: personal.php?message=ok");
+            exit();
+        } else {
+            header("Location: personal.php?message=noEdit");
+            exit();
+        }
     }
 } else {
     echo "No se recibieron datos.";
+}
+
+
+function calcularDiaSiguiente($fecha_inicio)
+{
+    $fechaDateTime = new DateTime($fecha_inicio);
+
+    // Crear un intervalo de 1 día
+    $intervalo = new DateInterval('P1D');
+
+    // Sumar el intervalo a la fecha
+    $fechaDateTime->add($intervalo);
+
+    // Obtener la fecha del día siguiente en formato 'Y-m-d'
+    return $fechaDateTime->format('Y-m-d');
 }
