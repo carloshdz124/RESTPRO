@@ -2,67 +2,86 @@
 $ubicacion = "../";
 $titulo = "Personal";
 include ($ubicacion . "includes/header.php");
+include ($ubicacion . "config/conexion.php");
+
+
+$message = isset($_GET['message']) ? $_GET['message'] : '';
+if ($message == 'ok') {
+    $tipo_alerta = 'class="alert alert-success alert-dismissible mt-3"';
+    $message = 'Se registro correctamente';
+} elseif ($message == 'no') {
+    $tipo_alerta = 'class="alert alert-danger alert-dismissible mt-3"';
+    $message = 'Error al insertar datos';
+} elseif ($message == 'noEdit') {
+    $tipo_alerta = 'class="alert alert-warning alert-dismissible mt-3"';
+    $message = 'No se modificaron datos.';
+}
+
+$result = $pdo->query("SELECT * FROM personal");
+if ($result->rowCount() > 0) {
+    $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
+    $contMeseros = 1;
+}
+
+
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
 
 <div class="container mt-3">
+    <?php if ($message != '') { ?>
+        <div <?php echo $tipo_alerta; ?> style="text-align: center;">
+            <?php echo $message; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php } ?>
     <h1 class="text-center"><?php echo $titulo; ?></h1>
     <button data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-success mb-1"><i
             class="bi bi-person-plus-fill"></i></button>
     <br>
     <div class="d-flex centrar">
-        <table class="table table-border table-dark" style="width: 500px;">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <td>Nombre</td>
-                    <td>Calificacion</td>
-                    <td>Estatus</td>
-                    <td>Opciones</td>
-                </tr>
-            </thead>
-            <tbody class="table-secondary">
-                <tr>
-                    <th>#</th>
-                    <td>Juan</td>
-                    <td>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                    </td>
-                    <td>Activo</td>
-                    <td>
-                        <a data-bs-toggle="modal" data-bs-target="#modalEditar" href=""><i
-                                class="fs-9 bi-pencil-square"></i></a>
-                        <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""><i
-                                class="fs-9 bi-lock-fill text-danger"></i></a>
-                        <a href=""><i class="fs-6 bi-trash3-fill text-danger"></i></a>
-                    </td>
-                <tr>
-                <tr>
-                    <th>#</th>
-                    <td>Pedro</td>
-                    <td>
-                        <i class="fs-6 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                        <i class="fs-9 bi-star-fill"></i>
-                    </td>
-                    <td>Activo</td>
-                    <td>
-
-                        <a data-bs-toggle="modal" data-bs-target="#modalEditar" href=""><i
-                                class="fs-6 bi-pencil-square"></i></a>
-                        <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""><i
-                                class="fs-6 bi-unlock-fill text-success"></i></a>
-                        <a href=""><i class="fs-6 bi-trash3-fill text-danger"></i></a>
-                    </td>
-                <tr>
-            </tbody>
-        </table>
+        <?php if (isset($resultMeseros)): ?>
+            <table class="table table-border table-dark" style="width: 500px;">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <td>Nombre</td>
+                        <td>Calificacion</td>
+                        <td>Estatus</td>
+                        <td>Opciones</td>
+                    </tr>
+                </thead>
+                <tbody class="table-secondary">
+                    <?php foreach ($resultMeseros as $mesero): ?>
+                        <tr>
+                            <th><?php echo $contMeseros ?></th>
+                            <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
+                            <td>
+                                <?php for ($star = 0; $star < $mesero->calificacion; $star++):
+                                    echo '<i class="bi bi-star-fill"></i>';
+                                endfor ?>
+                            </td>
+                            <td><?php echo $mesero->estado; ?></td>
+                            <td>
+                                <?php if ($mesero->estado == 1) {
+                                    $icon = '<i class="fs-9 bi-unlock-fill text-success"></i>';
+                                } else {
+                                    $icon = '<i class="fs-9 bi-lock-fill text-danger"></i>';
+                                } ?>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                    data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
+                                    data-apellido="<?php echo $mesero->apellido; ?>">
+                                    <i class="fs-9 bi-pencil-square"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""><?php echo $icon; ?></a>
+                                <a href="">
+                                    <i class="fs-6 bi-trash3-fill text-danger"></i>
+                                </a>
+                            </td>
+                        <tr>
+                            <?php $contMeseros += 1; endforeach ?>
+                </tbody>
+            </table>
+        <?php endif ?>
     </div>
 </div>
 
@@ -70,21 +89,27 @@ include ($ubicacion . "includes/header.php");
 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST">
+            <form class="was-validated" method="POST" action="personal_procesamiento.php">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Editar datos de mesero</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="formulario" value="agregarMesero"></input>
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input placeholder="Nombre de mesero" type="text" class="form-control" id="nombre" name="nombre"
-                            required>
+                        <label for="nombre" class="form-label"><strong>Nombre</strong></label>
+                        <input placeholder="Nombre de mesero" type="text" class="form-control" id="nombre"
+                            name="tb_nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label"><strong>Apellido</strong></label>
+                        <input placeholder="Apellido de mesero" type="text" class="form-control" id="apellido"
+                            name="tb_apellido" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Agregar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
                 </div>
             </form>
         </div>
@@ -95,21 +120,29 @@ include ($ubicacion . "includes/header.php");
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST">
+            <form class="was-validated" method="POST" action="personal_procesamiento.php">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Editar datos de mesero</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="formulario" value="editarMesero"></input>
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input placeholder="Nombre corregido" type="text" class="form-control" id="nombre" name="nombre"
-                            required>
+                        <label for="modal-id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="modal-id" name="tb_id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="modal-name" name="tb_nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="modal-apellido" name="tb_apellido" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
@@ -141,8 +174,8 @@ include ($ubicacion . "includes/header.php");
                 <div id="cuantosDias" class="hidden">
                     <div class="mb-3">
                         <label for="extraOption1" class="form-label">Fecha inicio</label>
-                        <input min="<?php echo isset($fecha)? $fecha : date('Y-m-d'); ?>" type="date" class="form-control" id="startDate"
-                            onchange="setMinEndDate()">
+                        <input min="<?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?>" type="date"
+                            class="form-control" id="startDate" onchange="setMinEndDate()">
                     </div>
                     <div class="mb-3">
                         <label for="endDate" class="form-label">Fecha de Fin</label>
@@ -184,5 +217,23 @@ include ($ubicacion . "includes/header.php");
         // Establecer la fecha mínima del segundo input como la fecha seleccionada en el primer input
         endDate.min = startDate;
     }
-</script>
+
+    var modalEditar = document.getElementById('modalEditar');
+    modalEditar.addEventListener('show.bs.modal', function (event) {
+        // Elemento que activó el modal
+        var link = event.relatedTarget;
+        // Extraer información de los atributos data-*
+        var id = link.getAttribute('data-id');
+        var name = link.getAttribute('data-name');
+        var apellido = link.getAttribute('data-apellido');
+
+        // Actualizar el contenido del modal
+        var modalId = modalEditar.querySelector('#modal-id');
+        var modalName = modalEditar.querySelector('#modal-name');
+        var modalApellido = modalEditar.querySelector('#modal-apellido');
+
+        modalId.value = id;
+        modalName.value = name;
+        modalApellido.value = apellido;
+    });
 </script>
