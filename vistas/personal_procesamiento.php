@@ -70,8 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result) {
             //Si se ejecuto la inserción, modificamos el estado del elemento
             $sql = "UPDATE personal SET estado = 0 WHERE id = :tb_id";
-        $ejecucion = $pdo->prepare($sql);
-        $ejecucion->execute(array(":tb_id"=>$tb_id));
+            $ejecucion = $pdo->prepare($sql);
+            $ejecucion->execute(array(":tb_id" => $tb_id));
             header("Location: personal.php?message=ok");
             exit();
         } else {

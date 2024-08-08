@@ -23,6 +23,11 @@ if ($result->rowCount() > 0) {
     $contMeseros = 1;
 }
 
+$result = $pdo->query("SELECT * FROM personal_bloqueado where estatus = 0");
+if ($result->rowCount() > 0) {
+    $resultEstado = $result->fetchAll(PDO::FETCH_OBJ);
+}
+
 
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
@@ -63,7 +68,8 @@ if ($result->rowCount() > 0) {
                             </td>
                             <td><?php echo $mesero->estado; ?></td>
                             <td>
-                                <?php if ($mesero->estado == 1) {
+                                <?php validarEstado($mesero->id, $resultEstado,$pdo);
+                                if ($mesero->estado == 1) {
                                     $icon = '<i class="fs-9 bi-unlock-fill text-success"></i>';
                                 } else {
                                     $icon = '<i class="fs-9 bi-lock-fill text-danger"></i>';
@@ -272,3 +278,20 @@ if ($result->rowCount() > 0) {
         modalEstado.value = estado;
     });
 </script>
+<?php
+function validarEstado($id, $resultEstados,$pdo){
+    $fecha = '2024-07-06';
+    $fechaUsada = isset($fecha) ? $fecha : date('Y-m-d');
+    foreach ($resultEstados as $meseroEstado) {
+        if ($meseroEstado->personal_id == $id && $meseroEstado->fecha_fin == $fechaUsada) {
+            $sql = "UPDATE personal SET estado = 1 WHERE id = :tb_id";
+            $ejecucion = $pdo->prepare($sql);
+            $ejecucion->execute(array(":tb_id" => $id));
+
+            $sql = "UPDATE personal_bloqueado SET estatus = 0 WHERE id = :tb_id";
+            $ejecucion = $pdo->prepare($sql);
+            $ejecucion->execute(array(":tb_id" => $id));
+        }
+    }
+}
+?>
