@@ -6,7 +6,7 @@ include_once ($ubicacion . "/config/conexion.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = $_POST["formulario"];
 
-    // Se inserta en caso de que insertar mesa
+    // Se inserta en caso de que inserte mesero
     if ($formulario == "agregarMesero") {
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
         $tb_apellido = htmlspecialchars($_POST["tb_apellido"]);
@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             print_r($ejecucion->errorInfo());
             header("Location: personal.php?message=no");
         }
+        // Se edita mesero
     } elseif ($formulario == "editarMesero") {
         $tb_id = htmlspecialchars($_POST["tb_id"]);
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
@@ -49,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: personal.php?message=noEdit");
             exit();
         }
+        // Se bloquea mesero
     } elseif ($formulario == "bloquarMesero") {
         $tb_id = htmlspecialchars($_POST["tb_id"]);
         $tb_motivo = htmlspecialchars($_POST["tb_motivo"]);
@@ -79,6 +81,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $id = $_GET['id'];
+    $sql = "UPDATE personal SET estado = 1 WHERE id = :tb_id";
+    $ejecucion = $pdo->prepare($sql);
+
+    $result = $ejecucion->execute(array(":tb_id" => $id));
+    if ($result) {
+        $sql = "UPDATE personal_bloqueado SET vigencia = 1 WHERE personal_id = :tb_id";
+        $ejecucion = $pdo->prepare($sql);
+        $result = $ejecucion->execute(array(":tb_id" => $id));
+        
+        if ($result) {
+            header("Location: personal.php?message=desBloq");
+            exit();
+        }else{echo 'Error al modificar estado de bloqueado';}
+    }else{echo 'Error al modificar estado de mesero';}
+
+
 } else {
     echo "No se recibieron datos.";
 }

@@ -15,12 +15,14 @@ if ($message == 'ok') {
 } elseif ($message == 'noEdit') {
     $tipo_alerta = 'class="alert alert-warning alert-dismissible mt-3"';
     $message = 'No se modificaron datos.';
+} elseif ($message == 'desBloq'){
+    $tipo_alerta = 'class="alert alert-success alert-dismissible mt-3"';
+    $message = 'Se desbloqueo exitosamente';
 }
 
 $result = $pdo->query("SELECT * FROM personal");
 if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
-    $contMeseros = 1;
 }
 
 
@@ -54,34 +56,39 @@ if ($result->rowCount() > 0) {
                 <tbody class="table-secondary">
                     <?php foreach ($resultMeseros as $mesero): ?>
                         <tr>
-                            <th><?php echo $contMeseros ?></th>
+                            <th><?php echo $mesero->id ?></th>
                             <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
                             <td>
                                 <?php for ($star = 0; $star < $mesero->calificacion; $star++):
                                     echo '<i class="bi bi-star-fill"></i>';
                                 endfor ?>
                             </td>
-                            <td><?php echo $mesero->estado; ?></td>
                             <td>
                                 <?php
                                 if ($mesero->estado == 1) {
                                     $icon = '<i class="fs-9 bi-unlock-fill text-success"></i>';
+                                    $modal = 'data-bs-target="#modalBloquear"';
                                 } else {
                                     $icon = '<i class="fs-9 bi-lock-fill text-danger"></i>';
-                                } ?>
+                                    $modal = ' onclick="confirmarDesbloqueo(' . $mesero->id . ')" ';
+                                }
+                                ?>
+                                <a data-bs-toggle="modal" <?php echo $modal; ?> href="" data-id="<?php echo $mesero->id; ?>"
+                                    data-name="<?php echo $mesero->nombre; ?>"
+                                    data-estado="<?php echo $mesero->estado; ?>"><?php echo $icon; ?></a>
+                            </td>
+                            <td>
                                 <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar"
                                     data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
                                     data-apellido="<?php echo $mesero->apellido; ?>">
                                     <i class="fs-9 bi-pencil-square"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#modalBloquear" href=""
-                                    data-id="<?php echo $mesero->id; ?>"
-                                    data-estado="<?php echo $mesero->estado; ?>"><?php echo $icon; ?></a>
+
                                 <a href="">
                                     <i class="fs-6 bi-trash3-fill text-danger"></i>
                                 </a>
                             </td>
                         <tr>
-                            <?php $contMeseros += 1; endforeach ?>
+                            <?php endforeach ?>
                 </tbody>
             </table>
         <?php endif ?>
@@ -163,24 +170,19 @@ if ($result->rowCount() > 0) {
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <input type="hidden" name="formulario" value="bloquarMesero"></input>
-                        <div class="mb-3">
-                            <label for="modal-id" class="form-label">ID</label>
-                            <input type="text" class="form-control" id="modal-id" name="tb_id" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="modal-estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="modal-estado" name="tb_estado" required>
-                        </div>
-                        <label for="nombre" class="form-label"><strong>Tiempo bloqueado</strong></label>
+                        <input type="hidden" name="formulario" value="bloquarMesero">
+                        <input type="hidden" class="form-control" id="modal-id" name="tb_id">
+                        <input type="hidden" class="form-control" id="modal-estado" name="tb_estado">
+                        <label class="form-label"><strong>Tiempo a bloquear a: </strong></label>
+                        <label class="form-label" id="modal-name" name="tb_name"></label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="rb_block" id="opcionHoy"
-                                onclick="toggleOptions()" value="hoy" checked>
+                                onclick="opcionesExtra()" value="hoy" checked>
                             <label class="form-check-label" for="opcionHoy">Hoy</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="rb_block" id="opcionVarios"
-                                onclick="toggleOptions()" value="varios">
+                                onclick="opcionesExtra()" value="varios">
                             <label class="form-check-label" for="opcionVarios">Varios días</label>
                         </div>
                     </div>
@@ -188,7 +190,7 @@ if ($result->rowCount() > 0) {
                         <div class="mb-3">
                             <label for="extraOption1" class="form-label">Fecha inicio</label>
                             <input min="<?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?>" type="date"
-                                class="form-control" id="startDate" onchange="setMinEndDate()" name="fechaInicio">
+                                class="form-control" id="startDate" onchange="IngresaMinFechaFin()" name="fechaInicio">
                         </div>
                         <div class="mb-3">
                             <label for="endDate" class="form-label">Fecha de Fin</label>
@@ -210,8 +212,6 @@ if ($result->rowCount() > 0) {
     </div>
 </div>
 
-
-
 <style>
     .hidden {
         display: none;
@@ -219,7 +219,7 @@ if ($result->rowCount() > 0) {
 </style>
 
 <script>
-    function toggleOptions() {
+    function opcionesExtra() {
         var cuantosDias = document.getElementById('cuantosDias');
         var opcionVarios = document.getElementById('opcionVarios');
 
@@ -230,7 +230,7 @@ if ($result->rowCount() > 0) {
         }
     }
 
-    function setMinEndDate() {
+    function IngresaMinFechaFin() {
         var startDate = document.getElementById('startDate').value;
         var endDate = document.getElementById('endDate');
 
@@ -263,13 +263,24 @@ if ($result->rowCount() > 0) {
         var link = event.relatedTarget;
         // Extraer información de los atributos data-*
         var id = link.getAttribute('data-id');
+        var name = link.getAttribute('data-name');
         var estado = link.getAttribute('data-estado');
 
         // Actualizar el contenido del modal
         var modalId = modalBloquear.querySelector('#modal-id');
+        var modalName = modalBloquear.querySelector('#modal-name');
         var modalEstado = modalBloquear.querySelector('#modal-estado');
 
         modalId.value = id;
+        modalName.textContent = name;
         modalEstado.value = estado;
     });
+
+    function confirmarDesbloqueo(id) {
+    if (confirm("¿Estás seguro de desbloquear al mesero?" + id)) {
+        // Si el usuario confirma, redirige a la página PHP para eliminar el registro
+        window.location.href = 'personal_procesamiento.php?id=' + id;
+    }
+}
+
 </script>
