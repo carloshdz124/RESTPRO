@@ -1,4 +1,6 @@
-<?php $fecha = "2024-07-05" ?>
+<?php
+include_once $ubicacion.'config/consultas.php';
+?>
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
