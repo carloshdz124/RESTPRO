@@ -6,9 +6,9 @@ include ($ubicacion."includes/header.php");
 <div class="container mt-5">
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
     <div class="form-group border border-black bg-dark text-white p-3 rounded-4 btn-group btn-group-lg">
-        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2"><i class="bi bi-lock-fill"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2"><i class="bi bi-unlock-fill"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalBuscar" class="btn btn-outline-info btn-lg rounded-4 mx-2"><i class="bi bi-search"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2" title="BLOQUEAR"><i class="bi bi-lock-fill"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2" title="DESBLOQUEAR"><i class="bi bi-unlock-fill"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalBuscar" class="btn btn-outline-info btn-lg rounded-4 mx-2" title="BUSCAR"><i class="bi bi-search"></i></button>
     </div>
     <form method="POST" action="#">
         <div class="row">
@@ -380,3 +380,13 @@ include ($ubicacion."includes/header.php");
 include_once($ubicacion."includes/footer.php");
 
 ?>
+
+<!-- JS con los Tooltips (función que hace el cursor cuando lo pasamos por un boton) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+});
+</script>
