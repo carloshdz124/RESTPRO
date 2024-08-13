@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 04-08-2024 a las 06:24:59
+-- Tiempo de generación: 13-08-2024 a las 01:45:11
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -161,12 +161,13 @@ DROP TABLE IF EXISTS `mesa_cliente`;
 CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
+  `zonas_deseadas` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `telefono` bigint DEFAULT NULL,
   `n_adultos` int NOT NULL,
   `n_ninos` int NOT NULL,
   `hora_llegada` time DEFAULT NULL,
   `fecha` date NOT NULL,
-  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Sentado',
+  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Ocupada,\r\n1 = Reserva,\r\n2 = Sentado',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -174,21 +175,112 @@ CREATE TABLE IF NOT EXISTS `mesa_cliente` (
 -- Volcado de datos para la tabla `mesa_cliente`
 --
 
-INSERT INTO `mesa_cliente` (`id`, `nombre`, `telefono`, `n_adultos`, `n_ninos`, `hora_llegada`, `fecha`, `estado`) VALUES
-(1, 'juan', NULL, 2, 3, '13:30:00', '2024-07-05', 0),
-(2, 'Pedro', 3322115566, 3, 0, '14:16:50', '2024-07-05', 1),
-(3, 'Lopez', NULL, 2, 3, '14:25:00', '2024-07-05', 0),
-(4, 'Diego', NULL, 2, 3, '15:00:00', '2024-07-05', 0),
-(5, 'javier', NULL, 8, 2, '15:12:00', '2024-07-05', 0),
-(6, 'lopez', NULL, 2, 4, '15:20:00', '2024-07-05', 0),
-(7, 'Martin', NULL, 4, 0, '15:25:00', '2024-07-05', 0),
-(8, 'Alfredo', NULL, 2, 1, '15:33:00', '2024-07-05', 0),
-(9, 'Joaquin', NULL, 4, 0, '15:41:00', '2024-07-05', 0),
-(10, 'Carlos', NULL, 2, 0, '20:07:46', '2024-07-30', 0),
-(11, 'Fernando Reyes', 3311799528, 1, 0, '18:14:00', '2024-07-05', 1),
-(12, 'Miguel', 0, 2, 2, '18:09:57', '2024-07-31', 0),
-(13, 'Daniel', 0, 2, 0, '19:10:00', '2024-07-31', 0),
-(14, 'xxx', 0, 1, 2, '08:16:06', '2024-08-03', 0);
+INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adultos`, `n_ninos`, `hora_llegada`, `fecha`, `estado`) VALUES
+(1, 'juan', '1,4', NULL, 2, 3, '13:30:00', '2024-07-05', 0),
+(2, 'Pedro', '2,3', 3322115566, 3, 0, '14:16:50', '2024-07-05', 1),
+(3, 'Lopez', '3', NULL, 2, 3, '14:25:00', '2024-07-05', 0),
+(4, 'Diego', '1', NULL, 2, 3, '15:00:00', '2024-07-05', 0),
+(5, 'javier', '2,4', NULL, 8, 2, '15:12:00', '2024-07-05', 0),
+(6, 'lopez', '1,4', NULL, 2, 4, '15:20:00', '2024-07-05', 0),
+(7, 'Martin', '2,3', NULL, 4, 0, '15:25:00', '2024-07-05', 0),
+(8, 'Alfredo', '1', NULL, 2, 1, '15:33:00', '2024-07-05', 0),
+(9, 'Joaquin', '3', NULL, 4, 0, '15:41:00', '2024-07-05', 0),
+(10, 'Carlos', '2', NULL, 2, 0, '20:07:46', '2024-07-30', 0),
+(11, 'Fernando Reyes', '4', 3311799528, 1, 0, '18:14:00', '2024-07-05', 1),
+(12, 'Miguel', '1,2,3,4', 0, 2, 2, '18:09:57', '2024-07-31', 0),
+(13, 'Daniel', '1,3', 0, 2, 0, '19:10:00', '2024-07-31', 0),
+(14, 'xxx', '1,2', 0, 1, 2, '08:16:06', '2024-08-03', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personal`
+--
+
+DROP TABLE IF EXISTS `personal`;
+CREATE TABLE IF NOT EXISTS `personal` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `calificacion` int NOT NULL DEFAULT '4',
+  `estado` int NOT NULL DEFAULT '1' COMMENT '0: inactivo, 1: activo',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `personal`
+--
+
+INSERT INTO `personal` (`id`, `nombre`, `apellido`, `calificacion`, `estado`) VALUES
+(1, 'Alfredo', 'Cruz', 4, 1),
+(2, 'Diego ', 'Antuna', 4, 1),
+(3, 'Leonardo', 'Morales', 4, 1),
+(4, 'Lenin', 'Contreras', 4, 1),
+(5, 'Bryan', 'Amezcua', 4, 1),
+(6, 'Jonatan', 'López', 4, 1),
+(7, 'Carlos', 'Hernandez', 4, 1),
+(8, 'Luis', 'Torres', 4, 1),
+(9, 'Marco', 'Hernandez', 4, 1),
+(10, 'Joahan', 'Reyes', 4, 1),
+(11, 'Francisco', 'Tapia', 4, 1),
+(12, 'Oliver', 'Perez', 4, 1),
+(13, 'Uriel', 'Rosales', 4, 1),
+(14, 'Michell', 'Reyes', 4, 1),
+(15, 'Jonany', 'Mejia', 4, 1),
+(16, 'Hector', 'Hernandez', 4, 1),
+(17, 'Edgar', 'Nuño', 4, 1),
+(18, 'Eder', 'Contreras', 4, 1),
+(19, 'Jose', 'Velez', 4, 1),
+(20, 'Heriberto', 'Valadez', 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personal_bloqueado`
+--
+
+DROP TABLE IF EXISTS `personal_bloqueado`;
+CREATE TABLE IF NOT EXISTS `personal_bloqueado` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `personal_id` int NOT NULL,
+  `fecha_inicio` date NOT NULL COMMENT 'Fecha de inicio de bloqueo',
+  `fecha_fin` date NOT NULL COMMENT 'fecha fin de bloqueo',
+  `motivo` varchar(150) NOT NULL,
+  `vigencia` int NOT NULL DEFAULT '0' COMMENT '0: vigente, 1: vencido',
+  PRIMARY KEY (`id`),
+  KEY `personal_id` (`personal_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `personal_bloqueado`
+--
+
+INSERT INTO `personal_bloqueado` (`id`, `personal_id`, `fecha_inicio`, `fecha_fin`, `motivo`, `vigencia`) VALUES
+(1, 4, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(2, 4, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(3, 4, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(4, 5, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(5, 10, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(6, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(7, 13, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(9, 18, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(11, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(8, 4, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(10, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(12, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(13, 19, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(14, 14, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(15, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(16, 10, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(17, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(18, 8, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(19, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(20, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(21, 2, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(22, 21, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(23, 14, '2024-08-13', '2024-08-21', 'Vacaciones', 1),
+(24, 7, '2024-08-13', '2024-08-17', 'Vacaciones', 1),
+(25, 20, '2024-07-05', '2024-07-06', 'No asistio', 1);
 
 -- --------------------------------------------------------
 
