@@ -4,7 +4,7 @@ $titulo = "Personal";
 include ($ubicacion . "includes/header.php");
 include ($ubicacion . "config/conexion.php");
 
-
+//Se definen mensajes que mostrara
 $message = isset($_GET['message']) ? $_GET['message'] : '';
 if ($message == 'ok') {
     $tipo_alerta = 'class="alert alert-success alert-dismissible mt-3"';
@@ -15,9 +15,15 @@ if ($message == 'ok') {
 } elseif ($message == 'noEdit') {
     $tipo_alerta = 'class="alert alert-warning alert-dismissible mt-3"';
     $message = 'No se modificaron datos.';
-} elseif ($message == 'desBloq'){
+} elseif ($message == 'desBloq') {
     $tipo_alerta = 'class="alert alert-success alert-dismissible mt-3"';
     $message = 'Se desbloqueo exitosamente';
+} elseif ($message == 'bloq') {
+    $tipo_alerta = 'class="alert alert-warning alert-dismissible mt-3"';
+    $message = 'Se bloqueo exitosamente';
+} elseif ($message == 'delete') {
+    $tipo_alerta = 'class="alert alert-danger alert-dismissible mt-3"';
+    $message = 'Se elimino exitosamente';
 }
 
 $result = $pdo->query("SELECT * FROM personal");
@@ -83,12 +89,12 @@ if ($result->rowCount() > 0) {
                                     data-apellido="<?php echo $mesero->apellido; ?>">
                                     <i class="fs-9 bi-pencil-square"></i></a>
 
-                                <a href="">
+                                <a href="#" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
                                     <i class="fs-6 bi-trash3-fill text-danger"></i>
                                 </a>
                             </td>
                         <tr>
-                            <?php endforeach ?>
+                        <?php endforeach ?>
                 </tbody>
             </table>
         <?php endif ?>
@@ -195,7 +201,7 @@ if ($result->rowCount() > 0) {
                         <div class="mb-3">
                             <label for="endDate" class="form-label">Fecha de Fin</label>
                             <input placeholder="Motivo por el que se bloqueara" type="date" class="form-control"
-                                id="endDate" name="endDate" name="fechaFin">
+                                id="endDate"  name="fechaFin">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -277,10 +283,19 @@ if ($result->rowCount() > 0) {
     });
 
     function confirmarDesbloqueo(id) {
-    if (confirm("¿Estás seguro de desbloquear al mesero?" + id)) {
-        // Si el usuario confirma, redirige a la página PHP para eliminar el registro
-        window.location.href = 'personal_procesamiento.php?id=' + id;
+        if (confirm("¿Estás seguro de desbloquear al mesero?" + id)) {
+            var accion = 'desbloqueo'
+            // Si el usuario confirma, redirige a la página PHP para eliminar el registro
+            window.location.href = 'personal_procesamiento.php?id=' + id + '&accion=' + accion;
+        }
     }
-}
+
+    function confirmarEliminacion(id) {
+        if (confirm("¿Estás seguro de eliminar al mesero?" + id)) {
+            var accion = 'eliminacion';
+            // Si el usuario confirma, redirige a la página PHP para eliminar el registro
+            window.location.href = 'personal_procesamiento.php?id=' + id + '&accion=' + accion;
+        }
+    }
 
 </script>

@@ -50,6 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: personal.php?message=noEdit");
             exit();
         }
+
+
         // Se bloquea mesero
     } elseif ($formulario == "bloquarMesero") {
         $tb_id = htmlspecialchars($_POST["tb_id"]);
@@ -58,6 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($rb_block == "hoy") {
             $tb_fechaInicio = isset($fecha) ? $fecha : date('Y-m-d');
             $tb_fechaFin = calcularDiaSiguiente($tb_fechaInicio);
+        }
+        else{
+            $tb_fechaInicio = $_POST["fechaInicio"];
+            $tb_fechaFin = $_POST["fechaFin"];;
         }
         $sql = "INSERT INTO personal_bloqueado (personal_id, fecha_inicio, fecha_fin, motivo) VALUES (:tb_id, :tb_fechaInicio, :tb_fechaFin, :tb_motivo)";
         $ejecucion = $pdo->prepare($sql);
@@ -74,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "UPDATE personal SET estado = 0 WHERE id = :tb_id";
             $ejecucion = $pdo->prepare($sql);
             $ejecucion->execute(array(":tb_id" => $tb_id));
-            header("Location: personal.php?message=ok");
+            header("Location: personal.php?message=bloq");
             exit();
         } else {
             header("Location: personal.php?message=noEdit");
@@ -83,24 +89,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
     $id = $_GET['id'];
-    $sql = "UPDATE personal SET estado = 1 WHERE id = :tb_id";
-    $ejecucion = $pdo->prepare($sql);
+    $accion = $_GET['accion'];
 
-    $result = $ejecucion->execute(array(":tb_id" => $id));
-    if ($result) {
-        $sql = "UPDATE personal_bloqueado SET vigencia = 1 WHERE personal_id = :tb_id";
+    //Validamos si se desbloqueara un mesero
+    if ($accion == 'desbloqueo') {
+        $sql = "UPDATE personal SET estado = 1 WHERE id = :tb_id";
+        $ejecucion = $pdo->prepare($sql);
+
+        $result = $ejecucion->execute(array(":tb_id" => $id));
+        if ($result) {
+            $sql = "UPDATE personal_bloqueado SET vigencia = 1 WHERE personal_id = :tb_id";
+            $ejecucion = $pdo->prepare($sql);
+            $result = $ejecucion->execute(array(":tb_id" => $id));
+
+            if ($result) {
+                header("Location: personal.php?message=desBloq");
+                exit();
+            } else {
+                echo 'Error al modificar estado de bloqueado';
+            }
+        } else {
+            echo 'Error al modificar estado de mesero';
+        }
+
+
+        //Validamos si se eliminara mesero
+    } elseif ($accion == 'eliminacion') {
+        $sql = "DELETE FROM personal WHERE id = :tb_id  ";
         $ejecucion = $pdo->prepare($sql);
         $result = $ejecucion->execute(array(":tb_id" => $id));
-        
-        if ($result) {
-            header("Location: personal.php?message=desBloq");
-            exit();
-        }else{echo 'Error al modificar estado de bloqueado';}
-    }else{echo 'Error al modificar estado de mesero';}
 
+        header("Location: personal.php?message=delete");
+        exit();
+    } else {
+        echo "No se recibieron datos.";
+    }
 
-} else {
-    echo "No se recibieron datos.";
 }
 
 
