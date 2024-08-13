@@ -72,25 +72,34 @@ if ($result->rowCount() > 0) {
                             <td>
                                 <?php
                                 if ($mesero->estado == 1) {
-                                    $icon = '<i class="fs-9 bi-unlock-fill text-success"></i>';
+                                    $estiloButton = 'class="btn btn-outline-success "';
+                                    $icon = '<i class="bi bi-unlock-fill"></i>';
                                     $modal = 'data-bs-target="#modalBloquear"';
                                 } else {
-                                    $icon = '<i class="fs-9 bi-lock-fill text-danger"></i>';
+                                    $estiloButton = 'class="btn btn-outline-danger btn-lg rounded-4 mx-2"';
+                                    $icon = '<i class="bi bi-lock-fill"></i>';
                                     $modal = ' onclick="confirmarDesbloqueo(' . $mesero->id . ')" ';
                                 }
                                 ?>
-                                <a data-bs-toggle="modal" <?php echo $modal; ?> href="" data-id="<?php echo $mesero->id; ?>"
-                                    data-name="<?php echo $mesero->nombre; ?>"
-                                    data-estado="<?php echo $mesero->estado; ?>"><?php echo $icon; ?></a>
+                                <button <?php echo $estiloButton; ?> data-bs-toggle="modal" <?php echo $modal; ?> href=""
+                                    data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
+                                    data-estado="<?php echo $mesero->estado; ?>"><?php echo $icon; ?></button>
                             </td>
                             <td>
-                                <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                    data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
-                                    data-apellido="<?php echo $mesero->apellido; ?>">
-                                    <i class="fs-9 bi-pencil-square"></i></a>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar" type="button"
+                                        data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
+                                        data-apellido="<?php echo $mesero->apellido; ?>"><i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </div>
+                                <a href="" >
+                                    </a>
 
-                                <a href="#" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
-                                    <i class="fs-6 bi-trash3-fill text-danger"></i>
+                                <a href="#" >
+                                    
                                 </a>
                             </td>
                         <tr>
@@ -201,7 +210,7 @@ if ($result->rowCount() > 0) {
                         <div class="mb-3">
                             <label for="endDate" class="form-label">Fecha de Fin</label>
                             <input placeholder="Motivo por el que se bloqueara" type="date" class="form-control"
-                                id="endDate"  name="fechaFin">
+                                id="endDate" name="fechaFin">
                         </div>
                     </div>
                     <div class="mb-3">

@@ -5,6 +5,7 @@ include ($ubicacion . "config/conexion.php");
 include ($ubicacion . "includes/header.php");
 
 // Se realiza consulta para revisar si existe alguna reservacion.
+$fecha = isset($fecha) ? $fecha : date('Y-m-d');
 $sql = "SELECT * FROM mesa_cliente WHERE estado = 1 and fecha='$fecha' ";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
@@ -72,7 +73,7 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
         </div>
     <?php } ?>
 
-
+    <!-- Botones principales -->
     <h1 class="text-center">MESAS</h1>
     <div class="row centrar">
         <div class="col">
@@ -97,24 +98,44 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
         </div>
     </div>
     <br>
+    <!-- Boton para seleccionar areas y mostrarlas -->
     <div style="text-align: right;">
         <button type="button" class="btn dropdown-toggle" style="background-color:#ce9477" data-bs-toggle="dropdown"
             aria-expanded="false">
             mapas
         </button>
         <ul class="dropdown-menu" style="background-color:#ce9477">
-            <li><a onclick="seleccionaMapa('mapa1')" class="dropdown-item">mapa 1</a></li>
-            <li><a onclick="seleccionaMapa('mapa2')" class="dropdown-item">mapa 2</a></li>
+            <?php foreach ($resultAreas as $area) { ?>
+                <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
+                        class="dropdown-item"><?php echo $area->nombre ?></a></li>
+            <?php } ?>
         </ul>
     </div>
-    <div id="mapa1" class="mapa container active" style="width: 100%; height: 45vh;">
-        <p>Mapa 1</p>
-        <img class="img-fluid" src="<?php echo $ubicacion; ?>/assets/imagenes/mapa1.png">
-    </div>
-    <div id="mapa2" class="mapa container" style="width: 100%; height: 45vh;">
-        <p>Mapa 2</p>
-        <img class="img-fluid" src="<?php echo $ubicacion; ?>/assets/imagenes/mapa2.png">
-    </div>
+    <!-- Mostramos los contenedores cada uno con las diferentes areas -->
+    <?php if (isset($resultAreas)) {
+        foreach ($resultAreas as $area) {
+            //Consulta para ver mesas por zonas
+            $result = $pdo->query('SELECT * FROM mesa WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
+            if ($result->rowCount() > 0) {
+                $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
+            } ?>
+            <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
+                <p><?php echo $area->nombre; ?></p>
+                <?php foreach ($resultMesas as $mesa) {
+                    if($mesa->estado == 0){
+                        $estadoMesa = 'class="btn btn-success"';
+                    }elseif($mesa->estado == 1){
+                        $estadoMesa = 'class="btn btn-danger"';
+                    }else{
+                        $estadoMesa = 'class="btn btn-warning"';
+                    }
+                    echo '<button '. $estadoMesa .'>' . $mesa->nombre . '</button>';
+                } ?>
+            </div>
+        <?php }
+    } else {
+        echo 'No existen areas.';
+    } ?>
 </div>
 
 
@@ -242,6 +263,7 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
                                     <th scope="col">Cliente</th>
                                     <th scope="col">N. personas</th>
                                     <th scope="col">T. de espera</th>
+                                    <th scope="col">Opc</th>
                                 </tr>
                             </thead>
                             <tbody class="table-secondary">
@@ -251,6 +273,7 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
                                         <td><?php echo $espera->nombre; ?></td>
                                         <td><?php echo $espera->n_adultos + $espera->n_ninos; ?></td>
                                         <td><?php echo calcularTiempo($espera->hora_llegada); ?></td>
+                                        <td> <button class="btn btn-primary">Ver</button> </td>
                                     </tr>
                                     <?php $n_espera += 1; endforeach ?>
                             </tbody>

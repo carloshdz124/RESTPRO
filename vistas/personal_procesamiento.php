@@ -1,5 +1,4 @@
 <?php
-$fecha = "2024-07-05";
 $ubicacion = "../";
 include_once ($ubicacion . "/config/conexion.php");
 
