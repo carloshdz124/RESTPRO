@@ -81,21 +81,47 @@
 /*------------ INICIO DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
 
 .mapa {
-    min-height: 100vh;
+    min-height: 50vh;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     background: #ffffff;
-    padding: 20px;
+    padding: 5px;
 }
 
 .mesa {
     width: 100px;
     height: 100px;
-    background: #000000;
-    margin: 11px;
+    background: #ffffff;
+    margin: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #ffffff;
+    color: #000000;
 }
+
+/*------------ FIN DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
+
+/*------------ INICIO DEL CSS PARA NUESTRO CURSOR POINTER DE MESAS "estaciones.php" ------------*/
+
+/* Aplica la manita al botón */
+.btn {
+    cursor: pointer;
+}
+
+/* Aplica la manita a los elementos del dropdown */
+.dropdown-item {
+    cursor: pointer;
+}
+
+/*------------ FIN DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
+
+/*------------ INICIO DEL CSS PARA NUESTRO COLOR DE FONDO AL MOMENTO DE PASAR EL CURSOR Y SELECCIONAR EN LA LISTA DE UN BOTON "estaciones.php" ------------*/
+
+/* Cambia el color de fondo al pasar el cursor por encima de un elemento de la lista */
+.dropdown-item:hover {
+    background-color: #ce9477;
+}
+
+/*------------ FIN DEL CSS PARA NUESTRO COLOR DE FONDO AL MOMENTO DE PASAR EL CURSOR Y SELECCIONAR EN LA LISTA DE UN BOTON "estaciones.php" ------------*/
