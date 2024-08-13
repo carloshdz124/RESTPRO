@@ -1,3 +1,13 @@
+<--- martes 13-08-2024 --->
+Actualizaciones -> Carlos
+Se corrigue el boton de cambiar estación en la vista "estaciones.php", se le agrega el "cursor:pointer",
+ademas al momento de pasar el cursos por las opciones sacadas de la BD mediante una consulta SQL este se ve con
+el color del logo.
+
+Pendientes: Al momento de querer hacer consultas en SQL para que este me lo de desde la base de datos, aún no
+logro conseguir que este muestre las mesas de esa cierta zona, me base en la vista de "mesas.php" donde esta
+perfectamente implementado, despues de verme un video de SQL ya podre coseguirlo XD.
+
 <lunes 23-07--------------------------------------------------------------------------------------------------------------->
 Actualizaciones -> Carlos
 
