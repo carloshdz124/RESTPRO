@@ -44,7 +44,7 @@ if ($result->rowCount() > 0) {
         </div>
     <?php } ?>
     <h1 class="text-center"><?php echo $titulo; ?></h1>
-    <button data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-success mb-1"><i
+    <button title="Agregar mesero" data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-success mb-1"><i
             class="bi bi-person-plus-fill"></i></button>
     <br>
     <div class="d-flex centrar">
@@ -72,11 +72,11 @@ if ($result->rowCount() > 0) {
                             <td>
                                 <?php
                                 if ($mesero->estado == 1) {
-                                    $estiloButton = 'class="btn btn-outline-success "';
+                                    $estiloButton = ' title="Presione para bloquear" class="btn btn-outline-success "';
                                     $icon = '<i class="bi bi-unlock-fill"></i>';
                                     $modal = 'data-bs-target="#modalBloquear"';
                                 } else {
-                                    $estiloButton = 'class="btn btn-outline-danger btn-lg rounded-4 mx-2"';
+                                    $estiloButton = 'title="Presione para desbloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2"';
                                     $icon = '<i class="bi bi-lock-fill"></i>';
                                     $modal = ' onclick="confirmarDesbloqueo(' . $mesero->id . ')" ';
                                 }
@@ -87,11 +87,11 @@ if ($result->rowCount() > 0) {
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar" type="button"
+                                    <button title="Editar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar" type="button"
                                         data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
                                         data-apellido="<?php echo $mesero->apellido; ?>"><i class="bi bi-pencil-square"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
+                                    <button title="Eliminar" type="button" class="btn btn-danger" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
                                         <i class="bi bi-trash3-fill"></i>
                                     </button>
                                 </div>

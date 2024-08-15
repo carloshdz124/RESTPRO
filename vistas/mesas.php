@@ -29,7 +29,7 @@ if ($result->rowCount() > 0) {
     $resultEspera = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
-// Se valida si recibe datos get, despues de la insercion.
+// Se valida si recibe datos get, despues de la insercion para ver mesas disponibles en areas deseadas.
 if (isset($_GET['areas']) || isset($_GET["message"])) {
     $areasSeleccionadas = isset($_GET["areas"]) ? ($_GET["areas"]) : '';
     $message = 'Se registro mesa correctamente';
@@ -119,6 +119,7 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
             if ($result->rowCount() > 0) {
                 $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
             } ?>
+            <!--
             <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
                 <p><?php echo $area->nombre; ?></p>
                 <?php foreach ($resultMesas as $mesa) {

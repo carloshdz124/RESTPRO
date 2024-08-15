@@ -18,7 +18,7 @@ include_once "includes/header.php";
     <h1>Tipo user: <?php echo $tipo_user; ?></h1>
     <div class="row">
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
                     <i class="bi bi-bounding-box-circles icon-index"></i>
                 </div>
@@ -29,18 +29,19 @@ include_once "includes/header.php";
             </div>
         </div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
                     <i class="bi bi-list-task icon-index"></i>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Tareas pre-apertura</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura.php" class="btn btn-primary">Ir a tareas</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura.php" class="btn btn-primary">Ir a
+                        tareas</a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
                     <i class="bi bi-card-text icon-index"></i>
                 </div>
@@ -51,39 +52,39 @@ include_once "includes/header.php";
             </div>
         </div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
-                <i class="bi bi-device-ssd icon-index"></i>
+                    <i class="bi bi-device-ssd icon-index"></i>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Estaciones</h5>
+                    <a href="<?php echo $ubicacion; ?>vistas/estaciones.php" class="btn btn-primary">Ir a estaciones</a>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">Estaciones</h5>
-                <a href="<?php echo $ubicacion; ?>vistas/estaciones.php" class="btn btn-primary">Ir a estaciones</a>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
+                <div class="card-icon-container">
+                    <i class="bi bi-table icon-index"></i>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Rol</h5>
+                    <a href="<?php echo $ubicacion; ?>vistas/rol.php" class="btn btn-primary">Rol</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 14rem; margin: 0 auto;">
+                <div class="card-icon-container">
+                    <i class="bi bi-people-fill icon-index"></i>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Personal</h5>
+                    <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="btn btn-primary">Ir a personal</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card" style="width: 18rem;">
-            <div class="card-icon-container">
-                <i class="bi bi-table icon-index"></i>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Rol</h5>
-                <a href="<?php echo $ubicacion; ?>vistas/rol.php" class="btn btn-primary">Rol</a>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card" style="width: 18rem;">
-            <div class="card-icon-container">
-                <i class="bi bi-people-fill icon-index"></i>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Personal</h5>
-                <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="btn btn-primary">Ir a personal</a>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 
 

@@ -47,11 +47,17 @@
 }
 
 .sidebar-color {
-    background-color: #1a2640;
+    background-color: #e2e3e5;
+    color: #212529;
 }
 
 .sidebar-color-tittle {
-    background-color: #4f6086;
+    background-color: #212529;
+    color: #e4cdbe;
+}
+
+.color-text-navbar{
+    color: #e4cdbe;
 }
 
 .navbar-color {

@@ -39,6 +39,7 @@ if ($message == 'ok') {
         /* Añade sombra al card al pasar el mouse */
     }
 </style>
+
 <div class="container mt-3">
     <!-- Alerta de aviso de accion -->
     <?php if ($message != '') { ?>
@@ -50,7 +51,7 @@ if ($message == 'ok') {
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
     <div class="row ">
         <div class="col">
-            <div class="card">
+            <div class="card centrar" style="width:200px; margin: 0 auto;">
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarMesa" class="stretched-link">
                     <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_mesa.jpg">
                     <div class="card-body">
@@ -58,6 +59,9 @@ if ($message == 'ok') {
                     </div>
                 </a>
             </div>
+
+
+            <br>
             <div class="centrar">
                 <table class="table table-bordered table-dark" style="width: 50%px;">
                     <thead>
@@ -88,7 +92,7 @@ if ($message == 'ok') {
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card centrar" style="width:200px; margin: 0 auto;">
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarArea" class="stretched-link">
                     <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_area.jpg">
                     <div class="card-body">
@@ -96,6 +100,7 @@ if ($message == 'ok') {
                     </div>
                 </a>
             </div>
+            <br>
             <div>
                 <table class="table table-bordered table-dark" style="width: 50%px;">
                     <thead>
