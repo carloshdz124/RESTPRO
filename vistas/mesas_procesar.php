@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
     $tb_nadultos = htmlspecialchars($_POST["tb_nadultos"]);
     $tb_nninos = htmlspecialchars($_POST["tb_nniños"]);
-    $sb_area = htmlspecialchars($_POST["sb_area"]);
+    $cb_areas = implode(",",isset($_POST["cb_areas"])? $_POST["cb_areas"] : '');
     $tb_telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : "";
     if ($formulario == "registroMesa") {
         $tb_fecha = htmlspecialchars(isset($fecha) ? $fecha : date('Y-m-d'));
@@ -23,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Preparar la consulta SQL
-    $sql = "INSERT INTO mesa_cliente (nombre, telefono, n_adultos, n_ninos, hora_llegada, fecha, estado) 
-        VALUES (:tb_nombre, :tb_telefono, :tb_nadultos, :tb_nninos, :tb_hora, :tb_fecha, :estado)";
+    $sql = "INSERT INTO mesa_cliente (nombre, telefono, zonas_deseadas, n_adultos, n_ninos, hora_llegada, fecha, estado) 
+        VALUES (:tb_nombre, :tb_telefono, :cb_areas ,:tb_nadultos, :tb_nninos, :tb_hora, :tb_fecha, :estado)";
     $ejecucion = $pdo->prepare($sql);
 
     // Ejecutar la consulta
@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array(
             ":tb_nombre" => $tb_nombre,
             ":tb_telefono" => $tb_telefono,
+            ":cb_areas" => $cb_areas,
             ":tb_nadultos" => intval($tb_nadultos),
             ":tb_nninos" => intval($tb_nninos),
             ":tb_hora" => $tb_hora,
@@ -41,12 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     if ($result) {
-        if (isset($_POST["cb_areas"])) {
-            $cb_areas = $_POST["cb_areas"];
-        }
-        $message = 'ok';
+        $essage = 'ok';
         $queryString = http_build_query(['areas'=>$cb_areas, "message" => $message]);
-        header("Location: mesas.php?". $queryString);
+        header("Location: mesas.php?message=ok");
         exit();
     } else {
         print_r($ejecucion->errorInfo());

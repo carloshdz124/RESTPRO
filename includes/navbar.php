@@ -19,7 +19,7 @@ include_once $ubicacion . 'config/consultas.php';
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"aria-label="Close"></button>
             </div>
             <div class="offcanvas-body sidebar-color">
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-sm-start" id="menu">
                     <li class="nav-item">
                         <a href="<?php echo $ubicacion; ?>vistas/mesas.php" class="nav-link align-middle px-0" style="color:#212529;">
                             <i class="fs-4 bi-house"></i>
@@ -56,7 +56,7 @@ include_once $ubicacion . 'config/consultas.php';
                 </ul>
                 <hr>
                 <div class="dropdown pb-4">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" 
+                    <a href="#" class="nav-link d-flex align-items-center text-decoration-none dropdown-toggle" 
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="color:#212529;">
                         <i class="fs-4 bi-person-circle"></i>
                         <span class="mx-1">Usuario</span>

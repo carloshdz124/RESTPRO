@@ -2,7 +2,8 @@
 .btn-estilo {
     height: 60px;
     width: 150px;
-    background-color: #e4c8ba;
+    background-color: #343a40;
+    color: white;
 }
 
 .mapa {

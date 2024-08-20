@@ -127,7 +127,17 @@
 
 /* Cambia el color de fondo al pasar el cursor por encima de un elemento de la lista */
 .dropdown-item:hover {
-    background-color: #ce9477;
+    background-color: #000000;
+}
+
+.nav-link {
+    color: #212529; /* Color inicial */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Transición suave */
+}
+
+.nav-link:hover {
+    color: #007bff; /* Cambia este color al que prefieras */
+    background-color: #f8f9fa; /* O agrega un fondo diferente si lo deseas */
 }
 
 /*------------ FIN DEL CSS PARA NUESTRO COLOR DE FONDO AL MOMENTO DE PASAR EL CURSOR Y SELECCIONAR EN LA LISTA DE UN BOTON "estaciones.php" ------------*/

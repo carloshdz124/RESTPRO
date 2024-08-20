@@ -1,8 +1,8 @@
 <?php
 $ubicacion = "../";
 $titulo = "MESAS";
-include ($ubicacion . "config/conexion.php");
-include ($ubicacion . "includes/header.php");
+include($ubicacion . "config/conexion.php");
+include($ubicacion . "includes/header.php");
 
 // Se realiza consulta para revisar si existe alguna reservacion.
 $fecha = isset($fecha) ? $fecha : date('Y-m-d');
@@ -30,14 +30,20 @@ if ($result->rowCount() > 0) {
 }
 
 // Se valida si recibe datos get, despues de la insercion para ver mesas disponibles en areas deseadas.
-if (isset($_GET['areas']) || isset($_GET["message"])) {
-    $areasSeleccionadas = isset($_GET["areas"]) ? ($_GET["areas"]) : '';
+if (isset($_GET["message"])) {
     $message = 'Se registro mesa correctamente';
-    if (is_array($areasSeleccionadas)) {
+    // Consulta del ultimo elemento insertado para mostrar mesas disponibles.
+    $sql = "SELECT * FROM mesa_cliente ORDER BY id DESC LIMIT 1";
+    $result = $pdo->query($sql);
+    if ($result->rowCount() == 1) {
         $condiciones = [];
+        $areasSeleccionadas = $result->fetch(PDO::FETCH_OBJ);
+        $areasSelec = $areasSeleccionadas->zonas_deseadas;
+        // Se transforma a array quitando comas y espacios.
+        $areasSelec = array_map('trim', explode(",", $areasSelec));
 
-        //Agregamos a un array los id de las areas que se necesitan como opcion
-        foreach ($areasSeleccionadas as $areaSelec) {
+        // Se recorre el array y se van añadiendo a un array con en numero de areas deseadas como tamaño
+        foreach ($areasSelec as $areaSelec) {
             $condiciones[] = ' area_id = ' . $pdo->quote($areaSelec) . ' AND estado = 0 ';
         }
         //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
@@ -99,12 +105,12 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
     </div>
     <br>
     <!-- Boton para seleccionar areas y mostrarlas -->
-    <div style="text-align: right;">
-        <button type="button" class="btn dropdown-toggle" style="background-color:#ce9477" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            mapas
+    <div class="dropdown" style="text-align: right;">
+        <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Areas
         </button>
-        <ul class="dropdown-menu" style="background-color:#ce9477">
+        <ul class="dropdown-menu dropdown-menu-dark">
             <?php foreach ($resultAreas as $area) { ?>
                 <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
                         class="dropdown-item"><?php echo $area->nombre ?></a></li>
@@ -119,18 +125,38 @@ if (isset($_GET['areas']) || isset($_GET["message"])) {
             if ($result->rowCount() > 0) {
                 $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
             } ?>
-            <!--
+
             <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
                 <p><?php echo $area->nombre; ?></p>
-                <?php foreach ($resultMesas as $mesa) {
-                    if($mesa->estado == 0){
+                <?php 
+                // Variable para identificar cada fila
+                $fila = 0;
+                foreach ($resultMesas as $mesa) {
+                    // Condicionales para identificar caracteristicas de la mesa
+                    if ($mesa->estado == 0) {
                         $estadoMesa = 'class="btn btn-success"';
-                    }elseif($mesa->estado == 1){
+                    } elseif ($mesa->estado == 1) {
                         $estadoMesa = 'class="btn btn-danger"';
-                    }else{
+                    } else {
                         $estadoMesa = 'class="btn btn-warning"';
                     }
-                    echo '<button '. $estadoMesa .'>' . $mesa->nombre . '</button>';
+                    // Condicion para hacaer salto de linea si se cambia de fila
+                    // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
+                    if (strlen($mesa->nombre) == 2) {
+                        if (strlen($mesa->nombre[0] != $fila)){
+                            // Actualizamos el elemento de la fila actual.
+                            $fila = $mesa->nombre[0];
+                            echo '<br>';
+                        }
+                    // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
+                    } elseif (strlen($mesa->nombre) == 3){
+                        if (strlen($mesa->nombre[1] != $fila)){
+                            // Actualizamos el elemento de la fila actual.
+                            $fila = $mesa->nombre[1];
+                            echo '<br>';
+                        }
+                    }
+                    echo '<button ' . $estadoMesa . '>' . $mesa->nombre . '</button>';
                 } ?>
             </div>
         <?php }
@@ -400,6 +426,6 @@ function calcularTiempo($hora)
 
     return $diferenciaFormato;
 }
-include_once ($ubicacion . "includes/footer.php");
+include_once($ubicacion . "includes/footer.php");
 
 ?>
