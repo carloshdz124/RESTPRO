@@ -128,7 +128,7 @@ if (isset($_GET["message"])) {
 
             <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
                 <p><?php echo $area->nombre; ?></p>
-                <?php 
+                <?php
                 // Variable para identificar cada fila
                 $fila = 0;
                 foreach ($resultMesas as $mesa) {
@@ -143,20 +143,22 @@ if (isset($_GET["message"])) {
                     // Condicion para hacaer salto de linea si se cambia de fila
                     // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
                     if (strlen($mesa->nombre) == 2) {
-                        if (strlen($mesa->nombre[0] != $fila)){
+                        if (strlen($mesa->nombre[0] != $fila)) {
                             // Actualizamos el elemento de la fila actual.
                             $fila = $mesa->nombre[0];
                             echo '<br>';
                         }
-                    // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
-                    } elseif (strlen($mesa->nombre) == 3){
-                        if (strlen($mesa->nombre[1] != $fila)){
+                        // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
+                    } elseif (strlen($mesa->nombre) == 3) {
+                        if (strlen($mesa->nombre[1] != $fila)) {
                             // Actualizamos el elemento de la fila actual.
                             $fila = $mesa->nombre[1];
                             echo '<br>';
                         }
                     }
-                    echo '<button ' . $estadoMesa . '>' . $mesa->nombre . '</button>';
+                    echo '<button data-bs-toggle="tooltip" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . ' " ' . $estadoMesa . '>'
+                            . $mesa->nombre . 
+                        '</button>';
                 } ?>
             </div>
         <?php }
@@ -396,6 +398,11 @@ if (isset($_GET["message"])) {
         // Muestra el contenedor seleccionado
         document.getElementById(containerId).style.display = 'block';
     }
+    // Inicializar todos los tooltips en la página
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 
 </script>
 
