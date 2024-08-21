@@ -24,7 +24,12 @@ if($data){
     if ($result->rowCount() > 0) {
         // Muestra los resultados
         while($mesasDisponibles = $result->fetch(PDO::FETCH_OBJ)) {
-            echo "<button class='btn btn-success mb-2 me-1' data-bs-toggle='tooltip' data-bs-placement='top' title='N. personas: " . $mesasDisponibles->n_personas . " ' >" . $mesasDisponibles->nombre . "</button>";
+            $mesaDisponi = $mesasDisponibles->n_personas;
+            echo "<button class='btn btn-success mb-2 me-1' type='button' data-bs-toggle='tooltip' data-bs-placement='top' 
+            data-bs-html='true'
+            title='N. personas: " . $mesaDisponi . " <br> <a class=\"btn btn-primary\" href=\"#\">Seleccionar</a>' >" 
+            . $mesasDisponibles->nombre . 
+            "</button>";
         }
     } else {
         echo "No hay mesas disponibles.";

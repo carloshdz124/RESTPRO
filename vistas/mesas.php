@@ -157,7 +157,9 @@ if (isset($_GET["message"])) {
                             echo '<br>';
                         }
                     }
-                    echo '<button data-bs-toggle="tooltip" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . ' " ' . $estadoMesa . '>'
+                    echo '<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                        title="N. personas: ' . $mesa->n_personas . ' <br> <a class=\'btn btn-primary\' href=\'#\'>Asignar</a> "
+                        ' . $estadoMesa . '>'
                         . $mesa->nombre .
                         '</button>';
                 } ?>
@@ -298,24 +300,22 @@ if (isset($_GET["message"])) {
                                 </tr>
                             </thead>
                             <tbody class="table-secondary">
-                                <?php 
-                                foreach ($resultEspera as $espera): 
+                                <?php
+                                foreach ($resultEspera as $espera):
                                     $id = $espera->id;
                                     $nombre_mesa = $espera->nombre;
                                     $total_personas = $espera->n_adultos + $espera->n_ninos;
                                     $tiempo_espera = $espera->hora_llegada;
                                     $zonas = $espera->zonas_deseadas;
-                                ?>
+                                    ?>
                                     <tr>
                                         <th><?php echo $n_espera; ?></th>
                                         <td><?php echo $nombre_mesa; ?></td>
                                         <td><?php echo $total_personas; ?></td>
                                         <td><?php echo calcularTiempo($tiempo_espera); ?></td>
                                         <td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verMesas"
-                                                data-id="<?php echo $id; ?>"
-                                                data-zonas="<?php echo $zonas; ?>"
-                                                data-tPersonas="<?php echo $total_personas; ?>"
-                                                type="button">
+                                                data-id="<?php echo $id; ?>" data-zonas="<?php echo $zonas; ?>"
+                                                data-tPersonas="<?php echo $total_personas; ?>" type="button">
                                                 Ver
                                             </button>
                                         </td>
@@ -347,7 +347,7 @@ if (isset($_GET["message"])) {
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>ID: </l>
-                        <label for="id" class="form-label" id="modal-id" name="tb_id"></label>
+                            <label for="id" class="form-label" id="modal-id" name="tb_id"></label>
                     </div>
                     <div class="mb-3">
                         <label>Zonas: </label>
@@ -441,22 +441,22 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-    // Obtener todos los checkboxes con el nombre 'cb_areas[]'
-    const checkboxes = document.querySelectorAll('input[name="cb_areas[]"]');
-    // Convertir NodeList a Array para poder usar métodos como some()
-    const algunaSeleccionada = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    document.querySelector('form').addEventListener('submit', function (event) {
+        // Obtener todos los checkboxes con el nombre 'cb_areas[]'
+        const checkboxes = document.querySelectorAll('input[name="cb_areas[]"]');
+        // Convertir NodeList a Array para poder usar métodos como some()
+        const algunaSeleccionada = Array.from(checkboxes).some(checkbox => checkbox.checked);
 
-    if (!algunaSeleccionada) {
-        // Evitar que el formulario se envíe
-        event.preventDefault();
-        // Mostrar mensaje de error
-        document.getElementById('error').textContent = 'Por favor, selecciona al menos un área.';
-    } else {
-        // Limpiar mensaje de error si la validación es exitosa
-        document.getElementById('error').textContent = '';
-    }
-});
+        if (!algunaSeleccionada) {
+            // Evitar que el formulario se envíe
+            event.preventDefault();
+            // Mostrar mensaje de error
+            document.getElementById('error').textContent = 'Por favor, selecciona al menos un área.';
+        } else {
+            // Limpiar mensaje de error si la validación es exitosa
+            document.getElementById('error').textContent = '';
+        }
+    });
     var verMesas = document.getElementById('verMesas');
     verMesas.addEventListener('show.bs.modal', function (event) {
         // Elemento que activó el modal
@@ -474,10 +474,10 @@ if (isset($_GET["message"])) {
         modalId.textContent = id;
         modalZonas.textContent = zonas;
         modalTPersonas.textContent = total_personas;
-        consultaMesas(id,zonas,total_personas);
+        consultaMesas(id, zonas, total_personas);
     });
 
-    function consultaMesas(id, zonas,total_personas){
+    function consultaMesas(id, zonas, total_personas) {
         var data = {
             id: id,
             zonas: zonas,
@@ -486,13 +486,18 @@ if (isset($_GET["message"])) {
 
         // Realiza una solicitud ajax al backend
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "mesas_procesar.php",true);
+        xhr.open("POST", "mesas_procesar.php", true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function (){
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-            // Muestra la respuesta en el modal
-            var resultContainer = verMesas.querySelector('#mesasDisponibles'); // Supón que tienes un contenedor para los resultados en el modal
-            resultContainer.innerHTML = xhr.responseText;
+                // Muestra la respuesta en el modal
+                var resultContainer = verMesas.querySelector('#mesasDisponibles'); // Supón que tienes un contenedor para los resultados en el modal
+                resultContainer.innerHTML = xhr.responseText;
+
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
             }
         };
         xhr.send(JSON.stringify(data)); // Se envian datos como JSON
