@@ -1,15 +1,7 @@
 <?php
 $titulo = "Index";
 $ubicacion = "";
-session_start(); // Iniciar la sesión
 
-// Verificar si el usuario está conectado
-if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-    $tipo_user = $_SESSION['tipo_user'];
-} else {
-    header('Location: login.php');
-}
 include_once "includes/header.php";
 ?>
 

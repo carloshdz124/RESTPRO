@@ -24,7 +24,7 @@ if($data){
     if ($result->rowCount() > 0) {
         // Muestra los resultados
         while($mesasDisponibles = $result->fetch(PDO::FETCH_OBJ)) {
-            echo "<button class='btn btn-success mb-2 me-1' >" . $mesasDisponibles->nombre . "</button>";
+            echo "<button class='btn btn-success mb-2 me-1' data-bs-toggle='tooltip' data-bs-placement='top' title='N. personas: " . $mesasDisponibles->n_personas . " ' >" . $mesasDisponibles->nombre . "</button>";
         }
     } else {
         echo "No hay mesas disponibles.";
@@ -85,3 +85,10 @@ if($data){
 
 
 ?>
+<script>
+    // Inicializar todos los tooltips en la página
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
