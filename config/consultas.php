@@ -27,4 +27,8 @@ if (isset($resultEstados)) {
     }
 }
 
+function mesasDisponibles($Zonas){
+    echo ' ';
+}
+
 ?>

@@ -39,6 +39,7 @@ if (isset($_GET["message"])) {
         $condiciones = [];
         $areasSeleccionadas = $result->fetch(PDO::FETCH_OBJ);
         $areasSelec = $areasSeleccionadas->zonas_deseadas;
+        $total_personas = $areasSeleccionadas->n_adultos + $areasSeleccionadas->n_ninos;
         // Se transforma a array quitando comas y espacios.
         $areasSelec = array_map('trim', explode(",", $areasSelec));
 
@@ -49,7 +50,7 @@ if (isset($_GET["message"])) {
         //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
         $consulta = implode(' OR ', $condiciones);
 
-        $sql = 'SELECT * FROM mesa WHERE ' . $consulta;
+        $sql = 'SELECT * FROM mesa WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas;
         $result = $pdo->query($sql);
         if ($result->rowCount() > 0) {
             $resultDisponibles = $result->fetchAll(PDO::FETCH_OBJ);
@@ -134,11 +135,11 @@ if (isset($_GET["message"])) {
                 foreach ($resultMesas as $mesa) {
                     // Condicionales para identificar caracteristicas de la mesa
                     if ($mesa->estado == 0) {
-                        $estadoMesa = 'class="btn btn-success"';
+                        $estadoMesa = 'class="btn btn-success mb-1 me-1"';
                     } elseif ($mesa->estado == 1) {
-                        $estadoMesa = 'class="btn btn-danger"';
+                        $estadoMesa = 'class="btn btn-danger mb-1 me-1"';
                     } else {
-                        $estadoMesa = 'class="btn btn-warning"';
+                        $estadoMesa = 'class="btn btn-warning mb-1 me-1"';
                     }
                     // Condicion para hacaer salto de linea si se cambia de fila
                     // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
@@ -157,7 +158,7 @@ if (isset($_GET["message"])) {
                         }
                     }
                     echo '<button data-bs-toggle="tooltip" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . ' " ' . $estadoMesa . '>'
-                            . $mesa->nombre . 
+                        . $mesa->nombre .
                         '</button>';
                 } ?>
             </div>
@@ -296,13 +297,27 @@ if (isset($_GET["message"])) {
                                 </tr>
                             </thead>
                             <tbody class="table-secondary">
-                                <?php foreach ($resultEspera as $espera): ?>
+                                <?php 
+                                foreach ($resultEspera as $espera): 
+                                    $id = $espera->id;
+                                    $nombre_mesa = $espera->nombre;
+                                    $total_personas = $espera->n_adultos + $espera->n_ninos;
+                                    $tiempo_espera = $espera->hora_llegada;
+                                    $zonas = $espera->zonas_deseadas;
+                                ?>
                                     <tr>
                                         <th><?php echo $n_espera; ?></th>
-                                        <td><?php echo $espera->nombre; ?></td>
-                                        <td><?php echo $espera->n_adultos + $espera->n_ninos; ?></td>
-                                        <td><?php echo calcularTiempo($espera->hora_llegada); ?></td>
-                                        <td> <button class="btn btn-primary">Ver</button> </td>
+                                        <td><?php echo $nombre_mesa; ?></td>
+                                        <td><?php echo $total_personas; ?></td>
+                                        <td><?php echo calcularTiempo($tiempo_espera); ?></td>
+                                        <td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verMesas"
+                                                data-id="<?php echo $id; ?>"
+                                                data-zonas="<?php echo $zonas; ?>"
+                                                data-tPersonas="<?php echo $total_personas; ?>"
+                                                type="button">
+                                                Ver
+                                            </button>
+                                        </td>
                                     </tr>
                                     <?php $n_espera += 1; endforeach ?>
                             </tbody>
@@ -314,11 +329,46 @@ if (isset($_GET["message"])) {
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Reservacion Del dia -->
+<div class="modal fade" id="verMesas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mesas disponibles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="was-validated" action="#" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>ID: </l>
+                        <label for="id" class="form-label" id="modal-id" name="tb_id"></label>
+                    </div>
+                    <div class="mb-3">
+                        <label>Zonas: </label>
+                        <label for="zonas" class="form-label" id="modal-zonas" name="tb_zonas"></label>
+                    </div>
+                    <div class="mb-3">
+                        <label>Total personas: </label>
+                        <label for="personas" class="form-label" id="modal-TPersonas" name="tb_zonas"></label>
+                    </div>
+                    <div class="mb-3">
+                        <p>MESAS LIBRES:</p>
+                        <div id="mesasDisponibles"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal Reservacion Del dia -->
 <div class="modal fade" id="modalReservacionHoy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -390,6 +440,47 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
+    var verMesas = document.getElementById('verMesas');
+    verMesas.addEventListener('show.bs.modal', function (event) {
+        // Elemento que activó el modal
+        var link = event.relatedTarget;
+        // Extraer información de los atributos data-*
+        var id = link.getAttribute('data-id');
+        var zonas = link.getAttribute('data-zonas');
+        var total_personas = link.getAttribute('data-tPersonas');
+
+        // Actualizar el contenido del modal
+        var modalId = verMesas.querySelector('#modal-id');
+        var modalZonas = verMesas.querySelector('#modal-zonas');
+        var modalTPersonas = verMesas.querySelector('#modal-TPersonas');
+
+        modalId.textContent = id;
+        modalZonas.textContent = zonas;
+        modalTPersonas.textContent = total_personas;
+        consultaMesas(id,zonas,total_personas);
+    });
+
+    function consultaMesas(id, zonas,total_personas){
+        var data = {
+            id: id,
+            zonas: zonas,
+            total_personas: total_personas
+        };
+
+        // Realiza una solicitud ajax al backend
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "mesas_procesar.php",true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function (){
+            if (xhr.readyState === 4 && xhr.status === 200) {
+            // Muestra la respuesta en el modal
+            var resultContainer = verMesas.querySelector('#mesasDisponibles'); // Supón que tienes un contenedor para los resultados en el modal
+            resultContainer.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send(JSON.stringify(data)); // Se envian datos como JSON
+    }
+
     function seleccionaMapa(containerId) {
         // Oculta todos los contenedores
         document.querySelectorAll('.mapa').forEach(function (container) {

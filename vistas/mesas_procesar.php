@@ -2,7 +2,35 @@
 $ubicacion = "../";
 include_once ($ubicacion . "/config/conexion.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$data = json_decode(file_get_contents('php://input'), true);
+
+if($data){
+    $id = $conn->real_escape_string($data['id']);
+    $zonas = $conn->real_escape_string($data['zonas']);
+    $total_personas = $conn->real_escape_string($data['total_personas']);
+
+    // Se transforma a array quitando comas y espacios.
+    $areasSelec = array_map('trim', explode(",", $zonas));
+
+    // Se recorre el array y se van añadiendo a un array con en numero de areas deseadas como tamaño
+    foreach ($areasSelec as $areaSelec) {
+        $condiciones[] = ' area_id = ' . $pdo->quote($areaSelec) . ' AND estado = 0 ';
+    }
+    //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
+    $consulta = implode(' OR ', $condiciones);
+
+    $sql = 'SELECT * FROM mesa WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas;
+    $result = $pdo->query($sql);
+    if ($result->rowCount() > 0) {
+        // Muestra los resultados
+        while($mesasDisponibles = $result->fetch(PDO::FETCH_OBJ)) {
+            echo "<button class='btn btn-success mb-2 me-1' >" . $mesasDisponibles->nombre . "</button>";
+        }
+    } else {
+        echo "No hay mesas disponibles.";
+    }
+
+}elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = $_POST["formulario"];
 
     //Se registra mesa
