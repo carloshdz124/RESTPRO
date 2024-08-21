@@ -206,6 +206,7 @@ if (isset($_GET["message"])) {
                                     for="<?php echo $area->nombre; ?>"><?php echo $area->nombre; ?></label>
                             </div>
                         <?php endforeach ?>
+                        <p id="error" style="color: red;"></p> <!-- Mensaje de error -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -440,6 +441,22 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+    // Obtener todos los checkboxes con el nombre 'cb_areas[]'
+    const checkboxes = document.querySelectorAll('input[name="cb_areas[]"]');
+    // Convertir NodeList a Array para poder usar métodos como some()
+    const algunaSeleccionada = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+    if (!algunaSeleccionada) {
+        // Evitar que el formulario se envíe
+        event.preventDefault();
+        // Mostrar mensaje de error
+        document.getElementById('error').textContent = 'Por favor, selecciona al menos un área.';
+    } else {
+        // Limpiar mensaje de error si la validación es exitosa
+        document.getElementById('error').textContent = '';
+    }
+});
     var verMesas = document.getElementById('verMesas');
     verMesas.addEventListener('show.bs.modal', function (event) {
         // Elemento que activó el modal
