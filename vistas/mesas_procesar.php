@@ -90,35 +90,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "No hay mesas disponibles.";
             }
         } elseif ($accion == 'verClientes') {
-            $id = $data['id'];
+            $id_mesa = $data['id'];
             $id_zona = trim($data['id_zona']);
             $n_personas = $data['n_personas'];
+            $estado_mesa = $data['estado_mesa'];
 
-            // Consulta filtrando, clientes con igual o menor cantidad de personas, y que busqyen en esta zona ordenamos como llegaron
-            $sql = "SELECT * FROM `mesa_cliente` WHERE ((n_adultos + n_ninos) <= ". $n_personas ." AND estado = 0) AND zonas_deseadas LIKE '%". $id_zona ."%' ORDER BY id ASC;";
-            $result = $pdo->query($sql);
-            if ($result->rowCount() > 0) {
-                while ($clientesDsiponibles = $result->fetch(PDO::FETCH_OBJ)) {
-                    $id = $clientesDsiponibles->id;
-                    $nombre_mesa = $clientesDsiponibles->nombre;
-                    $total_personas = $clientesDsiponibles->n_adultos + $clientesDsiponibles->n_ninos;
-                    $tiempo_espera = $clientesDsiponibles->hora_llegada;
-                    $zonas = $clientesDsiponibles->zonas_deseadas;
-                    echo "
-                        <tr>
-                            <td>" .$nombre_mesa . "</td>
-                            <td>" .$total_personas. "</td>
-                            <td><button class='btn btn-primary' type='button'>
-                                    Asignar
-                                </button>
+            if ($estado_mesa == 0) {
+
+                // Consulta filtrando, clientes con igual o menor cantidad de personas, y que busqyen en esta zona ordenamos como llegaron
+                $sql = "SELECT * FROM `mesa_cliente` WHERE ((n_adultos + n_ninos) <= " . $n_personas . " AND estado = 0) AND zonas_deseadas LIKE '%" . $id_zona . "%' ORDER BY id ASC;";
+                $result = $pdo->query($sql);
+                if ($result->rowCount() > 0) {
+                    while ($clientesDsiponibles = $result->fetch(PDO::FETCH_OBJ)) {
+                        $id_cliente = $clientesDsiponibles->id;
+                        $nombre_mesa = $clientesDsiponibles->nombre;
+                        $total_personas = $clientesDsiponibles->n_adultos + $clientesDsiponibles->n_ninos;
+                        $tiempo_espera = $clientesDsiponibles->hora_llegada;
+                        $zonas = $clientesDsiponibles->zonas_deseadas;
+
+                        echo "
+                            <tr>
+                            <td>" . $nombre_mesa . "</td>
+                            <td>" . $total_personas . "</td>
+                            <td><button class='btn btn-primary' onclick='asignarMesa(" . $id_mesa . "," . $id_cliente . ")' type='button' data-bs-dismiss='modal'>
+                            Asignar
+                            </button>
                             </td>
-                        </tr>
-                    ";
+                            </tr>
+                            ";
+                    }
+                }
+            }else{
+                $sql = 'SELECT nombre FROM mesa_cliente WHERE mesa_id = :id_mesa AND estado = 2';
+                $result = $pdo->prepare($sql);
+                $result->execute(array(":id_mesa"=>$id_mesa));
+                if($result->rowCount() > 0){
+                    $cliente = $result->fetch(PDO::FETCH_OBJ);
+                    $mesero = 'x';
+                    echo '<p><strong>MESA OCUPADA:</strong></p>
+                    <p>Cliente: '. $cliente->nombre .'</p>
+                    <p>Atendido por: '.$mesero;
                 }
             }
+        } elseif ($accion == 'asignarMesa') {
+            $id_mesa = $data['id_mesa'];
+            $id_cliente = $data['id_cliente'];
 
-        } elseif ($accion == 'seleccionar_mesa') {
-            echo 'Bieeeeeeeeeeeeeeeeeeeeeeeeen';
+            // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
+            $sql = "UPDATE mesa SET estado = 1 WHERE id =:id_mesa";
+            $result = $pdo->prepare($sql);
+            $result->execute(array(":id_mesa" => $id_mesa));
+            if ($result->rowCount() > 0) {
+                // Si la consulta es correcta, cambiamos el estado del cliente
+                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 2 WHERE id=:id_cliente";
+                $result = $pdo->prepare($sql);
+                $result->execute(array(":id_mesa" => $id_mesa, ":id_cliente" => $id_cliente));
+                if ($result->rowCount() > 0) {
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>¡Éxito!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                }
+            }
         }
     }
 

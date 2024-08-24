@@ -87,7 +87,7 @@
 /*------------ INICIO DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
 
 .mapa {
-    min-height: 50vh;
+    min-height: 250px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

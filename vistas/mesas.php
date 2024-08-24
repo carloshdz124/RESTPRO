@@ -63,7 +63,9 @@ if (isset($_GET["message"])) {
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
+
 <div class="container mt-3">
+    <div id="alertPlaceholder"></div>
     <!-- Alerta de aviso de accion -->
     <?php if ($message != '') { ?>
         <div class="alert alert-success alert-dismissible mt-3" style="text-align: center;">
@@ -121,51 +123,23 @@ if (isset($_GET["message"])) {
     <!-- Mostramos los contenedores cada uno con las diferentes areas -->
     <?php if (isset($resultAreas)) {
         foreach ($resultAreas as $area) {
-            //Consulta para ver mesas por zonas
+            // Consulta para ver mesas por zonas
             $result = $pdo->query('SELECT * FROM mesa WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
             if ($result->rowCount() > 0) {
                 $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
             } ?>
-
             <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
                 <p><?php echo $area->nombre; ?></p>
                 <?php
                 // Variable para identificar cada fila
                 $fila = 0;
                 foreach ($resultMesas as $mesa) {
-                    // Condicionales para identificar caracteristicas de la mesa
-                    if ($mesa->estado == 0) {
-                        $estadoMesa = 'class="btn btn-success mb-1 me-1"';
-                    } elseif ($mesa->estado == 1) {
-                        $estadoMesa = 'class="btn btn-danger mb-1 me-1"';
-                    } else {
-                        $estadoMesa = 'class="btn btn-warning mb-1 me-1"';
-                    }
-                    // Condicion para hacaer salto de linea si se cambia de fila
-                    // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
-                    if (strlen($mesa->nombre) == 2) {
-                        if (strlen($mesa->nombre[0] != $fila)) {
-                            // Actualizamos el elemento de la fila actual.
-                            $fila = $mesa->nombre[0];
-                            echo '<br>';
-                        }
-                        // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
-                    } elseif (strlen($mesa->nombre) == 3) {
-                        if (strlen($mesa->nombre[1] != $fila)) {
-                            // Actualizamos el elemento de la fila actual.
-                            $fila = $mesa->nombre[1];
-                            echo '<br>';
-                        }
-                    }
                     // Botones que representan las mesas
                     echo '<div class="d-inline-block" id="tooltip-' . $mesa->id . '" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . '">
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" 
-                                data-id="' . $mesa->id . '" data-nombre="' . $mesa->nombre . '" data-n_personas="' . $mesa->n_personas . '" data-id_zona="' . $mesa->area_id . '"
-                                ' . $estadoMesa . '>'
-                                . $mesa->nombre .
-                            '</button>
-                        </div>';
-
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" data-estado="' . $mesa->estado . '"
+                        data-id="' . $mesa->id . '" data-nombre="' . $mesa->nombre . '" data-n_personas="' . $mesa->n_personas . '" data-id_zona="' . $mesa->area_id . '"
+                        class="btn mb-1 me-1">' . $mesa->nombre . '</button>
+                </div>';
                 } ?>
             </div>
         <?php }
@@ -432,7 +406,7 @@ if (isset($_GET["message"])) {
             <form class="was-validated" action="#" method="POST">
                 <div class="modal-body">
                     <div class="mb-3" style="display: none;">
-                        <label >Mesa seleccionada: </label>
+                        <label>Mesa seleccionada: </label>
                         <label class="form-label" id="modal-id" name="tb_id"></label>
                     </div>
                     <div class="mb-3">
@@ -443,21 +417,26 @@ if (isset($_GET["message"])) {
                         <label>Cantidad de personas: </label>
                         <label for="personas" class="form-label" id="modal-n_personas" name="tb_zonas"></label>
                     </div>
-                    <div class=" mb-3">
-                        <p><strong>Clientes a elegir: </strong></p>
-                        <!-- Aqui mostramos los datos siendo una respuesta AJAX -->
-                        <table class="table table-dark centrar" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Cliente</th>
-                                    <th scope="col">N. personas</th>
-                                    <th scope="col">Opc</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-secondary" id="clientesDisponibles">
+                    <div class="mb-3">
+                        <div id="clientesContainer" class="d-none">
+                            <p><strong>Clientes a elegir: </strong></p>
+                            <table class="table table-dark centrar" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">N. personas</th>
+                                        <th scope="col">Opc</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-secondary" id="clientesDisponibles">
+                                    <!-- Aquí se mostrarán los clientes disponibles -->
+                                </tbody>
+                            </table>
+                        </div>
 
-                            </tbody>
-                        </table>
+                        <div id="mesaOcupada" class="d-none">
+                            <!-- Respuesta AJX -->
+                        </div>
                     </div>
                 </div>
             </form>
@@ -493,6 +472,55 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
+    function actualizarEstados() {
+        fetch('mesas_estado.php') // Cambia a la ruta de tu endpoint
+            .then(response => response.json())
+            .then(data => {
+                // Recorre todos los botones y actualiza su clase según el estado
+                Object.keys(data).forEach(id => {
+                    const estado = data[id];
+                    const button = document.querySelector(`#tooltip-${id} button`);
+
+                    if (estado == 0) {
+                        button.className = 'btn btn-success mb-1 me-1';
+                    } else if (estado == 1) {
+                        button.className = 'btn btn-danger mb-1 me-1';
+                    } else {
+                        button.className = 'btn btn-warning mb-1 me-1';
+                    }
+                    // Actualiza el atributo data-estado
+                    button.setAttribute('data-estado', estado);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Actualiza el estado cada 2 segundos (2000 ms)
+    setInterval(actualizarEstados, 2000);
+
+    // Llama a la función inmediatamente al cargar la página
+    actualizarEstados();
+
+    // Asignamos mesa a cliente
+    function asignarMesa(id_mesa, id_cliente) {
+        var data = {
+            id_mesa: id_mesa,
+            id_cliente: id_cliente,
+            accion: 'asignarMesa'
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "mesas_procesar.php", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var resultContainer = document.getElementById('alertPlaceholder'); // Asegúrate de que este selector es correcto
+                resultContainer.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send(JSON.stringify(data));
+    }
+
     // Validar que se seleccione por lo menos una opcion
     document.querySelector('form').addEventListener('submit', function (event) {
         // Obtener todos los checkboxes con el nombre 'cb_areas[]'
@@ -520,7 +548,8 @@ if (isset($_GET["message"])) {
         var id = link.getAttribute('data-id');
         var nombre = link.getAttribute('data-nombre');
         var n_personas = link.getAttribute('data-n_personas');
-        var id_zona = link.getAttribute('data-id_zona')
+        var id_zona = link.getAttribute('data-id_zona');
+        var estado_mesa = link.getAttribute('data-estado');
 
         // Actualizar el contenido del modal
         var modalId = verClientes.querySelector('#modal-id');
@@ -531,7 +560,16 @@ if (isset($_GET["message"])) {
         modalNombre.textContent = nombre;
         modaln_personas.textContent = n_personas;
 
-        consultaMesas(id, id_zona, n_personas, 'verClientes');
+        var data = {
+            id: id,
+            nombre: nombre,
+            n_personas: n_personas,
+            id_zona: id_zona,
+            estado_mesa: estado_mesa,
+            accion: 'verClientes'
+        };
+
+        consulta(data);
     });
 
     // Enviar datos a modal y llamar funcion ajax para consulta
@@ -553,37 +591,43 @@ if (isset($_GET["message"])) {
         modalZonas.textContent = zonas;
         modalTPersonas.textContent = total_personas;
 
+        var data = {
+            id: id,
+            zonas: zonas,
+            total_personas: total_personas,
+            accion: 'verMesas'
+        };
 
-        consultaMesas(id, zonas, total_personas, 'verMesas');
+        consulta(data);
     });
 
     // Funcion para llamada AJAX y reibir de respuesta datos del modal.
-    function consultaMesas(id, valor1, valor2, accion) {
-        if (accion == 'verMesas') {
-            var data = {
-                id: id,
-                zonas: valor1,
-                total_personas: valor2,
-                accion: accion
-            };
-            var id_div_respuesta = '#mesasDisponibles';
-        } if (accion == 'verClientes') {
-            var data = {
-                id: id,
-                id_zona: valor1,
-                n_personas: valor2,
-                accion: accion
-            };
-            var id_div_respuesta = '#clientesDisponibles';
+    function consulta(data) {
+        console.log(data.accion);
+        var id_div_respuesta;
+
+        if (data.accion == 'verMesas') {
+            id_div_respuesta = '#mesasDisponibles';
+            document.getElementById('mesaOcupada').classList.add('d-none');
+            document.getElementById('clientesContainer').classList.remove('d-none');
+        } else if (data.accion == 'verClientes') {
+            if (data.estado_mesa == 0) {
+                id_div_respuesta = '#clientesDisponibles';
+                document.getElementById('mesaOcupada').classList.add('d-none');
+                document.getElementById('clientesContainer').classList.remove('d-none');
+            } else {
+                id_div_respuesta = '#mesaOcupada';
+                document.getElementById('clientesContainer').classList.add('d-none');
+                document.getElementById('mesaOcupada').classList.remove('d-none');
+            }
         }
-        console.log(valor1);
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "mesas_procesar.php", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                var resultContainer = document.querySelector(id_div_respuesta); // Asegúrate de que este selector es correcto
+                var resultContainer = document.querySelector(id_div_respuesta);
                 resultContainer.innerHTML = xhr.responseText;
 
                 // Inicializa los tooltips después de que el contenido se haya actualizado
@@ -596,36 +640,6 @@ if (isset($_GET["message"])) {
         xhr.send(JSON.stringify(data));
     }
 
-    document.addEventListener('click', function (event) {
-        // Verifica si el clic fue en un enlace dentro del tooltip
-        if (event.target.matches('a.btn-primary')) { // Usa un selector más general
-            event.preventDefault(); // Evita la acción predeterminada del enlace
-
-            // Recupera los datos necesarios de los atributos data-*
-            var id_mesa = event.target.getAttribute('data-id_mesa');
-            var id_cliente = event.target.getAttribute('data-id_cliente');
-
-            // Ahora puedes enviar estos datos al servidor usando una solicitud AJAX
-            var data = {
-                id_mesa: id_mesa,
-                id_cliente: id_cliente,
-                accion: 'seleccionar_mesa'  // Define una acción específica para esta solicitud en tu backend
-            };
-
-            // Realiza una solicitud ajax al backend
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "procesar_mesa.php", true); // Cambia a procesar_mesa.php si es el script adecuado
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Procesa la respuesta si es necesario
-                    console.log('Respuesta del servidor:', xhr.responseText);
-                }
-            };
-            xhr.send(JSON.stringify(data)); // Se envían datos como JSON
-        }
-    });
-
     function seleccionaMapa(containerId) {
         // Oculta todos los contenedores
         document.querySelectorAll('.mapa').forEach(function (container) {
@@ -634,6 +648,7 @@ if (isset($_GET["message"])) {
         // Muestra el contenedor seleccionado
         document.getElementById(containerId).style.display = 'block';
     }
+
     // Inicializar todos los tooltips en la página
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -641,12 +656,12 @@ if (isset($_GET["message"])) {
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-    // Inicializa el tooltip en el div específico
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[id^="tooltip-"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
+        // Inicializa el tooltip en el div específico
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[id^="tooltip-"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     });
-});
 
 </script>
 
