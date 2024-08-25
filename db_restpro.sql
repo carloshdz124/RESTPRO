@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 13-08-2024 a las 01:45:11
+-- Tiempo de generación: 25-08-2024 a las 05:16:14
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -67,10 +67,10 @@ CREATE TABLE IF NOT EXISTS `mesa` (
 --
 
 INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
-(1, '01', 1, 4, 0),
+(1, '01', 1, 4, 1),
 (2, '02', 1, 4, 1),
-(3, '03', 1, 4, 0),
-(4, '10', 1, 4, 2),
+(3, '03', 1, 4, 1),
+(4, '10', 1, 4, 0),
 (5, '100', 2, 4, 0),
 (8, '06', 1, 4, 0),
 (7, '05', 1, 4, 0),
@@ -89,11 +89,11 @@ INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 (20, '22', 1, 8, 0),
 (21, '23', 1, 8, 0),
 (22, '24', 1, 5, 0),
-(23, '25', 1, 8, 0),
+(23, '25', 1, 8, 1),
 (24, '30', 1, 8, 0),
-(25, '31', 1, 8, 0),
+(25, '31', 1, 8, 1),
 (26, '32', 1, 4, 0),
-(27, '33', 1, 5, 0),
+(27, '33', 1, 5, 1),
 (28, '34', 1, 8, 0),
 (29, '35', 1, 4, 0),
 (30, '50', 4, 6, 0),
@@ -113,9 +113,9 @@ INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 (44, '82', 4, 6, 0),
 (45, '83', 4, 6, 0),
 (46, 'fish', 4, 16, 0),
-(47, 'octopus', 4, 12, 0),
-(48, '101', 2, 6, 0),
-(49, '102', 2, 4, 0),
+(47, 'octopus', 4, 12, 1),
+(48, '101', 2, 6, 1),
+(49, '102', 2, 4, 1),
 (50, '103', 2, 8, 0),
 (51, '110', 2, 4, 0),
 (52, '111', 2, 5, 0),
@@ -141,7 +141,7 @@ INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 (72, '173', 3, 4, 0),
 (73, '174', 3, 4, 0),
 (74, '180', 3, 8, 0),
-(75, '181', 3, 5, 0),
+(75, '181', 3, 5, 1),
 (76, '182', 3, 4, 0),
 (77, '183', 3, 4, 0),
 (78, '184', 3, 5, 0),
@@ -161,35 +161,41 @@ DROP TABLE IF EXISTS `mesa_cliente`;
 CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `zonas_deseadas` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `zonas_deseadas` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `telefono` bigint DEFAULT NULL,
   `n_adultos` int NOT NULL,
   `n_ninos` int NOT NULL,
   `hora_llegada` time DEFAULT NULL,
+  `hora_salida` time DEFAULT NULL COMMENT 'Hora de salida de mesa',
+  `mesa_id` int DEFAULT NULL COMMENT 'id se asigna cuando se asigna mesa',
   `fecha` date NOT NULL,
-  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Ocupada,\r\n1 = Reserva,\r\n2 = Sentado',
+  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Con mesa,\r\n3 = Atendido.',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa_cliente`
 --
 
-INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adultos`, `n_ninos`, `hora_llegada`, `fecha`, `estado`) VALUES
-(1, 'juan', '1,4', NULL, 2, 3, '13:30:00', '2024-07-05', 0),
-(2, 'Pedro', '2,3', 3322115566, 3, 0, '14:16:50', '2024-07-05', 1),
-(3, 'Lopez', '3', NULL, 2, 3, '14:25:00', '2024-07-05', 0),
-(4, 'Diego', '1', NULL, 2, 3, '15:00:00', '2024-07-05', 0),
-(5, 'javier', '2,4', NULL, 8, 2, '15:12:00', '2024-07-05', 0),
-(6, 'lopez', '1,4', NULL, 2, 4, '15:20:00', '2024-07-05', 0),
-(7, 'Martin', '2,3', NULL, 4, 0, '15:25:00', '2024-07-05', 0),
-(8, 'Alfredo', '1', NULL, 2, 1, '15:33:00', '2024-07-05', 0),
-(9, 'Joaquin', '3', NULL, 4, 0, '15:41:00', '2024-07-05', 0),
-(10, 'Carlos', '2', NULL, 2, 0, '20:07:46', '2024-07-30', 0),
-(11, 'Fernando Reyes', '4', 3311799528, 1, 0, '18:14:00', '2024-07-05', 1),
-(12, 'Miguel', '1,2,3,4', 0, 2, 2, '18:09:57', '2024-07-31', 0),
-(13, 'Daniel', '1,3', 0, 2, 0, '19:10:00', '2024-07-31', 0),
-(14, 'xxx', '1,2', 0, 1, 2, '08:16:06', '2024-08-03', 0);
+INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adultos`, `n_ninos`, `hora_llegada`, `hora_salida`, `mesa_id`, `fecha`, `estado`) VALUES
+(1, 'juan', '1,4', NULL, 2, 3, '13:30:00', NULL, 27, '2024-07-05', 2),
+(2, 'Pedro', '2,3', 3322115566, 3, 0, '14:16:50', NULL, 49, '2024-07-05', 2),
+(3, 'Lopez', '3', NULL, 2, 3, '14:25:00', NULL, 75, '2024-07-05', 2),
+(4, 'Diego', '1', NULL, 2, 3, '15:00:00', NULL, 23, '2024-07-05', 2),
+(5, 'javier', '2,4', NULL, 8, 2, '15:12:00', NULL, 47, '2024-07-05', 2),
+(6, 'lopez', '1,4', NULL, 2, 4, '15:20:00', NULL, 25, '2024-07-05', 2),
+(7, 'Martin', '2,3', NULL, 4, 0, '15:25:00', NULL, 48, '2024-07-05', 2),
+(8, 'Alfredo', '1', NULL, 2, 1, '15:33:00', NULL, 1, '2024-07-05', 2),
+(9, 'Joaquin', '3', NULL, 4, 0, '15:41:00', NULL, NULL, '2024-07-05', 0),
+(10, 'Carlos', '2', NULL, 2, 0, '20:07:46', NULL, NULL, '2024-07-30', 0),
+(11, 'Fernando Reyes', '4', 3311799528, 1, 0, '18:14:00', NULL, NULL, '2024-07-05', 0),
+(12, 'Miguel', '1,2,3,4', 0, 2, 2, '18:09:57', NULL, 2, '2024-07-31', 2),
+(13, 'Daniel', '1,3', 0, 2, 0, '19:10:00', NULL, 3, '2024-07-31', 2),
+(14, 'xxx', '1,2', 0, 1, 2, '08:16:06', NULL, NULL, '2024-08-03', 0),
+(15, 'Gael', '3', 0, 2, 0, '18:26:12', NULL, NULL, '2024-07-05', 0),
+(16, 'valentin', '4', 0, 2, 0, '18:49:39', NULL, NULL, '2024-07-05', 0),
+(20, 'fdsfgds', '2', 0, 1, 1, '19:29:40', NULL, NULL, '2024-07-05', 0),
+(21, 'Luis', '4', 0, 1, 1, '20:11:57', NULL, NULL, '2024-07-05', 0);
 
 -- --------------------------------------------------------
 
