@@ -1,7 +1,8 @@
 Falta actualizar mensaje despues de que se asigna mesa a cliente
 
-funcionalidad de boton mesa cuando se va
+Combinar liberar mesa y asignar mesa en mesas_procesar.php
 
+Agregar qus si no existe cliente para mesa, ocultar tabla
 
 
 

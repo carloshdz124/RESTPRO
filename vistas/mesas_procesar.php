@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($data)) {
         $accion = $data['accion'];
         if ($accion == 'verMesas') {
-            $id = $data['id'];
+            $id_cliente = $data['id'];
             $zonas = $data['zonas'];
             $total_personas = $data['total_personas'];
 
@@ -78,13 +78,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Muestra los resultados
                 while ($mesasDisponibles = $result->fetch(PDO::FETCH_OBJ)) {
                     $cantidadPersonas = $mesasDisponibles->n_personas;
-                    echo "<button class='btn btn-success mb-2 me-1' type='button' data-bs-toggle='tooltip' data-bs-placement='top' 
-                    data-bs-html='true'
-                    title='N. personas: " . $cantidadPersonas . " <br> 
-                    <a class=\"btn btn-primary\" id=\"alertButton\"
-                    data-id=\"123\" data-name=\"Ejemplo\">Seleccionar</a>' >"
-                        . $mesasDisponibles->nombre .
-                        "</button>";
+                    $nombre_mesa = $mesasDisponibles->nombre;
+                    $id_mesa = $mesasDisponibles->id;
+                    echo "
+                        <tr>
+                        <td>" . $nombre_mesa . "</td>
+                        <td>" . $cantidadPersonas . "</td>
+                        <td><button class='btn btn-primary' onclick='asignarMesa(" . $id_mesa . "," . $id_cliente . ")' type='button' data-bs-dismiss='modal'>
+                        Asignar
+                        </button>
+                        </td>
+                        </tr>
+                        ";
                 }
             } else {
                 echo "No hay mesas disponibles.";
@@ -119,6 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </tr>
                             ";
                     }
+                }else{
+                    echo 'No hay Clientes';
                 }
             } else {
                 $sql = 'SELECT id, nombre FROM mesa_cliente WHERE mesa_id = :id_mesa AND estado = 2';
@@ -162,6 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($accion == 'liberarMesa') {
             $id_mesa = $data['id_mesa'];
             $id_cliente = $data['id_cliente'];
+            $hora_salida = date('H:i:s');
 
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
             $sql = "UPDATE mesa SET estado = 0 WHERE id =:id_mesa";
@@ -169,14 +177,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result->execute(array(":id_mesa" => $id_mesa));
             if ($result->rowCount() > 0) {
                 // Si la consulta es correcta, cambiamos el estado del cliente
-                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 3 WHERE id=:id_cliente";
+                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 3, hora_salida =:hora_salida WHERE id=:id_cliente";
                 $result = $pdo->prepare($sql);
-                $result->execute(array(":id_mesa" => $id_mesa, ":id_cliente" => $id_cliente));
+                $result->execute(array(":id_mesa" => $id_mesa, "hora_salida"=>$hora_salida, ":id_cliente" => $id_cliente));
                 if ($result->rowCount() > 0) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                       <strong>¡Se libero Mesa!</strong>
-                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                   </div>';
+                            <strong>¡Se libero Mesa!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
                 }
             }
         }

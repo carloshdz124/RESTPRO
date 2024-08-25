@@ -281,45 +281,8 @@ if (isset($_GET["message"])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="was-validated" action="#" method="POST">
-                <div class="modal-body">
-                    <?php if (isset($resultEspera)) { ?>
-                        <table class="table table-dark centrar" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Cliente</th>
-                                    <th scope="col">N. personas</th>
-                                    <th scope="col">T. de espera</th>
-                                    <th scope="col">Opc</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-secondary">
-                                <?php
-                                foreach ($resultEspera as $espera):
-                                    $id = $espera->id;
-                                    $nombre_mesa = $espera->nombre;
-                                    $total_personas = $espera->n_adultos + $espera->n_ninos;
-                                    $tiempo_espera = $espera->hora_llegada;
-                                    $zonas = $espera->zonas_deseadas;
-                                    ?>
-                                    <tr>
-                                        <th><?php echo $ctn_espera; ?></th>
-                                        <td><?php echo $nombre_mesa; ?></td>
-                                        <td><?php echo $total_personas; ?></td>
-                                        <td><?php echo calcularTiempo($tiempo_espera); ?></td>
-                                        <td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verMesas"
-                                                data-id="<?php echo $id; ?>" data-zonas="<?php echo $zonas; ?>"
-                                                data-tPersonas="<?php echo $total_personas; ?>" type="button">
-                                                Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <?php $ctn_espera += 1; endforeach ?>
-                            </tbody>
-                        </table>
-                    <?php } else {
-                        echo "No hay lista de espera";
-                    } ?>
+                <div class="modal-body" id="modalContent">
+                    <!-- Aquí se insertarán los datos con AJAX -->
                 </div>
             </form>
             <div class="modal-footer">
@@ -340,8 +303,8 @@ if (isset($_GET["message"])) {
             <form class="was-validated" action="#" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label>ID: </l>
-                            <label for="id" class="form-label" id="modal-id" name="tb_id"></label>
+                        <label>Nombre: </l>
+                            <label for="id" class="form-label" id="modal-nombre" name="tb_nombre"></label>
                     </div>
                     <div class="mb-3">
                         <label>Zonas: </label>
@@ -354,7 +317,21 @@ if (isset($_GET["message"])) {
                     <div class="mb-3">
                         <p>MESAS LIBRES:</p>
                         <!-- Aqui mostramos los datos siendo una respuesta AJAX -->
-                        <div id="mesasDisponibles"></div>
+                        <div>
+                            <p><strong>Clientes a elegir: </strong></p>
+                            <table class="table table-dark centrar" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Mesa</th>
+                                        <th scope="col">N. personas</th>
+                                        <th scope="col">Opc</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-secondary" id="mesasDisponibles">
+                                    <!-- Aquí se mostrarán los clientes disponibles -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -488,6 +465,23 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
+    // Llamamos al endpoint de lista de espera para que se muestre la lista actualizada en todo momento.
+    $(document).ready(function () {
+        $('#modalListaEspera').on('show.bs.modal', function () {
+            $.ajax({
+                url: 'mesas_consulta_lista_espera.php', // Ruta al archivo PHP que consulta los datos
+                method: 'GET',
+                success: function (response) {
+                    // Inserta el contenido generado en el modal
+                    $('#modalContent').html(response);
+                },
+                error: function () {
+                    $('#modalContent').html('Hubo un error al cargar los datos.');
+                }
+            });
+        });
+    });
+
     function cofirmarLiberacionMesa(id_cliente, id_mesa) {
         if (confirm('Esta seguro de que ya se retiro el cliente de la mesa y esta lista para otro cliente?')) {
             var data = {
@@ -500,6 +494,7 @@ if (isset($_GET["message"])) {
         }
     }
 
+    //Llamamos endpoint para que los estados esten actualizados junto con su color
     function actualizarEstados() {
         fetch('mesas_estado.php') // Cambia a la ruta de tu endpoint
             .then(response => response.json())
@@ -536,20 +531,10 @@ if (isset($_GET["message"])) {
             id_cliente: id_cliente,
             accion: 'asignarMesa'
         };
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "mesas_procesar.php", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var resultContainer = document.getElementById('alertPlaceholder'); // Asegúrate de que este selector es correcto
-                resultContainer.innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send(JSON.stringify(data));
+        sendAJAX(data);
     }
 
-    // Validar que se seleccione por lo menos una opcion
+    // Validar que se seleccione por lo menos una opcion del combobox de registrar mesa
     document.querySelector('form').addEventListener('submit', function (event) {
         // Obtener todos los checkboxes con el nombre 'cb_areas[]'
         const checkboxes = document.querySelectorAll('input[name="cb_areas[]"]');
@@ -609,13 +594,14 @@ if (isset($_GET["message"])) {
         var id = link.getAttribute('data-id');
         var zonas = link.getAttribute('data-zonas');
         var total_personas = link.getAttribute('data-tPersonas');
+        var nombre = link.getAttribute('data-nombre');
 
         // Actualizar el contenido del modal
-        var modalId = verMesas.querySelector('#modal-id');
+        var modalNombre = verMesas.querySelector('#modal-nombre');
         var modalZonas = verMesas.querySelector('#modal-zonas');
         var modalTPersonas = verMesas.querySelector('#modal-TPersonas');
 
-        modalId.textContent = id;
+        modalNombre.textContent = nombre;
         modalZonas.textContent = zonas;
         modalTPersonas.textContent = total_personas;
 
@@ -631,7 +617,6 @@ if (isset($_GET["message"])) {
 
     // Funcion para llamada AJAX y reibir de respuesta datos del modal.
     function sendAJAX(data) {
-        console.log(data.accion);
         var id_div_respuesta;
 
         if (data.accion == 'verMesas') {
@@ -648,9 +633,11 @@ if (isset($_GET["message"])) {
                 document.getElementById('clientesContainer').classList.add('d-none');
                 document.getElementById('mesaOcupada').classList.remove('d-none');
             }
-        } else if (data.accion) {
-            id_div_respuesta = '#alertPlaceHolder';
+        } else if (data.accion == 'asignarMesa' || data.accion == 'liberarMesa') {
+            id_div_respuesta = '#alertPlaceholder';
         }
+        console.log(data.accion);
+        console.log(id_div_respuesta);
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "mesas_procesar.php", true);
@@ -659,12 +646,6 @@ if (isset($_GET["message"])) {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var resultContainer = document.querySelector(id_div_respuesta);
                 resultContainer.innerHTML = xhr.responseText;
-
-                // Inicializa los tooltips después de que el contenido se haya actualizado
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-                    new bootstrap.Tooltip(tooltipTriggerEl);
-                });
             }
         };
         xhr.send(JSON.stringify(data));
@@ -696,32 +677,7 @@ if (isset($_GET["message"])) {
 </script>
 
 <?php
-function calcularTiempo($hora)
-{
-    $horaActual = date('H:i:s');
 
-    // Convertir las horas a timestamps
-    $timestampHoraLlegada = strtotime($hora);
-    $timestampHoraActual = strtotime($horaActual);
-
-    // Calcular la diferencia en segundos
-    $diferenciaSegundos = $timestampHoraActual - $timestampHoraLlegada;
-
-    // Asegúrate de que la diferencia no sea negativa (si es necesario)
-    if ($diferenciaSegundos < 0) {
-        $diferenciaSegundos += 24 * 3600; // Añadir un día completo en segundos para manejar la diferencia negativa
-    }
-
-    // Convertir la diferencia a horas, minutos y segundos
-    $diferenciaHoras = floor($diferenciaSegundos / 3600);
-    $diferenciaMinutos = floor(($diferenciaSegundos % 3600) / 60);
-    $diferenciaSegundos = $diferenciaSegundos % 60;
-
-    // Formatear la diferencia en 'H:i:s'
-    $diferenciaFormato = sprintf('%02d:%02d:%02d', $diferenciaHoras, $diferenciaMinutos, $diferenciaSegundos);
-
-    return $diferenciaFormato;
-}
 include_once($ubicacion . "includes/footer.php");
 
 ?>
