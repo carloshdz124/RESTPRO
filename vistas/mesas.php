@@ -134,6 +134,22 @@ if (isset($_GET["message"])) {
                 // Variable para identificar cada fila
                 $fila = 0;
                 foreach ($resultMesas as $mesa) {
+                    // Condicion para hacaer salto de linea si se cambia de fila
+                    // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
+                    if (strlen($mesa->nombre) == 2) {
+                        if (strlen($mesa->nombre[0] != $fila)) {
+                            // Actualizamos el elemento de la fila actual.
+                            $fila = $mesa->nombre[0];
+                            echo '<br>';
+                        }
+                        // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
+                    } elseif (strlen($mesa->nombre) == 3) {
+                        if (strlen($mesa->nombre[1] != $fila)) {
+                            // Actualizamos el elemento de la fila actual.
+                            $fila = $mesa->nombre[1];
+                            echo '<br>';
+                        }
+                    }
                     // Botones que representan las mesas
                     echo '<div class="d-inline-block" id="tooltip-' . $mesa->id . '" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . '">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" data-estado="' . $mesa->estado . '"
@@ -472,6 +488,18 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script>
+    function cofirmarLiberacionMesa(id_cliente, id_mesa) {
+        if (confirm('Esta seguro de que ya se retiro el cliente de la mesa y esta lista para otro cliente?')) {
+            var data = {
+                id_cliente: id_cliente,
+                id_mesa: id_mesa,
+                accion: 'liberarMesa'
+            };
+
+            sendAJAX(data);
+        }
+    }
+
     function actualizarEstados() {
         fetch('mesas_estado.php') // Cambia a la ruta de tu endpoint
             .then(response => response.json())
@@ -569,7 +597,7 @@ if (isset($_GET["message"])) {
             accion: 'verClientes'
         };
 
-        consulta(data);
+        sendAJAX(data);
     });
 
     // Enviar datos a modal y llamar funcion ajax para consulta
@@ -598,11 +626,11 @@ if (isset($_GET["message"])) {
             accion: 'verMesas'
         };
 
-        consulta(data);
+        sendAJAX(data);
     });
 
     // Funcion para llamada AJAX y reibir de respuesta datos del modal.
-    function consulta(data) {
+    function sendAJAX(data) {
         console.log(data.accion);
         var id_div_respuesta;
 
@@ -620,6 +648,8 @@ if (isset($_GET["message"])) {
                 document.getElementById('clientesContainer').classList.add('d-none');
                 document.getElementById('mesaOcupada').classList.remove('d-none');
             }
+        } else if (data.accion) {
+            id_div_respuesta = '#alertPlaceHolder';
         }
 
         var xhr = new XMLHttpRequest();

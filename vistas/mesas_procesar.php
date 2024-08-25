@@ -120,16 +120,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             ";
                     }
                 }
-            }else{
-                $sql = 'SELECT nombre FROM mesa_cliente WHERE mesa_id = :id_mesa AND estado = 2';
+            } else {
+                $sql = 'SELECT id, nombre FROM mesa_cliente WHERE mesa_id = :id_mesa AND estado = 2';
                 $result = $pdo->prepare($sql);
-                $result->execute(array(":id_mesa"=>$id_mesa));
-                if($result->rowCount() > 0){
+                $result->execute(array(":id_mesa" => $id_mesa));
+                if ($result->rowCount() > 0) {
                     $cliente = $result->fetch(PDO::FETCH_OBJ);
+                    $id_cliente = $cliente->id;
+                    $nombre_cliente = $cliente->nombre;
+
                     $mesero = 'x';
                     echo '<p><strong>MESA OCUPADA:</strong></p>
-                    <p>Cliente: '. $cliente->nombre .'</p>
-                    <p>Atendido por: '.$mesero;
+                    <p>Cliente: ' . $nombre_cliente . '</p>
+                    <p>Atendido por: ' . $mesero . ' <br> <br>
+                    <button type="button" onclick="cofirmarLiberacionMesa(' . $id_cliente . ',' . $id_mesa . ');" class="btn btn-primary w-100" data-bs-dismiss="modal">
+                        Liberar Mesa
+                    </button>';
+
                 }
             }
         } elseif ($accion == 'asignarMesa') {
@@ -147,9 +154,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $result->execute(array(":id_mesa" => $id_mesa, ":id_cliente" => $id_cliente));
                 if ($result->rowCount() > 0) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>¡Éxito!</strong>
+                        <strong>¡Se asigno mesa correctamente!</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
+                }
+            }
+        } elseif ($accion == 'liberarMesa') {
+            $id_mesa = $data['id_mesa'];
+            $id_cliente = $data['id_cliente'];
+
+            // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
+            $sql = "UPDATE mesa SET estado = 0 WHERE id =:id_mesa";
+            $result = $pdo->prepare($sql);
+            $result->execute(array(":id_mesa" => $id_mesa));
+            if ($result->rowCount() > 0) {
+                // Si la consulta es correcta, cambiamos el estado del cliente
+                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 3 WHERE id=:id_cliente";
+                $result = $pdo->prepare($sql);
+                $result->execute(array(":id_mesa" => $id_mesa, ":id_cliente" => $id_cliente));
+                if ($result->rowCount() > 0) {
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                       <strong>¡Se libero Mesa!</strong>
+                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                   </div>';
                 }
             }
         }
