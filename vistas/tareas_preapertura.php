@@ -32,7 +32,7 @@ if ($result->rowCount() > 0) {
                                         <div class="input-group-text bg-dark">
                                             <input class="form-check-input mt-0" type="checkbox" name="meseros[]" id="mesero<?php echo $mesero->id; ?>" value="<?php echo $mesero->id; ?>">
                                         </div>
-                                        <span class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center" for="mesero<?php echo $mesero->id; ?>">
+                                        <span class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
                                             <?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>
                                         </span>
                                         <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn btn-outline-warning btn-lg rounded-4 mx-2" title="DETALLES">
