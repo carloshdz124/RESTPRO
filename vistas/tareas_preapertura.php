@@ -32,9 +32,9 @@ if ($result->rowCount() > 0) {
                                         <div class="input-group-text bg-dark">
                                             <input class="form-check-input mt-0" type="checkbox" name="meseros[]" id="mesero<?php echo $mesero->id; ?>" value="<?php echo $mesero->id; ?>">
                                         </div>
-                                        <span class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
+                                        <label class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
                                             <?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>
-                                        </span>
+                                        </label>
                                         <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn btn-outline-warning btn-lg rounded-4 mx-2" title="DETALLES">
                                             <i class="bi bi-eye"></i>
                                         </button>
@@ -71,23 +71,6 @@ if ($result->rowCount() > 0) {
         </div><br><br><br>
     </form>
 </div>
-
-<!-- Script de los checkbox para solo selecionar uno a la vez -->
-<script>
-    // Selecciona todas las casillas de verificación
-    const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]');
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            // Desmarcar todas las casillas de verificación excepto la seleccionada
-            checkboxes.forEach(box => {
-                if (box !== checkbox) {
-                    box.checked = false;
-                }
-            });
-        });
-    });
-</script>
 
 <!-- Modal Bloquear Mesero -->
 <div class="modal fade" id="modalBloquear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
