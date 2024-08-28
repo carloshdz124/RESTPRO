@@ -1,8 +1,8 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Agregar";
-include ($ubicacion . "includes/header.php");
-include ($ubicacion . "config/conexion.php");
+include($ubicacion . "includes/header.php");
+include($ubicacion . "config/conexion.php");
 
 $result = $pdo->query("SELECT * FROM area");
 if ($result->rowCount() > 0) {
@@ -13,13 +13,20 @@ if ($result->rowCount() > 0) {
 $result = $pdo->query('SELECT * FROM mesa ORDER BY nombre ASC');
 if ($result->rowCount() > 0) {
     $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $resultMesas = '';
+}
+
+$result = $pdo->query('SELECT * FROM tareas_preapertura');
+if ($result->rowCount() > 0) {
+    $resultTareas = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
 $message = isset($_GET['message']) ? $_GET['message'] : '';
 if ($message == 'ok') {
     $message = 'Se registro correctamente';
 } else if ($message == 'no') {
-    $message = 'Error al insertar datos';
+    $message = 'Error al Agregar datos';
 }
 ?>
 <style>
@@ -55,7 +62,7 @@ if ($message == 'ok') {
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarMesa" class="stretched-link">
                     <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_mesa.jpg">
                     <div class="card-body">
-                        Insertar Mesa
+                        Agregar Mesa
                     </div>
                 </a>
             </div>
@@ -63,32 +70,36 @@ if ($message == 'ok') {
 
             <br>
             <div class="centrar">
-                <table class="table table-bordered table-dark" style="width: 50%px;">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">area</th>
-                            <th scope="col">estado</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <?php foreach ($resultMesas as $mesa): ?>
+                <?php if (isset($resultMesas)) { ?>
+                    <table class="table table-bordered table-dark" style="width: 50%px;">
+                        <thead>
                             <tr>
-                                <?php if ($mesa->estado == 0) {
-                                    $estado = 'success';
-                                }
-                                if ($mesa->estado == 1) {
-                                    $estado = 'danger';
-                                }
-                                if ($mesa->estado == 2) {
-                                    $estado = 'warning';
-                                } ?>
-                                <td scope="row"><?php echo $mesa->nombre; ?></td>
-                                <td scope="row"><?php echo $mesa->area_id; ?></td>
-                                <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">area</th>
+                                <th scope="col">estado</th>
                             </tr>
-                        <?php endforeach ?>
-                </table>
+                        </thead>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultMesas as $mesa): ?>
+                                <tr>
+                                    <?php if ($mesa->estado == 0) {
+                                        $estado = 'success';
+                                    }
+                                    if ($mesa->estado == 1) {
+                                        $estado = 'danger';
+                                    }
+                                    if ($mesa->estado == 2) {
+                                        $estado = 'warning';
+                                    } ?>
+                                    <td scope="row"><?php echo $mesa->nombre; ?></td>
+                                    <td scope="row"><?php echo $mesa->area_id; ?></td>
+                                    <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
+                                </tr>
+                            <?php endforeach ?>
+                    </table>
+                <?php } else {
+                    echo 'No existen mesas registradas.';
+                } ?>
             </div>
         </div>
         <div class="col">
@@ -96,27 +107,63 @@ if ($message == 'ok') {
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarArea" class="stretched-link">
                     <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_area.jpg">
                     <div class="card-body">
-                        Insertar area
+                        Agregar area
                     </div>
                 </a>
             </div>
             <br>
             <div>
-                <table class="table table-bordered table-dark" style="width: 50%px;">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Descripcion</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <?php foreach ($resultAreas as $area): ?>
+                <?php if (isset($resultAreas)) { ?>
+                    <table class="table table-bordered table-dark" style="width: 50%px;">
+                        <thead>
                             <tr>
-                                <td scope="row"><?php echo $area->nombre; ?></td>
-                                <td scope="row"><?php echo $area->descripcion; ?></td>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripcion</th>
                             </tr>
-                        <?php endforeach ?>
-                </table>
+                        </thead>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultAreas as $area): ?>
+                                <tr>
+                                    <td scope="row"><?php echo $area->nombre; ?></td>
+                                    <td scope="row"><?php echo $area->descripcion; ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                    </table>
+                <?php } else {
+                    echo 'No existen areas registradas.';
+                } ?>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card centrar" style="width:200px; margin: 0 auto;">
+                <a href="" data-bs-toggle="modal" data-bs-target="#agregarTarea" class="stretched-link">
+                    <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_tarea.jpg">
+                    <div class="card-body">
+                        Agregar Tarea
+                    </div>
+                </a>
+            </div>
+            <br>
+            <div>
+                <?php if (isset($resultTareas)) { ?>
+                    <table class="table table-bordered table-dark" style="width: 50%px;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripcion</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultTareas as $tarea): ?>
+                                <tr>
+                                    <td scope="row"><?php echo $tarea->nombre; ?></td>
+                                    <td scope="row"><?php echo $tarea->descripcion; ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                    </table>
+                <?php } else {
+                    echo 'No existen Tareas registradas.';
+                } ?>
             </div>
         </div>
     </div>
@@ -188,6 +235,37 @@ if ($message == 'ok') {
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Descripción.</label>
                         <input placeholder="Descripcion de area" type="text" class="form-control" id="nombre"
+                            name="tb_descripcion" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar Tareas al restaurante -->
+<div class="modal fade" id="agregarTarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="was-validated" action="agregar_procesamiento.php" method="POST">
+                <input type="hidden" name="formulario" value="agregarTarea"></input>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input placeholder="Nombre de tarea" type="text" class="form-control" id="nombre"
+                            name="tb_nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Descripción.</label>
+                        <input placeholder="Descripcion de tarea" type="text" class="form-control" id="nombre"
                             name="tb_descripcion" required>
                     </div>
                 </div>

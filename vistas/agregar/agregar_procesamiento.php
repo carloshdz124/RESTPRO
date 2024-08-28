@@ -59,6 +59,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'Error: ' . $e->getMessage();
         }
     }
+    if ($formulario == "agregarTarea") {
+        $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
+        $tb_descripcion = htmlspecialchars($_POST["tb_descripcion"]);
+        try {
+            // Preparar la consulta SQL
+            $sql = "INSERT INTO tareas_preapertura (nombre, descripcion) VALUES (:tb_nombre, :tb_descripcion)";
+            $ejecucion = $pdo->prepare($sql);
+
+            // Ejecutar la consulta
+            $result = $ejecucion->execute(
+                array(
+                    ":tb_nombre" => $tb_nombre,
+                    ":tb_descripcion" => $tb_descripcion
+                )
+            );
+
+            if ($result) {
+                header("Location: agregar.php?message=ok");
+                exit();
+            } else {
+                print_r($ejecucion->errorInfo());
+                header("Location: agregar.php?message=error");
+            }
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
 } else {
     echo "No se recibieron datos.";
 }
