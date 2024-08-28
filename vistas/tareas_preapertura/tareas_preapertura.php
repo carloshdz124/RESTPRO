@@ -1,5 +1,5 @@
 <?php
-$ubicacion = "../";
+$ubicacion = "../../";
 $titulo = "TAREAS PREAPERTURA";
 include ($ubicacion."includes/header.php");
 include ($ubicacion."config/conexion.php");

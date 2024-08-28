@@ -1,5 +1,5 @@
 <?php
-$ubicacion = "../";
+$ubicacion = "../../";
 $titulo = "Rol";
 include ($ubicacion . "includes/header.php");
 ?>

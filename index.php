@@ -16,7 +16,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Mesas</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/mesas.php" class="btn btn-primary">Ir a mesas</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/mesas/mesas.php" class="btn btn-primary">Ir a mesas</a>
                 </div>
             </div>
         </div>

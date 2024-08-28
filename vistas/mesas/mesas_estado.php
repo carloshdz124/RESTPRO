@@ -1,5 +1,5 @@
 <?php
-$ubicacion = "../";
+$ubicacion = "../../";
 include_once($ubicacion . "/config/conexion.php");
 
 // Consulta para obtener el estado de las mesas
