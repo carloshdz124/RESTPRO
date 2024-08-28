@@ -31,36 +31,47 @@ if ($result->rowCount() > 0) {
             </div>
         </div>
         <div class="mapa">
-            <div class="mesa">Mesa 1 - Z1</div>
-            <div class="mesa">Mesa 2 - Z1</div>
-            <div class="mesa">Mesa 3 - Z1</div>
-            <div class="mesa">Mesa 4 - Z1</div>
-            <div class="mesa">Mesa 5 - Z1</div>
-            <div class="mesa">Mesa 6 - Z1</div>
-            <div class="mesa">Mesa 7 - Z1</div>
-            <div class="mesa">Mesa 8 - Z1</div>
-            <div class="mesa">Mesa 9 - Z1</div>
-            <div class="mesa">Mesa 10 - Z1</div>
-            <div class="mesa">Mesa 11 - Z2</div>
-            <div class="mesa">Mesa 12 - Z2</div>
-            <div class="mesa">Mesa 13 - Z2</div>
-            <div class="mesa">Mesa 14 - Z2</div>
-            <div class="mesa">Mesa 15 - Z2</div>
-            <div class="mesa">Mesa 16 - Z2</div>
-            <div class="mesa">Mesa 17 - Z2</div>
-            <div class="mesa">Mesa 18 - Z2</div>
-            <div class="mesa">Mesa 19 - Z2</div>
-            <div class="mesa">Mesa 20 - Z2</div>
-            <div class="mesa">Mesa 21 - Z3</div>
-            <div class="mesa">Mesa 22 - Z3</div>
-            <div class="mesa">Mesa 23 - Z3</div>
-            <div class="mesa">Mesa 24 - Z3</div>
-            <div class="mesa">Mesa 25 - Z3</div>
-            <div class="mesa">Mesa 26 - Z3</div>
-            <div class="mesa">Mesa 27 - Z3</div>
-            <div class="mesa">Mesa 28 - Z3</div>
-            <div class="mesa">Mesa 29 - Z3</div>
-            <div class="mesa">Mesa 30 - Z3</div>
+            <?php if (isset($resultAreas)) {
+            foreach ($resultAreas as $area) {
+                // Consulta para ver mesas por zonas
+                $result = $pdo->query('SELECT * FROM mesa WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
+                if ($result->rowCount() > 0) {
+                    $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
+                } ?>
+                <div id="<?php echo $area->id; ?>" class="mapa">
+                    <p><?php echo htmlspecialchars($area->nombre); ?></p>
+                    <?php
+                    // Variable para identificar cada fila
+                    $fila = 0;
+                    foreach ($resultMesas as $mesa) {
+                        // Condicion para hacaer salto de linea si se cambia de fila
+                        // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
+                        if (strlen($mesa->nombre) == 2) {
+                            if (strlen($mesa->nombre[0] != $fila)) {
+                                // Actualizamos el elemento de la fila actual.
+                                $fila = $mesa->nombre[0];
+                                echo '<br>';
+                            }
+                            // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
+                        } elseif (strlen($mesa->nombre) == 3) {
+                            if (strlen($mesa->nombre[1] != $fila)) {
+                                // Actualizamos el elemento de la fila actual.
+                                $fila = $mesa->nombre[1];
+                                echo '<br>';
+                            }
+                        }
+                        // Botones que representan las mesas
+                        echo '<div class="mesa" id="tooltip-' . $mesa->id . '" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . '">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" data-estado="' . $mesa->estado . '"
+                            data-id="' . $mesa->id . '" data-nombre="' . $mesa->nombre . '" data-n_personas="' . $mesa->n_personas . '" data-id_zona="' . $mesa->area_id . '"
+                            >' . $mesa->nombre . '</button>
+                    </div>';
+                    } ?>
+                </div>
+            <?php }
+        } else {
+            echo 'No existen areas.';
+        } ?>
         </div>
     </div>
 </div>
