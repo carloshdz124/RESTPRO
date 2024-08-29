@@ -39,7 +39,7 @@ if ($result->rowCount() > 0) {
                                 <li class="list-group-item">
                                     <div class="input-group mb-0">
                                         <div class="input-group-text bg-dark">
-                                            <input class="form-check-input mt-0" type="checkbox" name="meseros[]" id="mesero<?php echo $mesero->id; ?>" value="<?php echo $mesero->id; ?>">
+                                            <input class="form-check-input mt-0" type="checkbox" name="meseros[]" id="mesero<?php echo $mesero->id; ?>" value="<?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>" onchange="updateSelectedMeseros()">
                                         </div>
                                         <label class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
                                             <?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>
@@ -57,7 +57,18 @@ if ($result->rowCount() > 0) {
             <!-- Segunda Columna -->
             <div class="col-md-4">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
-                    <h2 class="text-center" for="columna2">Tareas</h2><br>
+                    <h2 class="text-center" for="columna2">Meseros Seleccionados</h2><br>
+                    <div class="justify-content-center">
+                        <ul class="list-group" id="selectedMeserosList">
+                            <!-- Aquí se mostrarán los meseros seleccionados -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Tercer Columna -->
+            <div class="col-md-4">
+                <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
+                    <h2 class="text-center" for="columna3">Tareas</h2><br>
                     <div class="justify-content-center">
                         <ul class="list-group">
                             <?php foreach ($resultTareasPreApertura as $tareaspreapertura): ?>
@@ -265,4 +276,26 @@ include_once($ubicacion."includes/footer.php");
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 });
+</script>
+
+<!-- JS con los CheckBox (función que hace al seleccionar o quitar la selección de meseros a traves del checkbox en tiempo real) -->
+<script>
+    function updateSelectedMeseros() {
+        // Obtener todos los checkbox que están seleccionados
+        const selectedCheckboxes = document.querySelectorAll('input[name="meseros[]"]:checked');
+        
+        // Obtener el contenedor de la lista de meseros seleccionados
+        const selectedMeserosList = document.getElementById('selectedMeserosList');
+        
+        // Limpiar la lista actual
+        selectedMeserosList.innerHTML = '';
+        
+        // Añadir cada mesero seleccionado a la lista
+        selectedCheckboxes.forEach(function(checkbox) {
+            const listItem = document.createElement('li');
+            listItem.className = 'form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3 mb-2';
+            listItem.textContent = checkbox.value;
+            selectedMeserosList.appendChild(listItem);
+        });
+    }
 </script>
