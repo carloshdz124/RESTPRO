@@ -3,7 +3,7 @@ $ubicacion = "../../";
 $titulo = "Rol";
 include($ubicacion . "includes/header.php");
 
-$result = $pdo->query("SELECT * FROM personal");
+$result = $pdo->query("SELECT * FROM personal WHERE estado = 1");
 if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
     $ctn_meseros = 0;
