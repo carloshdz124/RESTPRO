@@ -29,6 +29,7 @@ if ($message == 'ok') {
 $result = $pdo->query("SELECT * FROM personal");
 if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
+    $ctn_meseros = 1;
 }
 
 
@@ -62,7 +63,7 @@ if ($result->rowCount() > 0) {
                 <tbody class="table-secondary">
                     <?php foreach ($resultMeseros as $mesero): ?>
                         <tr>
-                            <th><?php echo $mesero->id ?></th>
+                            <th><?php echo $ctn_meseros; ?></th>
                             <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
                             <td>
                                 <?php for ($star = 0; $star < $mesero->calificacion; $star++):
@@ -76,7 +77,7 @@ if ($result->rowCount() > 0) {
                                     $icon = '<i class="bi bi-unlock-fill"></i>';
                                     $modal = 'data-bs-target="#modalBloquear"';
                                 } else {
-                                    $estiloButton = 'title="Presione para desbloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2"';
+                                    $estiloButton = 'title="Presione para desbloquear" class="btn btn-outline-danger"';
                                     $icon = '<i class="bi bi-lock-fill"></i>';
                                     $modal = ' onclick="confirmarDesbloqueo(' . $mesero->id . ')" ';
                                 }
@@ -103,7 +104,7 @@ if ($result->rowCount() > 0) {
                                 </a>
                             </td>
                         <tr>
-                        <?php endforeach ?>
+                        <?php $ctn_meseros+=1; endforeach ?>
                 </tbody>
             </table>
         <?php endif ?>

@@ -2,8 +2,9 @@ Falta actualizar mensaje despues de que se asigna mesa a cliente
 
 Combinar liberar mesa y asignar mesa en mesas_procesar.php
 
-Agregar qus si no existe cliente para mesa, ocultar tabla
+Agregar que si no existe cliente para mesa, ocultar tabla
 
+Revisar htaccess
 
 
 Link: para pruebas vista MESA.php

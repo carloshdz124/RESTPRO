@@ -27,7 +27,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Tareas pre-apertura</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura.php" class="btn btn-primary">Ir a
+                    <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura/tareas_preapertura.php" class="btn btn-primary">Ir a
                         tareas</a>
                 </div>
             </div>
@@ -39,7 +39,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">reportes</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/reportes.php" class="btn btn-primary">Ir a reportes</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/reportes/reportes.php" class="btn btn-primary">Ir a reportes</a>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Estaciones</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/estaciones.php" class="btn btn-primary">Ir a estaciones</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/estaciones/estaciones.php" class="btn btn-primary">Ir a estaciones</a>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Rol</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/rol.php" class="btn btn-primary">Rol</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/rol/rol.php" class="btn btn-primary">Rol</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ include_once "includes/header.php";
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Personal</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/personal.php" class="btn btn-primary">Ir a personal</a>
+                    <a href="<?php echo $ubicacion; ?>vistas/personal/personal.php" class="btn btn-primary">Ir a personal</a>
                 </div>
             </div>
         </div>

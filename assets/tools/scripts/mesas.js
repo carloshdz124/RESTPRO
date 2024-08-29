@@ -2,7 +2,7 @@
     $(document).ready(function () {
         $('#modalListaEspera').on('show.bs.modal', function () {
             $.ajax({
-                url: 'mesas_consulta_lista_espera.php', // Ruta al archivo PHP que consulta los datos
+                url: '../endpoints/mesas_consulta_lista_espera.php', // Ruta al archivo PHP que consulta los datos
                 method: 'GET',
                 success: function (response) {
                     // Inserta el contenido generado en el modal
@@ -29,7 +29,7 @@
 
     //Llamamos endpoint para que los estados esten actualizados junto con su color
     function actualizarEstados() {
-        fetch('mesas_estado.php') // Cambia a la ruta de tu endpoint
+        fetch('../endpoints/mesas_estado.php') // Cambia a la ruta de tu endpoint
             .then(response => response.json())
             .then(data => {
                 // Recorre todos los botones y actualiza su clase según el estado
@@ -38,11 +38,11 @@
                     const button = document.querySelector(`#tooltip-${id} button`);
 
                     if (estado == 0) {
-                        button.className = 'btn btn-success mb-1 me-1';
+                        button.className = 'btn btn-success border';
                     } else if (estado == 1) {
-                        button.className = 'btn btn-danger mb-1 me-1';
+                        button.className = 'btn btn-danger border';
                     } else {
-                        button.className = 'btn btn-warning mb-1 me-1';
+                        button.className = 'btn btn-warning border';
                     }
                     // Actualiza el atributo data-estado
                     button.setAttribute('data-estado', estado);

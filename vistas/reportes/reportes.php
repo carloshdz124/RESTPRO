@@ -1,7 +1,7 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Reportes";
-include ($ubicacion . "includes/header.php");
+include($ubicacion . "includes/header.php");
 ?>
 
 <!-- Incluir Chart.js desde un CDN -->
@@ -9,11 +9,11 @@ include ($ubicacion . "includes/header.php");
 <div class="container mt-3">
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
 
-    <div class="container">
-        <h1>Gráfico de Barras con Chart.js</h1>
-        <!-- Elemento canvas para el gráfico -->
-        <canvas id="myChart" width="400" height="200"></canvas>
-    </div>
+    <h1>Gráfico de Barras con Chart.js</h1>
+    <!-- Elemento canvas para el gráfico -->
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+</div>
 
     <script>
         // Esperar a que el DOM esté completamente cargado
@@ -44,14 +44,9 @@ include ($ubicacion . "includes/header.php");
         });
     </script>
 
-
-</div>
-
-
 <style>
     body {
         font-family: Arial, sans-serif;
-        margin: 20px;
     }
 
     canvas {

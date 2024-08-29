@@ -63,7 +63,6 @@ if (isset($_GET["message"])) {
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
-
 <div class="container mt-3">
     <div id="alertPlaceholder"></div>
     <!-- Alerta de aviso de accion -->
@@ -120,48 +119,10 @@ if (isset($_GET["message"])) {
             <?php } ?>
         </ul>
     </div>
-    <!-- Mostramos los contenedores cada uno con las diferentes areas -->
-    <?php if (isset($resultAreas)) {
-        foreach ($resultAreas as $area) {
-            // Consulta para ver mesas por zonas
-            $result = $pdo->query('SELECT * FROM mesa WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
-            if ($result->rowCount() > 0) {
-                $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
-            } ?>
-            <div id="<?php echo $area->id; ?>" class="mapa container active" style="width: 100%; height: 4vh;">
-                <p><?php echo $area->nombre; ?></p>
-                <?php
-                // Variable para identificar cada fila
-                $fila = 0;
-                foreach ($resultMesas as $mesa) {
-                    // Condicion para hacaer salto de linea si se cambia de fila
-                    // Si el nombre solo son dos digitos, hara el salto de fila cuando identifique que cambio el primer caracter
-                    if (strlen($mesa->nombre) == 2) {
-                        if (strlen($mesa->nombre[0] != $fila)) {
-                            // Actualizamos el elemento de la fila actual.
-                            $fila = $mesa->nombre[0];
-                            echo '<br>';
-                        }
-                        // Si el nombre son 3 digitos, hara salto de fila en el segudo caracter.
-                    } elseif (strlen($mesa->nombre) == 3) {
-                        if (strlen($mesa->nombre[1] != $fila)) {
-                            // Actualizamos el elemento de la fila actual.
-                            $fila = $mesa->nombre[1];
-                            echo '<br>';
-                        }
-                    }
-                    // Botones que representan las mesas
-                    echo '<div class="d-inline-block" id="tooltip-' . $mesa->id . '" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . '">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" data-estado="' . $mesa->estado . '"
-                        data-id="' . $mesa->id . '" data-nombre="' . $mesa->nombre . '" data-n_personas="' . $mesa->n_personas . '" data-id_zona="' . $mesa->area_id . '"
-                        class="btn mb-1 me-1">' . $mesa->nombre . '</button>
-                </div>';
-                } ?>
-            </div>
-        <?php }
-    } else {
-        echo 'No existen areas.';
-    } ?>
+    <!-- Si existen areas mostramos mapas de areas -->
+    <?php 
+    include_once('mesas_mapas.php');
+    ?>
 </div>
 
 
