@@ -4,19 +4,28 @@ $titulo = "TAREAS PREAPERTURA";
 include ($ubicacion."includes/header.php");
 include ($ubicacion."config/conexion.php");
 
+// Query para seleccionar todos los elementos que hay en la tabla de meseros.
 $result = $pdo->query("SELECT * FROM personal");
 if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
 } else {
     $resultMeseros = array();
 }
+
+// Query para seleccionar todos los elementos que hay en la tabla de tareas pre-apertura.
+$result = $pdo->query("SELECT * FROM tareas_preapertura");
+if ($result->rowCount() > 0) {
+    $resultTareasPreApertura = $result->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $resultTareasPreApertura = array();
+}
 ?>
 <div class="container mt-5">
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
     <div class="form-group border border-black bg-dark text-white p-3 rounded-4 btn-group btn-group-lg">
-        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2" title="BLOQUEAR"><i class="bi bi-lock-fill"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2" title="DESBLOQUEAR"><i class="bi bi-unlock-fill"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalBuscar" class="btn btn-outline-info btn-lg rounded-4 mx-2" title="BUSCAR"><i class="bi bi-search"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2" title="BLOQUEAR MESERO"><i class="bi bi-lock-fill"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2" title="DESBLOQUEAR MESERO"><i class="bi bi-unlock-fill"></i></button>
+        <button data-bs-toggle="modal" data-bs-target="#modalBuscar" class="btn btn-outline-info btn-lg rounded-4 mx-2" title="BUSCAR MESERO"><i class="bi bi-search"></i></button>
     </div>
     <form method="POST" action="#">
         <div class="row">
@@ -50,7 +59,20 @@ if ($result->rowCount() > 0) {
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna2">Tareas</h2><br>
                     <div class="justify-content-center">
-                        
+                        <ul class="list-group">
+                            <?php foreach ($resultTareasPreApertura as $tareaspreapertura): ?>
+                                <li class="list-group-item">
+                                    <div class="input-group mb-0">
+                                        <span class="form-control text-primary-emphasis bg-success-subtle border border-success-subtle d-flex justify-content-between align-items-center p-3" for="tareaspreapertura<?php echo $tareaspreapertura->id; ?>">
+                                            <?php echo htmlspecialchars($tareaspreapertura->nombre); ?>
+                                        </span>
+                                        <button data-bs-toggle="modal" data-bs-target="#modalMostrar" class="btn btn-outline-dark btn-lg rounded-4 mx-2" title="MOSTRAR">
+                                            <i class="bi bi-clipboard-fill"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -159,6 +181,54 @@ if ($result->rowCount() > 0) {
 
 <!-- Modal Buscar Mesero -->
 <div class="modal fade" id="modalBuscar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Buscar Mesero</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label"><strong>Ingrese el Nombre del Mesero</strong></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Mesero" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Mesero -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Buscar Mesero</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label"><strong>Ingrese el Nombre del Mesero</strong></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Mesero" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Mostar Mesero -->
+<div class="modal fade" id="modalMostrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
