@@ -1,8 +1,8 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Personal";
-include ($ubicacion . "includes/header.php");
-include ($ubicacion . "config/conexion.php");
+include($ubicacion . "includes/header.php");
+include($ubicacion . "config/conexion.php");
 
 //Se definen mensajes que mostrara
 $message = isset($_GET['message']) ? $_GET['message'] : '';
@@ -31,6 +31,8 @@ if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
     $ctn_meseros = 1;
 }
+$result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1');
+$n_meseros = $result->fetchColumn();
 
 
 ?>
@@ -45,8 +47,17 @@ if ($result->rowCount() > 0) {
         </div>
     <?php } ?>
     <h1 class="text-center"><?php echo $titulo; ?></h1>
-    <button title="Agregar mesero" data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-success mb-1"><i
-            class="bi bi-person-plus-fill"></i></button>
+    <div class="row">
+        <div class="col">
+            <button title="Agregar mesero" data-bs-toggle="modal" data-bs-target="#modalAgregar"
+                class="btn btn-success mb-1"><i class="bi bi-person-plus-fill"></i>
+            </button>
+        </div>
+        <div class="col" style="text-align: right;">
+                <strong>Meseros Disponibles: <?php echo $n_meseros; ?></strong>
+        </div>
+    </div>
+
     <br>
     <div class="d-flex centrar">
         <?php if (isset($resultMeseros)): ?>
@@ -88,23 +99,25 @@ if ($result->rowCount() > 0) {
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <button title="Editar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar" type="button"
-                                        data-id="<?php echo $mesero->id; ?>" data-name="<?php echo $mesero->nombre; ?>"
+                                    <button title="Editar" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalEditar" type="button" data-id="<?php echo $mesero->id; ?>"
+                                        data-name="<?php echo $mesero->nombre; ?>"
                                         data-apellido="<?php echo $mesero->apellido; ?>"><i class="bi bi-pencil-square"></i>
                                     </button>
-                                    <button title="Eliminar" type="button" class="btn btn-danger" onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
+                                    <button title="Eliminar" type="button" class="btn btn-danger"
+                                        onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
                                         <i class="bi bi-trash3-fill"></i>
                                     </button>
                                 </div>
-                                <a href="" >
-                                    </a>
+                                <a href="">
+                                </a>
 
-                                <a href="#" >
-                                    
+                                <a href="#">
+
                                 </a>
                             </td>
                         <tr>
-                        <?php $ctn_meseros+=1; endforeach ?>
+                            <?php $ctn_meseros += 1; endforeach ?>
                 </tbody>
             </table>
         <?php endif ?>
