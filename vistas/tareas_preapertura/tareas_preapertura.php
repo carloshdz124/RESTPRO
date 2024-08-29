@@ -30,7 +30,7 @@ if ($result->rowCount() > 0) {
     <form method="POST" action="#">
         <div class="row">
             <!-- Primera Columna -->
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna1">Meseros</h2><br>
                     <div class="justify-content-center">
@@ -44,9 +44,6 @@ if ($result->rowCount() > 0) {
                                         <label class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
                                             <?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>
                                         </label>
-                                        <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn btn-outline-warning btn-lg rounded-4 mx-2" title="DETALLES">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
@@ -55,7 +52,7 @@ if ($result->rowCount() > 0) {
                 </div>
             </div>
             <!-- Segunda Columna -->
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna2">Meseros Seleccionados</h2><br>
                     <div class="justify-content-center">
@@ -66,7 +63,7 @@ if ($result->rowCount() > 0) {
                 </div>
             </div>
             <!-- Tercer Columna -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna3">Tareas</h2><br>
                     <div class="justify-content-center">
@@ -292,10 +289,36 @@ include_once($ubicacion."includes/footer.php");
         
         // Añadir cada mesero seleccionado a la lista
         selectedCheckboxes.forEach(function(checkbox) {
+            // Crear el elemento li
             const listItem = document.createElement('li');
             listItem.className = 'form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3 mb-2';
-            listItem.textContent = checkbox.value;
+            
+            // Crear el texto del mesero
+            const meseroText = document.createElement('span');
+            meseroText.textContent = checkbox.value;
+            
+            // Crear el botón
+            const removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-outline-warning btn-lg rounded-4 mx-2';
+            removeButton.innerHTML = '<i class="bi bi-eye"></i>'; // Icono de Detalles
+            removeButton.title = 'Quitar';
+            
+            // Agregar un evento para quitar el mesero de la lista
+            removeButton.onclick = function() {
+                checkbox.checked = false; // Desmarcar el checkbox
+                updateSelectedMeseros(); // Actualizar la lista
+            };
+            
+            // Añadir el texto y el botón al li
+            listItem.appendChild(meseroText);
+            listItem.appendChild(removeButton);
+            
+            // Añadir el li a la lista de meseros seleccionados
             selectedMeserosList.appendChild(listItem);
         });
     }
 </script>
+
+<button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn btn-outline-warning btn-lg rounded-4 mx-2" title="DETALLES">
+                                            
+                                        </button>
