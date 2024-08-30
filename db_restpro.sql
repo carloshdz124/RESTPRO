@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-08-2024 a las 02:17:12
+-- Tiempo de generación: 30-08-2024 a las 02:15:38
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `area` (
   `nombre` varchar(50) NOT NULL COMMENT 'Nombre de area',
   `descripcion` varchar(250) NOT NULL COMMENT 'Descripcion de area',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `area`
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `estaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
   `mesas` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `estaciones`
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `mesa` (
   `estacion_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `area_id` (`area_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa`
@@ -115,9 +115,9 @@ INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacion
 (3, '03', 1, 4, 0, 2),
 (4, '10', 1, 4, 0, 1),
 (5, '100', 2, 4, 0, 9),
-(8, '06', 1, 4, 0, 3),
-(7, '05', 1, 4, 0, 3),
 (6, '04', 1, 4, 0, 2),
+(7, '05', 1, 4, 0, 3),
+(8, '06', 1, 4, 0, 3),
 (9, '07', 1, 4, 0, 4),
 (10, '08', 1, 4, 0, 4),
 (11, '11', 1, 4, 0, 1),
@@ -213,8 +213,9 @@ CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `mesa_id` int DEFAULT NULL COMMENT 'id se asigna cuando se asigna mesa',
   `fecha` date NOT NULL,
   `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Con mesa,\r\n3 = Atendido.',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`),
+  KEY `mesa_id` (`mesa_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa_cliente`
@@ -257,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `personal` (
   `calificacion` int NOT NULL DEFAULT '4',
   `estado` int NOT NULL DEFAULT '1' COMMENT '0: inactivo, 1: activo',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `personal`
@@ -306,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `personal_bloqueado` (
   `vigencia` int NOT NULL DEFAULT '0' COMMENT '0: vigente, 1: vencido',
   PRIMARY KEY (`id`),
   KEY `personal_id` (`personal_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `personal_bloqueado`
@@ -320,10 +321,10 @@ INSERT INTO `personal_bloqueado` (`id`, `personal_id`, `fecha_inicio`, `fecha_fi
 (5, 10, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (6, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (7, 13, '2024-07-05', '2024-07-06', 'No asistio', 1),
-(9, 18, '2024-07-05', '2024-07-06', 'No asistio', 1),
-(11, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (8, 4, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(9, 18, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (10, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
+(11, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (12, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (13, 19, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (14, 14, '2024-07-05', '2024-07-06', 'No asistio', 1),
@@ -334,7 +335,6 @@ INSERT INTO `personal_bloqueado` (`id`, `personal_id`, `fecha_inicio`, `fecha_fi
 (19, 1, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (20, 7, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (21, 2, '2024-07-05', '2024-07-06', 'No asistio', 1),
-(22, 21, '2024-07-05', '2024-07-06', 'No asistio', 1),
 (23, 14, '2024-08-13', '2024-08-21', 'Vacaciones', 1),
 (24, 7, '2024-08-13', '2024-08-17', 'Vacaciones', 1),
 (25, 20, '2024-07-05', '2024-07-06', 'No asistio', 1),
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `tareas_preapertura` (
   `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `tareas_preapertura`
@@ -380,8 +380,10 @@ CREATE TABLE IF NOT EXISTS `tarea_mesero` (
   `mesero_id` int NOT NULL,
   `tarea_pre_id` int NOT NULL,
   `fecha` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`),
+  KEY `mesero_id` (`mesero_id`),
+  KEY `tarea_pre_id` (`tarea_pre_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -397,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `md5` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Contraseña mdh5',
   `tipo_usuario` int NOT NULL COMMENT '1-admin, 2-capitan, 3-usuario',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -407,6 +409,35 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 (1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1),
 (2, 'capitan', 'capitan', 'a85c04ef417c53019e3f59d459178af6', 2),
 (3, 'usuario', 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', 3);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `mesa`
+--
+ALTER TABLE `mesa`
+  ADD CONSTRAINT `mesa_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `area` (`id`);
+
+--
+-- Filtros para la tabla `mesa_cliente`
+--
+ALTER TABLE `mesa_cliente`
+  ADD CONSTRAINT `mesa_cliente_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesa` (`id`);
+
+--
+-- Filtros para la tabla `personal_bloqueado`
+--
+ALTER TABLE `personal_bloqueado`
+  ADD CONSTRAINT `personal_bloqueado_ibfk_1` FOREIGN KEY (`personal_id`) REFERENCES `personal` (`id`);
+
+--
+-- Filtros para la tabla `tarea_mesero`
+--
+ALTER TABLE `tarea_mesero`
+  ADD CONSTRAINT `tarea_mesero_ibfk_1` FOREIGN KEY (`mesero_id`) REFERENCES `personal` (`id`),
+  ADD CONSTRAINT `tarea_mesero_ibfk_2` FOREIGN KEY (`tarea_pre_id`) REFERENCES `tareas_preapertura` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
