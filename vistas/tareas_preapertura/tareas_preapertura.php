@@ -23,14 +23,12 @@ if ($result->rowCount() > 0) {
 <div class="container mt-5">
     <h1 class="text-center"><?php echo $titulo; ?></h1><br>
     <div class="form-group border border-black bg-dark text-white p-3 rounded-4 btn-group btn-group-lg">
-        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2" title="BLOQUEAR MESERO"><i class="bi bi-lock-fill"></i></button>
-        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2" title="DESBLOQUEAR MESERO"><i class="bi bi-unlock-fill"></i></button>
         <button data-bs-toggle="modal" data-bs-target="#modalBuscar" class="btn btn-outline-info btn-lg rounded-4 mx-2" title="BUSCAR MESERO"><i class="bi bi-search"></i></button>
     </div>
     <form method="POST" action="#">
         <div class="row">
             <!-- Primera Columna -->
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna1">Meseros</h2><br>
                     <div class="justify-content-center">
@@ -44,6 +42,8 @@ if ($result->rowCount() > 0) {
                                         <label class="form-control text-primary-emphasis bg-primary-subtle border border-primary-subtle d-flex justify-content-between align-items-center p-3" for="mesero<?php echo $mesero->id; ?>">
                                             <?php echo htmlspecialchars($mesero->nombre . " " . $mesero->apellido); ?>
                                         </label>
+                                        <button data-bs-toggle="modal" data-bs-target="#modalBloquear" class="btn btn-outline-danger btn-lg rounded-4 mx-2" title="BLOQUEAR MESERO"><i class="bi bi-lock-fill"></i></button>
+                                        <button data-bs-toggle="modal" data-bs-target="#modalDesbloquear" class="btn btn-outline-success btn-lg rounded-4 mx-2" title="DESBLOQUEAR MESERO"><i class="bi bi-unlock-fill"></i></button>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
@@ -52,7 +52,7 @@ if ($result->rowCount() > 0) {
                 </div>
             </div>
             <!-- Segunda Columna -->
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group border border-black bg-dark text-white p-3 rounded-4"> <!-- Aqui puedo editar los borde -->
                     <h2 class="text-center" for="columna2">Meseros Seleccionados</h2><br>
                     <div class="justify-content-center">
@@ -85,20 +85,6 @@ if ($result->rowCount() > 0) {
                 </div>
             </div>
         </div><br>
-        <!-- Termina la columna e inicia la otra -->
-        <div class="row">
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary btn-custom">EDITAR 📝</button>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-danger btn-custom">ELIMINAR ❌</button>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-success btn-custom">CHECK ✅</button>
-                </div>
-            </div>
-        </div><br><br><br>
     </form>
 </div>
 
@@ -318,7 +304,3 @@ include_once($ubicacion."includes/footer.php");
         });
     }
 </script>
-
-<button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn btn-outline-warning btn-lg rounded-4 mx-2" title="DETALLES">
-                                            
-                                        </button>
