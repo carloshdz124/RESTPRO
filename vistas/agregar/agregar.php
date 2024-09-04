@@ -4,13 +4,13 @@ $titulo = "Agregar";
 include($ubicacion . "includes/header.php");
 include($ubicacion . "config/conexion.php");
 
-$result = $pdo->query("SELECT * FROM area");
+$result = $pdo->query("SELECT * FROM areas");
 if ($result->rowCount() > 0) {
     $existeArea = 'ok';
     $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
-$result = $pdo->query('SELECT * FROM mesa ORDER BY nombre ASC');
+$result = $pdo->query('SELECT * FROM mesas ORDER BY nombre ASC');
 if ($result->rowCount() > 0) {
     $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
 } else {

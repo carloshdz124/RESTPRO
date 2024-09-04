@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
             $consulta = implode(' OR ', $condiciones);
 
-            $sql = 'SELECT * FROM mesa WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas . ' ORDER BY n_personas ASC ';
+            $sql = 'SELECT * FROM mesas WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas . ' ORDER BY n_personas ASC ';
             $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Muestra los resultados
@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_cliente = $data['id_cliente'];
 
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
-            $sql = "UPDATE mesa SET estado = 1 WHERE id =:id_mesa";
+            $sql = "UPDATE mesas SET estado = 1 WHERE id =:id_mesa";
             $result = $pdo->prepare($sql);
             $result->execute(array(":id_mesa" => $id_mesa));
             if ($result->rowCount() > 0) {
@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hora_salida = date('H:i:s');
 
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
-            $sql = "UPDATE mesa SET estado = 0 WHERE id =:id_mesa";
+            $sql = "UPDATE mesas SET estado = 0 WHERE id =:id_mesa";
             $result = $pdo->prepare($sql);
             $result->execute(array(":id_mesa" => $id_mesa));
             if ($result->rowCount() > 0) {

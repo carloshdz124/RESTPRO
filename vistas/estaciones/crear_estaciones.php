@@ -4,7 +4,7 @@ $titulo = "Crear estaciones";
 include($ubicacion . "includes/header.php");
 
 // Se realiza una consulta para revisar si existen areas -->
-$sql = "SELECT * FROM area";
+$sql = "SELECT * FROM areas";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
     $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);

@@ -2,7 +2,7 @@
 <?php if (isset($resultAreas)) {
         foreach ($resultAreas as $area) {
             // Consulta para ver mesas por zonas
-            $result = $pdo->query('SELECT * FROM mesa WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
+            $result = $pdo->query('SELECT * FROM mesas WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
             if ($result->rowCount() > 0) {
                 $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
             } ?>

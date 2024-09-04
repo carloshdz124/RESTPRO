@@ -10,7 +10,7 @@ if ($result->rowCount() > 0) {
     $resultMeseros = desordernar($resultMeseros);
 }
 
-$result = $pdo->query("SELECT * FROM area");
+$result = $pdo->query("SELECT * FROM areas");
 if ($result->rowCount() > 0) {
     $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
 }
@@ -62,7 +62,7 @@ if ($result->rowCount() > 0) {
                             ?>
                             <tr>
                                 <th scope="row"><?php echo $resultMeseros[$ctn_meseros]->nombre; ?></th>
-                                <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
+                                <td><?php echo $resultEstaciones[$ctn_meseros]->descripcion; ?></td>
                             </tr>
                             <?php $ctn_meseros += 1; endforeach ?>
                     </tbody>

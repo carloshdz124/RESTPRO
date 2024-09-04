@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sb_area = htmlspecialchars($_POST["sb_area"]);
         $tb_nPersonas = htmlspecialchars($_POST["tb_nPersonas"]);
         // Preparar la consulta SQL
-        $sql = "INSERT INTO mesa (nombre, area_id, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
+        $sql = "INSERT INTO mesas (nombre, area_id, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
         $ejecucion = $pdo->prepare($sql);
 
         // Ejecutar la consulta
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tb_descripcion = htmlspecialchars($_POST["tb_descripcion"]);
         try {
             // Preparar la consulta SQL
-            $sql = "INSERT INTO area (nombre, descripcion) VALUES (:tb_nombre, :tb_descripcion)";
+            $sql = "INSERT INTO areas (nombre, descripcion) VALUES (:tb_nombre, :tb_descripcion)";
             $ejecucion = $pdo->prepare($sql);
 
             // Ejecutar la consulta

@@ -3,7 +3,7 @@ $ubicacion = "../../";
 include_once($ubicacion . "/config/conexion.php");
 
 // Consulta para obtener el estado de las mesas
-$sql = "SELECT id, estado FROM mesa";
+$sql = "SELECT id, estado FROM mesas";
 $result = $pdo->query($sql);
 
 $estadoMesas = [];

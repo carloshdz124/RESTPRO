@@ -13,7 +13,7 @@ if ($result->rowCount() > 0) {
 }
 
 // Se realiza una consulta para revisar si existen areas.
-$sql = "SELECT * FROM area";
+$sql = "SELECT * FROM areas";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
     $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
@@ -50,7 +50,7 @@ if (isset($_GET["message"])) {
         //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
         $consulta = implode(' OR ', $condiciones);
 
-        $sql = 'SELECT * FROM mesa WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas;
+        $sql = 'SELECT * FROM mesas WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas;
         $result = $pdo->query($sql);
         if ($result->rowCount() > 0) {
             $resultDisponibles = $result->fetchAll(PDO::FETCH_OBJ);

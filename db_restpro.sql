@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-08-2024 a las 02:15:38
+-- Tiempo de generación: 04-09-2024 a las 22:07:27
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -24,11 +24,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `area`
+-- Estructura de tabla para la tabla `areas`
 --
 
-DROP TABLE IF EXISTS `area`;
-CREATE TABLE IF NOT EXISTS `area` (
+DROP TABLE IF EXISTS `areas`;
+CREATE TABLE IF NOT EXISTS `areas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL COMMENT 'Nombre de area',
   `descripcion` varchar(250) NOT NULL COMMENT 'Descripcion de area',
@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS `area` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `area`
+-- Volcado de datos para la tabla `areas`
 --
 
-INSERT INTO `area` (`id`, `nombre`, `descripcion`) VALUES
+INSERT INTO `areas` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Salon', 'Salon principal'),
 (2, 'Terraza 2', 'Zona de fumar, area abierta\r\n'),
 (3, 'Mezzanin', 'Area infantil'),
@@ -54,62 +54,65 @@ INSERT INTO `area` (`id`, `nombre`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `estaciones`;
 CREATE TABLE IF NOT EXISTS `estaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `mesas` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `area_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `area_id` (`area_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `estaciones`
 --
 
-INSERT INTO `estaciones` (`id`, `mesas`) VALUES
-(1, '01-02-10-11'),
-(2, '03-04-12-13'),
-(3, '05-06-14-15'),
-(4, '07-08-16-17'),
-(5, '20-21-30'),
-(6, '22-31-32'),
-(7, '23-24-33'),
-(8, '25-34-35'),
-(9, '100-101-110-111'),
-(10, '102-103-123'),
-(11, '120-121-122-112'),
-(12, '130-131-132-3142'),
-(13, '140-141-150-151'),
-(14, '160-171-172'),
-(15, '162-161-173-174'),
-(16, '170-180-190'),
-(17, '181-182-191-192'),
-(18, '183-184-193-194'),
-(19, '50-51-52-60'),
-(20, '53-61-70-71'),
-(21, '54-55-62-72'),
-(22, '80-83-fish'),
-(23, '81-82-octopus');
+INSERT INTO `estaciones` (`id`, `descripcion`, `area_id`) VALUES
+(1, '01-02-10-11', NULL),
+(2, '03-04-12-13', NULL),
+(3, '05-06-14-15', NULL),
+(4, '07-08-16-17', NULL),
+(5, '20-21-30', NULL),
+(6, '22-31-32', NULL),
+(7, '23-24-33', NULL),
+(8, '25-34-35', NULL),
+(9, '100-101-110-111', NULL),
+(10, '102-103-123', NULL),
+(11, '120-121-122-112', NULL),
+(12, '130-131-132-3142', NULL),
+(13, '140-141-150-151', NULL),
+(14, '160-171-172', NULL),
+(15, '162-161-173-174', NULL),
+(16, '170-180-190', NULL),
+(17, '181-182-191-192', NULL),
+(18, '183-184-193-194', NULL),
+(19, '50-51-52-60', NULL),
+(20, '53-61-70-71', NULL),
+(21, '54-55-62-72', NULL),
+(22, '80-83-fish', NULL),
+(23, '81-82-octopus', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mesa`
+-- Estructura de tabla para la tabla `mesas`
 --
 
-DROP TABLE IF EXISTS `mesa`;
-CREATE TABLE IF NOT EXISTS `mesa` (
+DROP TABLE IF EXISTS `mesas`;
+CREATE TABLE IF NOT EXISTS `mesas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `area_id` int NOT NULL,
+  `area_id` int DEFAULT NULL,
   `n_personas` int NOT NULL,
   `estado` int NOT NULL DEFAULT '0' COMMENT '0 = disponible,\r\n1 = Ocupada,\r\n2 = Reservada',
   `estacion_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `area_id` (`area_id`)
+  KEY `area_id` (`area_id`),
+  KEY `estacion_id` (`estacion_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `mesa`
+-- Volcado de datos para la tabla `mesas`
 --
 
-INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacion_id`) VALUES
+INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacion_id`) VALUES
 (1, '01', 1, 4, 0, 1),
 (2, '02', 1, 4, 1, 1),
 (3, '03', 1, 4, 0, 2),
@@ -142,7 +145,7 @@ INSERT INTO `mesa` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacion
 (30, '50', 4, 6, 1, 19),
 (31, '51', 4, 4, 0, 19),
 (32, '52', 4, 4, 0, 19),
-(33, '53', 4, 4, 0, 20),
+(33, '53', 4, 4, 1, 20),
 (34, '54', 4, 4, 0, 21),
 (35, '55', 4, 5, 0, 21),
 (36, '60', 4, 6, 0, 19),
@@ -215,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Con mesa,\r\n3 = Atendido.',
   PRIMARY KEY (`id`),
   KEY `mesa_id` (`mesa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa_cliente`
@@ -242,7 +245,8 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 (21, 'Luis', '4', 0, 1, 1, '20:11:57', '01:25:42', 33, '2024-07-05', 3),
 (22, 'Cristiano', '3', 0, 2, 6, '01:29:53', NULL, 68, '2024-07-05', 2),
 (23, 'Messi', '1', 0, 3, 2, '01:30:07', NULL, 19, '2024-07-05', 2),
-(24, 'Rodrygo', '2,4', 0, 6, 0, '01:30:36', NULL, 59, '2024-07-05', 2);
+(24, 'Rodrygo', '2,4', 0, 6, 0, '01:30:36', NULL, 59, '2024-07-05', 2),
+(25, 'Lic Mendoza', '4', 0, 3, 0, '16:04:09', NULL, 33, '2024-07-05', 2);
 
 -- --------------------------------------------------------
 
@@ -415,16 +419,23 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 --
 
 --
--- Filtros para la tabla `mesa`
+-- Filtros para la tabla `estaciones`
 --
-ALTER TABLE `mesa`
-  ADD CONSTRAINT `mesa_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `area` (`id`);
+ALTER TABLE `estaciones`
+  ADD CONSTRAINT `estaciones_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`estacion_id`) REFERENCES `estaciones` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `mesa_cliente`
 --
 ALTER TABLE `mesa_cliente`
-  ADD CONSTRAINT `mesa_cliente_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesa` (`id`);
+  ADD CONSTRAINT `mesa_cliente_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`);
 
 --
 -- Filtros para la tabla `personal_bloqueado`
