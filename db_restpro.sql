@@ -435,7 +435,7 @@ ALTER TABLE `mesas`
 -- Filtros para la tabla `mesa_cliente`
 --
 ALTER TABLE `mesa_cliente`
-  ADD CONSTRAINT `mesa_cliente_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`);
+  ADD CONSTRAINT `mesa_cliente_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `personal_bloqueado`
