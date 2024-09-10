@@ -1,0 +1,134 @@
+
+.bg-custom {
+    background-image: url('../imagenes/fondo_login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Fondo blanco semitransparente */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.card-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px; /* Puedes ajustar la altura según sea necesario */
+}
+
+.icon-index {
+    font-size: 40px;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    row-gap: 48px;
+}
+
+.loading {
+    display: none;
+    /* Ocultar por defecto */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sidebar-color {
+    background-color: #e2e3e5;
+    color: #212529;
+}
+
+.sidebar-color-tittle {
+    background-color: #212529;
+    color: #e4cdbe;
+}
+
+.color-text-navbar{
+    color: #e4cdbe;
+}
+
+.navbar-color {
+    background-color: rgb(95, 95, 95);
+    color: rgb(95, 95, 95);
+}
+
+.centrar {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.btn-custom {
+    width: 150px;
+    height: 50px;
+}
+
+/*------------ INICIO DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
+
+.mesa {
+    width: 100px;
+    height: 100px;
+    background: #808080;
+    margin: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #000000;
+}
+
+/*------------ FIN DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
+
+/*------------ INICIO DEL CSS PARA NUESTRO CURSOR POINTER DE MESAS "estaciones.php" ------------*/
+
+/* Aplica la manita al botón */
+.btn {
+    cursor: pointer;
+}
+
+/* Aplica la manita a los elementos del dropdown */
+.dropdown-item {
+    cursor: pointer;
+}
+
+/*------------ FIN DEL CSS PARA NUESTRO MAPA DE MESAS "estaciones.php" ------------*/
+
+/*------------ INICIO DEL CSS PARA NUESTRO COLOR DE FONDO AL MOMENTO DE PASAR EL CURSOR Y SELECCIONAR EN LA LISTA DE UN BOTON "estaciones.php" ------------*/
+
+/* Cambia el color de fondo al pasar el cursor por encima de un elemento de la lista */
+.dropdown-item:hover {
+    background-color: #000000;
+}
+
+.nav-link {
+    color: #212529; /* Color inicial */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Transición suave */
+}
+
+.nav-link:hover {
+    color: #007bff; /* Cambia este color al que prefieras */
+    background-color: #f8f9fa; /* O agrega un fondo diferente si lo deseas */
+}
+
+/*------------ FIN DEL CSS PARA NUESTRO COLOR DE FONDO AL MOMENTO DE PASAR EL CURSOR Y SELECCIONAR EN LA LISTA DE UN BOTON "estaciones.php" ------------*/
