@@ -1,7 +1,7 @@
 <?php
 $ubicacion = "../../";
 $titulo = "MESAS";
-include($ubicacion . "config/conexion.php");
+include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
 // Se realiza consulta para revisar si existe alguna reservacion.

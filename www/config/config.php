@@ -1,13 +1,9 @@
 <?php
-// Configurar zona horaria
-date_default_timezone_set('America/Mexico_City');
-
 // Configuración de la base de datos
-$servername = getenv('DB_HOST') ?: 'localhost';
-$username   = getenv('DB_USER') ?: 'root';
-$password   = getenv('DB_PASS') ?: '';
-$dbname     = getenv('DB_NAME') ?: 'db_restpro';
-$fecha      = '2024-07-05';
+$servername = 'db'; // Nombre del servicio en Docker Compose
+$username   = 'root';
+$password   = 'root';
+$dbname     = 'db_restpro';
 
 // Conexión MySQLi
 $conn = new mysqli($servername, $username, $password, $dbname);

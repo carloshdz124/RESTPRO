@@ -2,7 +2,7 @@
 $ubicacion = "../../";
 $titulo = "Personal";
 include($ubicacion . "includes/header.php");
-include($ubicacion . "config/conexion.php");
+include($ubicacion . "config/config.php");
 
 //Se definen mensajes que mostrara
 $message = isset($_GET['message']) ? $_GET['message'] : '';

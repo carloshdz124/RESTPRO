@@ -2,7 +2,7 @@
 $ubicacion = "../../";
 $titulo = "Agregar";
 include($ubicacion . "includes/header.php");
-include($ubicacion . "config/conexion.php");
+include($ubicacion . "config/config.php");
 
 $result = $pdo->query("SELECT * FROM areas");
 if ($result->rowCount() > 0) {

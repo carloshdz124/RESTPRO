@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once($ubicacion . "/config/conexion.php");
+include_once($ubicacion . "/config/config.php");
 
 $data = json_decode(file_get_contents('php://input'), true);
 
