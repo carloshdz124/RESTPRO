@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once($ubicacion . "/config/conexion.php");
+include_once($ubicacion . "/config/config.php");
 
 // Consulta para revisar si existen áreas
 $sql = "SELECT * FROM mesa_cliente WHERE estado = 0";

@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once ($ubicacion . "/config/conexion.php");
+include_once ($ubicacion . "/config/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = $_POST["formulario"];
@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sb_area = htmlspecialchars($_POST["sb_area"]);
         $tb_nPersonas = htmlspecialchars($_POST["tb_nPersonas"]);
         // Preparar la consulta SQL
-        $sql = "INSERT INTO mesa (nombre, area_id, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
+        $sql = "INSERT INTO mesas (nombre, area_id, n_personas) VALUES (:tb_nombre, :sb_area, :tb_nPersonas)";
         $ejecucion = $pdo->prepare($sql);
 
         // Ejecutar la consulta
