@@ -2,7 +2,7 @@
 $ubicacion = "../../";
 $titulo = "TAREAS PREAPERTURA";
 include ($ubicacion."includes/header.php");
-include ($ubicacion."config/config.php");
+include ($ubicacion."config/conexion.php");
 
 // Query para seleccionar todos los elementos que hay en la tabla de meseros.
 $result = $pdo->query("SELECT * FROM personal");

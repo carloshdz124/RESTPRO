@@ -1,13 +1,13 @@
 <?php
 $ubicacion = "../../";
-include_once($ubicacion . "/config/config.php");
+include_once($ubicacion . "/config/conexion.php");
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = isset($_POST["formulario"]) ? $_POST["formulario"] : '';
 
-    if ($formulario == 'registroMesa' || $formulario == 'registroMesa') {
+    if ($formulario == 'registroMesa' || $formulario == 'registroReservacion') {
         //Se registra mesa
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
         $tb_nadultos = htmlspecialchars($_POST["tb_nadultos"]);
