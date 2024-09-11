@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tb_nadultos = htmlspecialchars($_POST["tb_nadultos"]);
         $tb_nninos = htmlspecialchars($_POST["tb_nniños"]);
         $cb_areas = implode(",", isset($_POST["cb_areas"]) ? $_POST["cb_areas"] : '');
-        $tb_telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : "";
+        $tb_telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : null;
         if ($formulario == "registroMesa") {
             $tb_fecha = htmlspecialchars(isset($fecha) ? $fecha : date('Y-m-d'));
             $tb_hora = date('H:i:s');
@@ -46,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result) {
             $essage = 'ok';
-            $queryString = http_build_query(['areas' => $cb_areas, "message" => $message]);
             header("Location: mesas.php?message=ok");
             exit();
         } else {

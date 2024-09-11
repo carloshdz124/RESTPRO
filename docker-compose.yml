@@ -8,6 +8,8 @@ services:
       - "8080:80"
     depends_on:
       - db
+    environment:
+      - APP_ENV=docker
 
   db:
     image: mysql:8.0

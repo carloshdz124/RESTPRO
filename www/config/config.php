@@ -1,9 +1,20 @@
 <?php
-// Configuración de la base de datos
-$servername = 'db'; // Nombre del servicio en Docker Compose
-$username   = 'root';
-$password   = 'root';
-$dbname     = 'db_restpro';
+
+$appEnv = getenv('APP_ENV');
+
+if ($appEnv === 'docker') {
+    // Configuración de la base de datos
+    $servername = 'db';
+    $username = 'root';
+    $password = 'root';
+    $dbname = 'db_restpro';
+} else {
+    // Código específico para WAMP
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname = 'db_restpro';
+}
 
 // Conexión MySQLi
 $conn = new mysqli($servername, $username, $password, $dbname);
