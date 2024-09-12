@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once($ubicacion . "/config/conexion.php");
+include_once($ubicacion . "/config/config.php");
 
 // Consulta para revisar si existen áreas
 $sql = "SELECT * FROM mesa_cliente WHERE estado = 0";
@@ -12,16 +12,16 @@ if ($result->rowCount() > 0) {
 
     // Generar la tabla en HTML
     echo '<table class="table table-dark centrar" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">N. personas</th>
-                        <th scope="col">T. de espera</th>
-                        <th scope="col">Opc</th>
-                    </tr>
-                </thead>
-                <tbody class="table-secondary">';
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">N. personas</th>
+                <th scope="col">T. de espera</th>
+                <th scope="col">Opc</th>
+            </tr>
+        </thead>
+        <tbody class="table-secondary">';
 
     foreach ($resultEspera as $espera) {
         $id = $espera->id;

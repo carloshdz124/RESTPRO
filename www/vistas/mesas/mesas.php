@@ -1,12 +1,11 @@
 <?php
 $ubicacion = "../../";
 $titulo = "MESAS";
-include($ubicacion . "config/conexion.php");
+include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
 // Se realiza consulta para revisar si existe alguna reservacion.
-$fecha = isset($fecha) ? $fecha : date('Y-m-d');
-$sql = "SELECT * FROM mesa_cliente WHERE estado = 1 and fecha='$fecha' ";
+$sql = "SELECT * FROM mesa_cliente WHERE estado = 1";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
     $resultReservaciones = $result->fetchAll(PDO::FETCH_OBJ);
@@ -96,7 +95,7 @@ if (isset($_GET["message"])) {
         </div>
         <div class="col">
             <button class="btn btn-estilo " data-bs-toggle="modal" data-bs-target="#modalReservacionHoy">
-                Reservaciones del dia
+                Reservaciones
             </button>
         </div>
         <div class="col">
@@ -120,7 +119,7 @@ if (isset($_GET["message"])) {
         </ul>
     </div>
     <!-- Si existen areas mostramos mapas de areas -->
-    <?php 
+    <?php
     include_once('mesas_mapas.php');
     ?>
 </div>
@@ -151,7 +150,7 @@ if (isset($_GET["message"])) {
                     <div class="mb-3">
                         <label for="n_niños" class="form-label">Numero de niños.</label>
                         <input placeholder="Cantidad de niños" type="number" class="form-control" id="n_niños"
-                            name="tb_nniños" required>
+                            name="tb_nninos" required>
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Area deseada</label>
@@ -304,7 +303,7 @@ if (isset($_GET["message"])) {
 </div>
 
 
-<!-- Modal Reservacion Del dia -->
+<!-- Modal Reservaciones registradas -->
 <div class="modal fade" id="modalReservacionHoy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -313,33 +312,8 @@ if (isset($_GET["message"])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="was-validated" action="#" method="POST">
-                <div class="modal-body d-flex">
-                    <?php if (isset($resultReservaciones)) { ?>
-                        <table class="table table-dark centrar" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <td scope="col">Cliente</td>
-                                    <td scope="col">Mesa</td>
-                                    <td scope="col">N. personas</t>
-                                    <td scope="col">Hora</td>
-                                </tr>
-                            </thead>
-                            <tbody class="table-secondary">
-                                <?php foreach ($resultReservaciones as $reservaciones): ?>
-                                    <tr>
-                                        <td scope="row">1</td>
-                                        <td><?php echo $reservaciones->nombre; ?></td>
-                                        <td>21</td>
-                                        <td><?php echo $reservaciones->n_adultos + $reservaciones->n_ninos; ?></td>
-                                        <td><?php echo $reservaciones->hora_llegada; ?></td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    <?php } else {
-                        echo 'No hay reservaciones hoy';
-                    } ?>
+                <div class="modal-body" id="modalContentReservaciones">
+                    <!-- Aquí se insertarán los datos con AJAX -->
                 </div>
             </form>
             <div class="modal-footer">

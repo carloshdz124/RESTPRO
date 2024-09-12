@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once($ubicacion . "/config/conexion.php");
+include_once($ubicacion . "/config/config.php");
 
 // Consulta para obtener el estado de las mesas
 $sql = "SELECT id, estado FROM mesas";

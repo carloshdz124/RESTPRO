@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once ($ubicacion . "/config/conexion.php");
+include_once ($ubicacion . "/config/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = $_POST["formulario"];
