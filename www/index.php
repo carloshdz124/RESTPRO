@@ -3,6 +3,7 @@ $titulo = "Index";
 $ubicacion = "";
 
 include_once "includes/header.php";
+
 ?>
 
 <div class="container mt-5 centrar">
