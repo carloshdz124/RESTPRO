@@ -1,3 +1,14 @@
+    
+    function eliminarReservacion(id_reservacion, nombre){
+        if(confirm('¿Estas seguro que deseas eliminar la reservacion de ' + nombre +'?')){
+            var data = {
+                id_reservacion : id_reservacion,
+                accion: 'eliminarReservacion'
+            };
+            sendAJAX(data);
+        }
+    }
+    
     // Llamamos al endpoint de lista de espera para que se muestre la lista actualizada en todo momento.
     $(document).ready(function () {
         $('#modalListaEspera').on('show.bs.modal', function () {
@@ -10,6 +21,23 @@
                 },
                 error: function () {
                     $('#modalContent').html('Hubo un error al cargar los datos.');
+                }
+            });
+        });
+    });
+
+    // Llamamos al endpoint de lista de espera para que se muestre la lista actualizada en todo momento.
+    $(document).ready(function () {
+        $('#modalReservacionHoy').on('show.bs.modal', function () {
+            $.ajax({
+                url: '../endpoints/mesas_consulta_reservaciones.php', // Ruta al archivo PHP que consulta los datos
+                method: 'GET',
+                success: function (response) {
+                    // Inserta el contenido generado en el modal
+                    $('#modalContentReservaciones').html(response);
+                },
+                error: function () {
+                    $('#modalContentReservaciones').html('Hubo un error al cargar los datos.');
                 }
             });
         });
@@ -166,7 +194,7 @@
                 document.getElementById('clientesContainer').classList.add('d-none');
                 document.getElementById('mesaOcupada').classList.remove('d-none');
             }
-        } else if (data.accion == 'asignarMesa' || data.accion == 'liberarMesa') {
+        } else if (data.accion == 'asignarMesa' || data.accion == 'liberarMesa' || data.accion == 'eliminarReservacion') {
             id_div_respuesta = '#alertPlaceholder';
         }
         console.log(data.accion);
