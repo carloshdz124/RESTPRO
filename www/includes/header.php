@@ -1,4 +1,14 @@
 <?php
+session_start(); // Iniciar la sesión
+
+// Verificar si el usuario está conectado
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+    $tipo_user = $_SESSION['tipo_user'];
+} else {
+    header('Location: ' . $ubicacion . 'login.php');
+}
+
 if (!isset($ubicacion)) {
     $ubicacion = "";
 }
@@ -26,14 +36,5 @@ if (!isset($ubicacion)) {
 
 <body>
     <?php
-    session_start(); // Iniciar la sesión
-
-    // Verificar si el usuario está conectado
-    if (isset($_SESSION['user'])) {
-        $user = $_SESSION['user'];
-        $tipo_user = $_SESSION['tipo_user'];
-    } else {
-        header('Location: '. $ubicacion . 'login.php');
-    }
-    include_once $ubicacion."includes/navbar.php";
+    include_once $ubicacion . "includes/navbar.php";
     ?>

@@ -1,5 +1,5 @@
 <?php
-include_once 'conexion.php';
+include_once 'config.php';
 
 // Consulta para validar el estado de los meseros.
 $sql = 'SELECT personal.id, personal.estado, personal_bloqueado.fecha_fin FROM personal
