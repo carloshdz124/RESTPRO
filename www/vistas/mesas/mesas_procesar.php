@@ -10,10 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($formulario == 'registroMesa' || $formulario == 'registroReservacion') {
         //Se registra mesa
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
-        $tb_nadultos = htmlspecialchars($_POST["tb_nadultos"]);
-        $tb_nninos = htmlspecialchars($_POST["tb_nniños"]);
-        $cb_areas = implode(",", isset($_POST["cb_areas"]) ? $_POST["cb_areas"] : '');
-        $tb_telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : null;
+        $tb_nadultos = $_POST["tb_nadultos"];
+        $tb_nninos = $_POST["tb_nninos"];
+        $cb_areas = implode(",", isset($_POST["cb_areas"]) && is_array($_POST["cb_areas"]) ? $_POST["cb_areas"] : []);
+        $tb_telefono = isset($_POST["tb_telefono"]) ? $_POST["tb_telefono"] : null;
         if ($formulario == "registroMesa") {
             $tb_fecha = htmlspecialchars(isset($fecha) ? $fecha : date('Y-m-d'));
             $tb_hora = date('H:i:s');
@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
 
         if ($result) {
-            $essage = 'ok';
             header("Location: mesas.php?message=ok");
             exit();
         } else {
@@ -186,6 +185,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>';
                 }
             }
+        }elseif ($accion == 'eliminarReservacion'){
+            $id_reservacion = $data['id_reservacion'];
+
+            // Eliminamos la reservacion
+            $sql = "DELETE FROM mesa_cliente WHERE id = :id_reservacion";
+                $result = $pdo->prepare($sql);
+                $result->execute(array(":id_reservacion" => $id_reservacion));
+                if ($result->rowCount() > 0) {
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>¡Se Cancelo reservación!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                }
         }
     }
 

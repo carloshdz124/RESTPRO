@@ -12,16 +12,16 @@ if ($result->rowCount() > 0) {
 
     // Generar la tabla en HTML
     echo '<table class="table table-dark centrar" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">N. personas</th>
-                        <th scope="col">T. de espera</th>
-                        <th scope="col">Opc</th>
-                    </tr>
-                </thead>
-                <tbody class="table-secondary">';
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">N. personas</th>
+                <th scope="col">T. de espera</th>
+                <th scope="col">Opc</th>
+            </tr>
+        </thead>
+        <tbody class="table-secondary">';
 
     foreach ($resultEspera as $espera) {
         $id = $espera->id;
