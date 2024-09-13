@@ -14,7 +14,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: ''  # Sin contraseña
+      MYSQL_ROOT_PASSWORD: root  # Cambia esto por una contraseña segura
       MYSQL_DATABASE: db_restpro
     ports:
       - "3306:3306"
@@ -25,7 +25,8 @@ services:
     image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: ''  # Sin contraseña
+      PMA_USER: root
+      PMA_PASSWORD: root  # Debe coincidir con la contraseña en MYSQL_ROOT_PASSWORD
     ports:
       - "8081:80"
     depends_on:
