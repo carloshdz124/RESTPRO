@@ -1,14 +1,4 @@
 <?php
-
-$sql = "SELECT * FROM areas";
-$result = $pdo->query($sql);
-if ($result->rowCount() > 0) {
-    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
-} else {
-    $resultAreas = array();
-}
-
-
 // Mostramos los contenedores cada uno con las diferentes areas
 if (isset($resultAreas)) {
     foreach ($resultAreas as $area) {

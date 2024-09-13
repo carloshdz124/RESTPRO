@@ -2,6 +2,15 @@
 $ubicacion = "../../";
 $titulo = "Estaciones";
 include($ubicacion . "includes/header.php");
+
+$sql = "SELECT * FROM areas";
+$result = $pdo->query($sql);
+if ($result->rowCount() > 0) {
+    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $resultAreas = array();
+}
+
 ?>
 <link href="assets/tools/styles.css" rel="stylesheet">
 <div class="container mt-3">

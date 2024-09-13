@@ -4,6 +4,14 @@ $titulo = "MESAS";
 include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
+$sql = "SELECT * FROM areas";
+$result = $pdo->query($sql);
+if ($result->rowCount() > 0) {
+    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
+} else {
+    $resultAreas = array();
+}
+
 // Se realiza consulta para revisar si existe alguna reservacion.
 $sql = "SELECT * FROM mesa_cliente WHERE estado = 1";
 $result = $pdo->query($sql);
