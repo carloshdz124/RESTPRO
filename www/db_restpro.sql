@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 04-09-2024 a las 22:07:27
--- Versión del servidor: 8.3.0
--- Versión de PHP: 8.2.18
+-- Servidor: db
+-- Tiempo de generación: 13-09-2024 a las 01:29:44
+-- Versión del servidor: 8.0.39
+-- Versión de PHP: 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,13 +27,11 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `areas`
 --
 
-DROP TABLE IF EXISTS `areas`;
-CREATE TABLE IF NOT EXISTS `areas` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `areas` (
+  `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL COMMENT 'Nombre de area',
-  `descripcion` varchar(250) NOT NULL COMMENT 'Descripcion de area',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `descripcion` varchar(250) NOT NULL COMMENT 'Descripcion de area'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `areas`
@@ -41,9 +39,194 @@ CREATE TABLE IF NOT EXISTS `areas` (
 
 INSERT INTO `areas` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Salon', 'Salon principal'),
-(2, 'Terraza 2', 'Zona de fumar, area abierta\r\n'),
-(3, 'Mezzanin', 'Area infantil'),
-(4, 'Terraza 1', 'Area de fumar');
+(2, 'Terraza 1', 'Area de fumar'),
+(3, 'Terraza 2', 'Zona de fumar, area abierta\r\n'),
+(4, 'Mezzanin', 'Area infantil');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asignacion_mesas`
+--
+
+CREATE TABLE `asignacion_mesas` (
+  `id` int NOT NULL,
+  `mesa_id` int DEFAULT NULL,
+  `estacion_id` int DEFAULT NULL,
+  `rol_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `asignacion_mesas`
+--
+
+INSERT INTO `asignacion_mesas` (`id`, `mesa_id`, `estacion_id`, `rol_id`) VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 4, 1, 1),
+(4, 11, 1, 1),
+(5, 3, 2, 1),
+(6, 12, 2, 1),
+(7, 13, 2, 1),
+(8, 6, 2, 1),
+(9, 8, 3, 1),
+(10, 7, 3, 1),
+(11, 14, 3, 1),
+(12, 15, 3, 1),
+(13, 10, 4, 1),
+(14, 9, 4, 1),
+(15, 16, 4, 1),
+(16, 17, 4, 1),
+(17, 18, 5, 1),
+(18, 19, 5, 1),
+(19, 24, 5, 1),
+(20, 20, 6, 1),
+(21, 25, 6, 1),
+(22, 26, 6, 1),
+(23, 21, 7, 1),
+(24, 27, 7, 1),
+(25, 28, 7, 1),
+(26, 22, 8, 1),
+(27, 23, 8, 1),
+(28, 29, 8, 1),
+(29, 5, 14, 1),
+(30, 48, 14, 1),
+(31, 51, 14, 1),
+(32, 52, 14, 1),
+(33, 54, 15, 1),
+(34, 55, 15, 1),
+(35, 56, 15, 1),
+(36, 53, 15, 1),
+(37, 49, 16, 1),
+(38, 50, 16, 1),
+(39, 57, 16, 1),
+(40, 58, 17, 1),
+(41, 59, 17, 1),
+(42, 60, 17, 1),
+(43, 63, 17, 1),
+(44, 61, 18, 1),
+(45, 62, 18, 1),
+(46, 64, 18, 1),
+(47, 65, 18, 1),
+(48, 66, 19, 1),
+(49, 70, 19, 1),
+(50, 71, 19, 1),
+(51, 67, 20, 1),
+(52, 68, 20, 1),
+(53, 72, 20, 1),
+(54, 73, 20, 1),
+(55, 69, 21, 1),
+(56, 74, 21, 1),
+(57, 79, 21, 1),
+(58, 81, 22, 1),
+(59, 80, 22, 1),
+(60, 75, 22, 1),
+(61, 76, 22, 1),
+(62, 77, 23, 1),
+(63, 78, 23, 1),
+(64, 82, 23, 1),
+(65, 83, 23, 1),
+(66, 30, 9, 1),
+(67, 31, 9, 1),
+(68, 32, 9, 1),
+(69, 36, 9, 1),
+(70, 34, 10, 1),
+(71, 35, 10, 1),
+(72, 41, 10, 1),
+(73, 38, 10, 1),
+(74, 33, 11, 1),
+(75, 37, 11, 1),
+(76, 39, 11, 1),
+(77, 40, 11, 1),
+(78, 42, 12, 1),
+(79, 45, 12, 1),
+(80, 46, 12, 1),
+(81, 47, 13, 1),
+(82, 44, 13, 1),
+(83, 43, 13, 1),
+(84, 1, 1, 2),
+(85, 2, 1, 2),
+(86, 3, 1, 2),
+(87, 4, 1, 2),
+(88, 5, 2, 2),
+(89, 6, 2, 2),
+(90, 7, 2, 2),
+(91, 8, 2, 2),
+(92, 9, 3, 2),
+(93, 10, 3, 2),
+(94, 11, 3, 2),
+(95, 12, 3, 2),
+(96, 13, 4, 2),
+(97, 14, 4, 2),
+(98, 15, 4, 2),
+(99, 16, 4, 2),
+(100, 17, 5, 2),
+(101, 18, 5, 2),
+(102, 19, 5, 2),
+(103, 20, 5, 2),
+(104, 21, 6, 2),
+(105, 22, 6, 2),
+(106, 23, 6, 2),
+(107, 24, 6, 2),
+(108, 25, 7, 2),
+(109, 26, 7, 2),
+(110, 27, 7, 2),
+(111, 28, 7, 2),
+(112, 29, 8, 2),
+(113, 30, 8, 2),
+(114, 31, 8, 2),
+(115, 32, 8, 2),
+(116, 33, 9, 2),
+(117, 34, 9, 2),
+(118, 35, 9, 2),
+(119, 36, 9, 2),
+(120, 37, 10, 2),
+(121, 38, 10, 2),
+(122, 39, 10, 2),
+(123, 40, 10, 2),
+(124, 41, 11, 2),
+(125, 42, 11, 2),
+(126, 43, 11, 2),
+(127, 44, 11, 2),
+(128, 45, 12, 2),
+(129, 46, 12, 2),
+(130, 47, 12, 2),
+(131, 48, 12, 2),
+(132, 49, 13, 2),
+(133, 50, 13, 2),
+(134, 51, 13, 2),
+(135, 52, 13, 2),
+(136, 53, 14, 2),
+(137, 54, 14, 2),
+(138, 55, 14, 2),
+(139, 56, 14, 2),
+(140, 57, 15, 2),
+(141, 58, 15, 2),
+(142, 59, 15, 2),
+(143, 60, 15, 2),
+(144, 61, 16, 2),
+(145, 62, 16, 2),
+(146, 63, 16, 2),
+(147, 64, 16, 2),
+(148, 65, 17, 2),
+(149, 66, 17, 2),
+(150, 67, 17, 2),
+(151, 68, 17, 2),
+(152, 69, 18, 2),
+(153, 70, 18, 2),
+(154, 71, 18, 2),
+(155, 72, 18, 2),
+(156, 73, 19, 2),
+(157, 74, 19, 2),
+(158, 75, 19, 2),
+(159, 76, 19, 2),
+(160, 77, 20, 2),
+(161, 78, 20, 2),
+(162, 79, 20, 2),
+(163, 80, 20, 2),
+(164, 81, 21, 2),
+(165, 82, 21, 2),
+(166, 83, 21, 2);
 
 -- --------------------------------------------------------
 
@@ -51,43 +234,47 @@ INSERT INTO `areas` (`id`, `nombre`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `estaciones`
 --
 
-DROP TABLE IF EXISTS `estaciones`;
-CREATE TABLE IF NOT EXISTS `estaciones` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `estaciones` (
+  `id` int NOT NULL,
   `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `area_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `area_id` (`area_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `color` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `estaciones`
 --
 
-INSERT INTO `estaciones` (`id`, `descripcion`, `area_id`) VALUES
-(1, '01-02-10-11', NULL),
-(2, '03-04-12-13', NULL),
-(3, '05-06-14-15', NULL),
-(4, '07-08-16-17', NULL),
-(5, '20-21-30', NULL),
-(6, '22-31-32', NULL),
-(7, '23-24-33', NULL),
-(8, '25-34-35', NULL),
-(9, '100-101-110-111', NULL),
-(10, '102-103-123', NULL),
-(11, '120-121-122-112', NULL),
-(12, '130-131-132-3142', NULL),
-(13, '140-141-150-151', NULL),
-(14, '160-171-172', NULL),
-(15, '162-161-173-174', NULL),
-(16, '170-180-190', NULL),
-(17, '181-182-191-192', NULL),
-(18, '183-184-193-194', NULL),
-(19, '50-51-52-60', NULL),
-(20, '53-61-70-71', NULL),
-(21, '54-55-62-72', NULL),
-(22, '80-83-fish', NULL),
-(23, '81-82-octopus', NULL);
+INSERT INTO `estaciones` (`id`, `descripcion`, `color`) VALUES
+(1, 'E1', '#FF5733'),
+(2, 'E2', '#33FF57'),
+(3, 'E3', '#3357FF'),
+(4, 'E4', '#FF33A1'),
+(5, 'E5', '#33FFF3'),
+(6, 'E6', '#FFD700'),
+(7, 'E7', '#C0C0C0'),
+(8, 'E8', '#FF4500'),
+(9, 'E9', '#008080'),
+(10, 'E10', '#800080'),
+(11, 'E11', '#FF6347'),
+(12, 'E12', '#4682B4'),
+(13, 'E13', '#D2691E'),
+(14, 'E14', '#808000'),
+(15, 'E15', '#FF1493'),
+(16, 'E16', '#FF7F50'),
+(17, 'E17', '#6A5ACD'),
+(18, 'E18', '#B22222'),
+(19, 'E19', '#7FFF00'),
+(20, 'E20', '#8B008B'),
+(21, 'E21', '#20B2AA'),
+(22, 'E22', '#F4A460'),
+(23, 'E23', '#008B8B'),
+(24, 'E14', '#DC143C'),
+(25, 'E25', '#00CED1'),
+(26, 'area26', '#FFDAB9'),
+(27, 'area27', '#800000'),
+(28, 'area28', '#556B2F'),
+(29, 'area29', '#4B0082'),
+(30, 'area30', '#FFFAF0');
 
 -- --------------------------------------------------------
 
@@ -95,107 +282,130 @@ INSERT INTO `estaciones` (`id`, `descripcion`, `area_id`) VALUES
 -- Estructura de tabla para la tabla `mesas`
 --
 
-DROP TABLE IF EXISTS `mesas`;
-CREATE TABLE IF NOT EXISTS `mesas` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `mesas` (
+  `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `area_id` int DEFAULT NULL,
   `n_personas` int NOT NULL,
-  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = disponible,\r\n1 = Ocupada,\r\n2 = Reservada',
-  `estacion_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `area_id` (`area_id`),
-  KEY `estacion_id` (`estacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = disponible,\r\n1 = Ocupada,\r\n2 = Reservada'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesas`
 --
 
-INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacion_id`) VALUES
-(1, '01', 1, 4, 0, 1),
-(2, '02', 1, 4, 1, 1),
-(3, '03', 1, 4, 0, 2),
-(4, '10', 1, 4, 0, 1),
-(5, '100', 2, 4, 0, 9),
-(6, '04', 1, 4, 0, 2),
-(7, '05', 1, 4, 0, 3),
-(8, '06', 1, 4, 0, 3),
-(9, '07', 1, 4, 0, 4),
-(10, '08', 1, 4, 0, 4),
-(11, '11', 1, 4, 0, 1),
-(12, '12', 1, 4, 0, 2),
-(13, '13', 1, 8, 0, 2),
-(14, '14', 1, 5, 0, 3),
-(15, '15', 1, 4, 0, 3),
-(16, '16', 1, 4, 0, 4),
-(17, '17', 1, 4, 0, 4),
-(18, '20', 1, 4, 0, 5),
-(19, '21', 1, 5, 1, 5),
-(20, '22', 1, 8, 0, 6),
-(21, '23', 1, 8, 0, 7),
-(22, '24', 1, 5, 0, 7),
-(23, '25', 1, 8, 1, 8),
-(24, '30', 1, 8, 0, 5),
-(25, '31', 1, 8, 1, 6),
-(26, '32', 1, 4, 0, 6),
-(27, '33', 1, 5, 0, 7),
-(28, '34', 1, 8, 0, 8),
-(29, '35', 1, 4, 0, 8),
-(30, '50', 4, 6, 1, 19),
-(31, '51', 4, 4, 0, 19),
-(32, '52', 4, 4, 0, 19),
-(33, '53', 4, 4, 1, 20),
-(34, '54', 4, 4, 0, 21),
-(35, '55', 4, 5, 0, 21),
-(36, '60', 4, 6, 0, 19),
-(37, '61', 4, 4, 0, 20),
-(38, '62', 4, 6, 0, 21),
-(39, '70', 4, 4, 0, 20),
-(40, '71', 4, 4, 0, 20),
-(41, '72', 4, 5, 0, 21),
-(42, '80', 4, 4, 0, 22),
-(43, '81', 4, 4, 0, 23),
-(44, '82', 4, 6, 0, 23),
-(45, '83', 4, 6, 0, 22),
-(46, 'fish', 4, 16, 0, 22),
-(47, 'octopus', 4, 12, 0, 23),
-(48, '101', 2, 6, 1, 9),
-(49, '102', 2, 4, 1, 10),
-(50, '103', 2, 8, 0, 10),
-(51, '110', 2, 4, 0, 9),
-(52, '111', 2, 5, 0, 9),
-(53, '112', 2, 4, 0, 11),
-(54, '120', 2, 4, 0, 11),
-(55, '121', 2, 6, 0, 11),
-(56, '122', 2, 4, 0, 11),
-(57, '123', 2, 6, 0, 10),
-(58, '130', 2, 6, 0, 12),
-(59, '131', 2, 6, 1, 12),
-(60, '132', 2, 4, 0, 12),
-(61, '140', 2, 6, 0, 13),
-(62, '141', 2, 6, 0, 13),
-(63, '142', 2, 4, 0, 12),
-(64, '150', 2, 5, 0, 13),
-(65, '151', 2, 4, 0, 13),
-(66, '160', 3, 8, 0, 14),
-(67, '161', 3, 8, 0, 15),
-(68, '162', 3, 8, 1, 15),
-(69, '170', 3, 4, 0, 16),
-(70, '171', 3, 4, 0, 14),
-(71, '172', 3, 4, 0, 14),
-(72, '173', 3, 4, 0, 15),
-(73, '174', 3, 4, 0, 15),
-(74, '180', 3, 8, 0, 16),
-(75, '181', 3, 5, 1, 17),
-(76, '182', 3, 4, 0, 17),
-(77, '183', 3, 4, 0, 18),
-(78, '184', 3, 5, 0, 18),
-(79, '190', 3, 8, 0, 16),
-(80, '191', 3, 8, 0, 17),
-(81, '192', 3, 8, 0, 17),
-(82, '193', 3, 8, 0, 18),
-(83, '194', 3, 8, 0, 18);
+INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
+(1, '01', 1, 4, 0),
+(2, '02', 1, 4, 1),
+(3, '03', 1, 4, 0),
+(4, '10', 1, 4, 0),
+(5, '100', 3, 4, 0),
+(6, '04', 1, 4, 0),
+(7, '05', 1, 4, 0),
+(8, '06', 1, 4, 0),
+(9, '07', 1, 4, 1),
+(10, '08', 1, 4, 0),
+(11, '11', 1, 4, 0),
+(12, '12', 1, 4, 0),
+(13, '13', 1, 8, 0),
+(14, '14', 1, 5, 0),
+(15, '15', 1, 4, 0),
+(16, '16', 1, 4, 0),
+(17, '17', 1, 4, 0),
+(18, '20', 1, 4, 0),
+(19, '21', 1, 5, 1),
+(20, '22', 1, 8, 0),
+(21, '23', 1, 8, 0),
+(22, '24', 1, 5, 0),
+(23, '25', 1, 8, 0),
+(24, '30', 1, 8, 0),
+(25, '31', 1, 8, 1),
+(26, '32', 1, 4, 0),
+(27, '33', 1, 5, 0),
+(28, '34', 1, 8, 0),
+(29, '35', 1, 4, 0),
+(30, '50', 2, 6, 1),
+(31, '51', 2, 4, 0),
+(32, '52', 2, 4, 0),
+(33, '53', 2, 4, 1),
+(34, '54', 2, 4, 0),
+(35, '55', 2, 5, 0),
+(36, '60', 2, 6, 0),
+(37, '61', 2, 4, 0),
+(38, '62', 2, 6, 0),
+(39, '70', 2, 4, 0),
+(40, '71', 2, 4, 0),
+(41, '72', 2, 5, 0),
+(42, '80', 2, 4, 0),
+(43, '81', 2, 4, 0),
+(44, '82', 2, 6, 0),
+(45, '83', 2, 6, 0),
+(46, 'fish', 2, 16, 0),
+(47, 'octopus', 2, 12, 0),
+(48, '101', 3, 6, 1),
+(49, '102', 3, 4, 1),
+(50, '103', 3, 8, 0),
+(51, '110', 3, 4, 0),
+(52, '111', 3, 5, 0),
+(53, '112', 3, 4, 0),
+(54, '120', 3, 4, 0),
+(55, '121', 3, 6, 0),
+(56, '122', 3, 4, 0),
+(57, '123', 3, 6, 0),
+(58, '130', 3, 6, 0),
+(59, '131', 3, 6, 1),
+(60, '132', 3, 4, 0),
+(61, '140', 3, 6, 0),
+(62, '141', 3, 6, 0),
+(63, '142', 3, 4, 0),
+(64, '150', 3, 5, 0),
+(65, '151', 3, 4, 0),
+(66, '160', 4, 8, 0),
+(67, '161', 4, 8, 0),
+(68, '162', 4, 8, 1),
+(69, '170', 4, 4, 0),
+(70, '171', 4, 4, 0),
+(71, '172', 4, 4, 1),
+(72, '173', 4, 4, 0),
+(73, '174', 4, 4, 0),
+(74, '180', 4, 8, 0),
+(75, '181', 4, 5, 1),
+(76, '182', 4, 4, 0),
+(77, '183', 4, 4, 1),
+(78, '184', 4, 5, 0),
+(79, '190', 4, 8, 0),
+(80, '191', 4, 8, 0),
+(81, '192', 4, 8, 0),
+(82, '193', 4, 8, 0),
+(83, '194', 4, 8, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `mesas_color`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `mesas_color` (
+`color` varchar(10)
+,`rol` varchar(100)
+,`id` int
+,`nombre` varchar(50)
+,`area_id` int
+,`n_personas` int
+,`estado` int
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `mesas_estaciones`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `mesas_estaciones` (
+`rol` varchar(100)
+,`estacion` varchar(50)
+,`mesas` text
+);
 
 -- --------------------------------------------------------
 
@@ -203,9 +413,8 @@ INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`, `estacio
 -- Estructura de tabla para la tabla `mesa_cliente`
 --
 
-DROP TABLE IF EXISTS `mesa_cliente`;
-CREATE TABLE IF NOT EXISTS `mesa_cliente` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `mesa_cliente` (
+  `id` int NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `zonas_deseadas` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `telefono` bigint DEFAULT NULL,
@@ -215,10 +424,8 @@ CREATE TABLE IF NOT EXISTS `mesa_cliente` (
   `hora_salida` time DEFAULT NULL COMMENT 'Hora de salida de mesa',
   `mesa_id` int DEFAULT NULL COMMENT 'id se asigna cuando se asigna mesa',
   `fecha` date NOT NULL,
-  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Con mesa,\r\n3 = Atendido.',
-  PRIMARY KEY (`id`),
-  KEY `mesa_id` (`mesa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `estado` int NOT NULL DEFAULT '0' COMMENT '0 = Espera,\r\n1 = Reserva,\r\n2 = Con mesa,\r\n3 = Atendido.'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `mesa_cliente`
@@ -228,7 +435,7 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 (1, 'juan', '1,4', NULL, 2, 3, '13:30:00', '01:24:49', 27, '2024-07-05', 3),
 (2, 'Pedro', '2,3', 3322115566, 3, 0, '14:16:50', NULL, 49, '2024-07-05', 2),
 (3, 'Lopez', '3', NULL, 2, 3, '14:25:00', NULL, 75, '2024-07-05', 2),
-(4, 'Diego', '1', NULL, 2, 3, '15:00:00', NULL, 23, '2024-07-05', 2),
+(4, 'Diego', '1', NULL, 2, 3, '15:00:00', '01:24:34', 23, '2024-07-05', 3),
 (5, 'javier', '2,4', NULL, 8, 2, '15:12:00', '01:40:15', 47, '2024-07-05', 3),
 (6, 'lopez', '1,4', NULL, 2, 4, '15:20:00', NULL, 25, '2024-07-05', 2),
 (7, 'Martin', '2,3', NULL, 4, 0, '15:25:00', NULL, 48, '2024-07-05', 2),
@@ -246,7 +453,10 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 (22, 'Cristiano', '3', 0, 2, 6, '01:29:53', NULL, 68, '2024-07-05', 2),
 (23, 'Messi', '1', 0, 3, 2, '01:30:07', NULL, 19, '2024-07-05', 2),
 (24, 'Rodrygo', '2,4', 0, 6, 0, '01:30:36', NULL, 59, '2024-07-05', 2),
-(25, 'Lic Mendoza', '4', 0, 3, 0, '16:04:09', NULL, 33, '2024-07-05', 2);
+(25, 'Lic Mendoza', '4', 0, 3, 0, '16:04:09', NULL, 33, '2024-07-05', 2),
+(26, 'mesa docker', '1,2,3,4', NULL, 1, 1, '23:35:22', NULL, 71, '2024-09-10', 2),
+(27, 'mesa docker', '1,2,3,4', NULL, 1, 1, '23:35:51', NULL, 9, '2024-09-10', 2),
+(40, 'Celular', '1,2,3,4', NULL, 2, 1, '21:43:46', NULL, 77, '2024-09-12', 2);
 
 -- --------------------------------------------------------
 
@@ -254,15 +464,13 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 -- Estructura de tabla para la tabla `personal`
 --
 
-DROP TABLE IF EXISTS `personal`;
-CREATE TABLE IF NOT EXISTS `personal` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `personal` (
+  `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
   `calificacion` int NOT NULL DEFAULT '4',
-  `estado` int NOT NULL DEFAULT '1' COMMENT '0: inactivo, 1: activo',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `estado` int NOT NULL DEFAULT '1' COMMENT '0: inactivo, 1: activo'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `personal`
@@ -301,17 +509,14 @@ INSERT INTO `personal` (`id`, `nombre`, `apellido`, `calificacion`, `estado`) VA
 -- Estructura de tabla para la tabla `personal_bloqueado`
 --
 
-DROP TABLE IF EXISTS `personal_bloqueado`;
-CREATE TABLE IF NOT EXISTS `personal_bloqueado` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `personal_bloqueado` (
+  `id` int NOT NULL,
   `personal_id` int NOT NULL,
   `fecha_inicio` date NOT NULL COMMENT 'Fecha de inicio de bloqueo',
   `fecha_fin` date NOT NULL COMMENT 'fecha fin de bloqueo',
   `motivo` varchar(150) NOT NULL,
-  `vigencia` int NOT NULL DEFAULT '0' COMMENT '0: vigente, 1: vencido',
-  PRIMARY KEY (`id`),
-  KEY `personal_id` (`personal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `vigencia` int NOT NULL DEFAULT '0' COMMENT '0: vigente, 1: vencido'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `personal_bloqueado`
@@ -349,16 +554,34 @@ INSERT INTO `personal_bloqueado` (`id`, `personal_id`, `fecha_inicio`, `fecha_fi
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `descripcion` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'ROL 1', 'Rol para 23 meseros'),
+(2, 'ROL 2', 'Rol para 24 meseros');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tareas_preapertura`
 --
 
-DROP TABLE IF EXISTS `tareas_preapertura`;
-CREATE TABLE IF NOT EXISTS `tareas_preapertura` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tareas_preapertura` (
+  `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `descripcion` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `tareas_preapertura`
@@ -378,15 +601,11 @@ INSERT INTO `tareas_preapertura` (`id`, `nombre`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `tarea_mesero`
 --
 
-DROP TABLE IF EXISTS `tarea_mesero`;
-CREATE TABLE IF NOT EXISTS `tarea_mesero` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tarea_mesero` (
+  `id` int NOT NULL,
   `mesero_id` int NOT NULL,
   `tarea_pre_id` int NOT NULL,
-  `fecha` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `mesero_id` (`mesero_id`),
-  KEY `tarea_pre_id` (`tarea_pre_id`)
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -395,15 +614,13 @@ CREATE TABLE IF NOT EXISTS `tarea_mesero` (
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL,
   `usuario` varchar(200) NOT NULL COMMENT 'Nombre de usuario',
   `password` varchar(200) NOT NULL COMMENT 'Contraseña',
   `md5` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Contraseña mdh5',
-  `tipo_usuario` int NOT NULL COMMENT '1-admin, 2-capitan, 3-usuario',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `tipo_usuario` int NOT NULL COMMENT '1-admin, 2-capitan, 3-usuario'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -414,22 +631,189 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 (2, 'capitan', 'capitan', 'a85c04ef417c53019e3f59d459178af6', 2),
 (3, 'usuario', 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', 3);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `mesas_color`
+--
+DROP TABLE IF EXISTS `mesas_color`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`nombre` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `mesas_estaciones`
+--
+DROP TABLE IF EXISTS `mesas_estaciones`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_estaciones`  AS SELECT `roles`.`nombre` AS `rol`, `estaciones`.`descripcion` AS `estacion`, group_concat(`mesas`.`nombre` order by `mesas`.`nombre` ASC separator ', ') AS `mesas` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) GROUP BY `estaciones`.`id`, `roles`.`id` ;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `areas`
+--
+ALTER TABLE `areas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `asignacion_mesas`
+--
+ALTER TABLE `asignacion_mesas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mesa_id` (`mesa_id`),
+  ADD KEY `estacion_id` (`estacion_id`),
+  ADD KEY `rol_id` (`rol_id`);
+
+--
+-- Indices de la tabla `estaciones`
+--
+ALTER TABLE `estaciones`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `area_id` (`area_id`);
+
+--
+-- Indices de la tabla `mesa_cliente`
+--
+ALTER TABLE `mesa_cliente`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mesa_id` (`mesa_id`);
+
+--
+-- Indices de la tabla `personal`
+--
+ALTER TABLE `personal`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `personal_bloqueado`
+--
+ALTER TABLE `personal_bloqueado`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `personal_id` (`personal_id`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tareas_preapertura`
+--
+ALTER TABLE `tareas_preapertura`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tarea_mesero`
+--
+ALTER TABLE `tarea_mesero`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mesero_id` (`mesero_id`),
+  ADD KEY `tarea_pre_id` (`tarea_pre_id`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `areas`
+--
+ALTER TABLE `areas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `asignacion_mesas`
+--
+ALTER TABLE `asignacion_mesas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+
+--
+-- AUTO_INCREMENT de la tabla `estaciones`
+--
+ALTER TABLE `estaciones`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT de la tabla `mesa_cliente`
+--
+ALTER TABLE `mesa_cliente`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT de la tabla `personal`
+--
+ALTER TABLE `personal`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de la tabla `personal_bloqueado`
+--
+ALTER TABLE `personal_bloqueado`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tareas_preapertura`
+--
+ALTER TABLE `tareas_preapertura`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tarea_mesero`
+--
+ALTER TABLE `tarea_mesero`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `estaciones`
+-- Filtros para la tabla `asignacion_mesas`
 --
-ALTER TABLE `estaciones`
-  ADD CONSTRAINT `estaciones_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `asignacion_mesas`
+  ADD CONSTRAINT `asignacion_mesas_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`),
+  ADD CONSTRAINT `asignacion_mesas_ibfk_2` FOREIGN KEY (`estacion_id`) REFERENCES `estaciones` (`id`),
+  ADD CONSTRAINT `asignacion_mesas_ibfk_3` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
 
 --
 -- Filtros para la tabla `mesas`
 --
 ALTER TABLE `mesas`
-  ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `mesas_ibfk_2` FOREIGN KEY (`estacion_id`) REFERENCES `estaciones` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `mesa_cliente`

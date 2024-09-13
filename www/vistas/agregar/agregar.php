@@ -59,51 +59,6 @@ if ($message == 'ok') {
     <div class="row ">
         <div class="col">
             <div class="card centrar" style="width:200px; margin: 0 auto;">
-                <a href="" data-bs-toggle="modal" data-bs-target="#agregarMesa" class="stretched-link">
-                    <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_mesa.jpg">
-                    <div class="card-body">
-                        Agregar Mesa
-                    </div>
-                </a>
-            </div>
-
-
-            <br>
-            <div class="centrar">
-                <?php if (isset($resultMesas)) { ?>
-                    <table class="table table-bordered table-dark" style="width: 50%px;">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">area</th>
-                                <th scope="col">estado</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-secondary">
-                            <?php foreach ($resultMesas as $mesa): ?>
-                                <tr>
-                                    <?php if ($mesa->estado == 0) {
-                                        $estado = 'success';
-                                    }
-                                    if ($mesa->estado == 1) {
-                                        $estado = 'danger';
-                                    }
-                                    if ($mesa->estado == 2) {
-                                        $estado = 'warning';
-                                    } ?>
-                                    <td scope="row"><?php echo $mesa->nombre; ?></td>
-                                    <td scope="row"><?php echo $mesa->area_id; ?></td>
-                                    <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
-                                </tr>
-                            <?php endforeach ?>
-                    </table>
-                <?php } else {
-                    echo 'No existen mesas registradas.';
-                } ?>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card centrar" style="width:200px; margin: 0 auto;">
                 <a href="" data-bs-toggle="modal" data-bs-target="#agregarArea" class="stretched-link">
                     <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_area.jpg">
                     <div class="card-body">
@@ -163,6 +118,51 @@ if ($message == 'ok') {
                     </table>
                 <?php } else {
                     echo 'No existen Tareas registradas.';
+                } ?>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card centrar" style="width:200px; margin: 0 auto;">
+                <a href="" data-bs-toggle="modal" data-bs-target="#agregarMesa" class="stretched-link">
+                    <img class="card-img-top" src="<?php echo $ubicacion; ?>assets/imagenes/icon_add_mesa.jpg">
+                    <div class="card-body">
+                        Agregar Mesa
+                    </div>
+                </a>
+            </div>
+
+
+            <br>
+            <div class="centrar">
+                <?php if (isset($resultMesas)) { ?>
+                    <table class="table table-bordered table-dark" style="width: 50%px;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">area</th>
+                                <th scope="col">estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultMesas as $mesa): ?>
+                                <tr>
+                                    <?php if ($mesa->estado == 0) {
+                                        $estado = 'success';
+                                    }
+                                    if ($mesa->estado == 1) {
+                                        $estado = 'danger';
+                                    }
+                                    if ($mesa->estado == 2) {
+                                        $estado = 'warning';
+                                    } ?>
+                                    <td scope="row"><?php echo $mesa->nombre; ?></td>
+                                    <td scope="row"><?php echo $mesa->area_id; ?></td>
+                                    <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
+                                </tr>
+                            <?php endforeach ?>
+                    </table>
+                <?php } else {
+                    echo 'No existen mesas registradas.';
                 } ?>
             </div>
         </div>

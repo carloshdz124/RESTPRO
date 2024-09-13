@@ -2,15 +2,6 @@
 $ubicacion = "../../";
 $titulo = "Estaciones";
 include($ubicacion . "includes/header.php");
-// Se realiza una consulta para revisar si existen areas -->
-$sql = "SELECT * FROM areas";
-$result = $pdo->query($sql);
-if ($result->rowCount() > 0) {
-    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
-} else {
-    $resultAreas = array();
-}
-include_once ('../endpoints/colores_estaciones.php');
 ?>
 <link href="assets/tools/styles.css" rel="stylesheet">
 <div class="container mt-3">
@@ -37,9 +28,9 @@ include_once ('../endpoints/colores_estaciones.php');
         </div>
     </div>
 
-
     <!-- Si existen areas mostramos mapas de areas -->
     <?php
+    $bandera_estacion = true;
     include_once('../mesas/mesas_mapas.php');
     ?>
 </div>

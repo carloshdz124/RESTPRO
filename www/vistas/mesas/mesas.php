@@ -12,15 +12,6 @@ if ($result->rowCount() > 0) {
 }
 
 // Se realiza una consulta para revisar si existen areas.
-$sql = "SELECT * FROM areas";
-$result = $pdo->query($sql);
-if ($result->rowCount() > 0) {
-    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
-} else {
-    $resultAreas = array();
-}
-
-// Se realiza una consulta para revisar si existen areas.
 $sql = "SELECT * FROM mesa_cliente WHERE estado = 0 ";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
