@@ -31,7 +31,13 @@ if ($result->rowCount() > 0) {
     $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
     $ctn_meseros = 1;
 }
-$result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1');
+
+$hoy = date("w");
+if($hoy >= 1 && $hoy <= 4){
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy .' AND descanso != "fines" ');
+}else{
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy);
+}
 $n_meseros = $result->fetchColumn();
 
 
@@ -66,7 +72,8 @@ $n_meseros = $result->fetchColumn();
                     <tr>
                         <th>#</th>
                         <td>Nombre</td>
-                        <td>Calificacion</td>
+                        <td>Descanso</td>
+                        <td>Turno</td>
                         <td>Estatus</td>
                         <td>Opciones</td>
                     </tr>
@@ -77,9 +84,16 @@ $n_meseros = $result->fetchColumn();
                             <th><?php echo $ctn_meseros; ?></th>
                             <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
                             <td>
-                                <?php for ($star = 0; $star < $mesero->calificacion; $star++):
-                                    echo '<i class="bi bi-star-fill"></i>';
-                                endfor ?>
+                                <?php 
+                                if($mesero->descanso != 'fines') echo obtenerDiaSemana($mesero->descanso); 
+                                else echo 'fin de semana';
+                                ?>
+                            </td>
+                            <td>
+                                <?php 
+                                if($mesero->turno == 1)echo "<i class='fs-1 bi-moon-fill' style='color: grey;'></i>"; 
+                                else echo "<i class='fs-1 bi-brightness-high-fill' style='color: #ffc107;'></i>"; 
+                                ?>
                             </td>
                             <td>
                                 <?php
@@ -240,6 +254,15 @@ $n_meseros = $result->fetchColumn();
         </div>
     </div>
 </div>
+
+<?php 
+function obtenerDiaSemana($dia){
+    $diasSemana = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+    //$diaNumero = date("w"); // 'w' devuelve el número del día de la semana (0 para domingo, 6 para sábado
+
+    return $diasSemana[$dia];
+}
+?>
 
 <style>
     .hidden {

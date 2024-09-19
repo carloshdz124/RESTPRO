@@ -1,10 +1,10 @@
-Falta actualizar mensaje despues de que se asigna mesa a cliente
+Agregar dia de descanso.
 
-Combinar liberar mesa y asignar mesa en mesas_procesar.php
+Crear algoritmo para que las mesas se repartan equitativamente entre los meseros disponibles del dia,
+se agregaron descansos para que estos no aparezcan cuando descansan.
 
-Agregar que si no existe cliente para mesa, ocultar tabla
+Agregar cambiar de descanso en personal.
 
-Revisar htaccess
 
 
 Link: para pruebas vista MESA.php

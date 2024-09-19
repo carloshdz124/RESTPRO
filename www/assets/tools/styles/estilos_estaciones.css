@@ -1,3 +1,28 @@
 .border-custom{
     padding: 5px;
-}  
+}
+
+label {
+    font-size: 20px;
+    margin: 0 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+}
+.alert {
+    margin-top: 10px;
+    display: none; /* Ocultar por defecto */
+}
+
+.color-box {
+    width: 100%;
+    height: 18px;
+    margin: 5px;
+}
+
+.checkbox-label {
+    display: block;
+    cursor: pointer;
+}

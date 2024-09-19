@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 13-09-2024 a las 01:29:44
+-- Tiempo de generación: 19-09-2024 a las 19:03:24
 -- Versión del servidor: 8.0.39
 -- Versión de PHP: 8.2.8
 
@@ -226,7 +226,90 @@ INSERT INTO `asignacion_mesas` (`id`, `mesa_id`, `estacion_id`, `rol_id`) VALUES
 (163, 80, 20, 2),
 (164, 81, 21, 2),
 (165, 82, 21, 2),
-(166, 83, 21, 2);
+(166, 83, 21, 2),
+(167, 1, 1, 3),
+(168, 2, 1, 3),
+(169, 3, 1, 3),
+(170, 6, 1, 3),
+(171, 7, 1, 3),
+(172, 8, 1, 3),
+(173, 9, 2, 3),
+(174, 10, 2, 3),
+(175, 4, 2, 3),
+(176, 11, 2, 3),
+(177, 12, 2, 3),
+(178, 13, 2, 3),
+(179, 14, 3, 3),
+(180, 15, 3, 3),
+(181, 16, 3, 3),
+(182, 17, 3, 3),
+(183, 18, 3, 3),
+(184, 19, 3, 3),
+(185, 20, 4, 3),
+(186, 21, 4, 3),
+(187, 22, 4, 3),
+(188, 23, 4, 3),
+(189, 24, 4, 3),
+(190, 25, 5, 3),
+(191, 26, 5, 3),
+(192, 27, 5, 3),
+(193, 28, 5, 3),
+(194, 29, 5, 3),
+(195, 30, 6, 3),
+(196, 31, 6, 3),
+(197, 32, 6, 3),
+(198, 33, 6, 3),
+(199, 34, 6, 3),
+(200, 35, 7, 3),
+(201, 36, 7, 3),
+(202, 37, 7, 3),
+(203, 38, 7, 3),
+(204, 39, 7, 3),
+(205, 40, 8, 3),
+(206, 41, 8, 3),
+(207, 42, 8, 3),
+(208, 43, 8, 3),
+(209, 44, 9, 3),
+(210, 45, 9, 3),
+(211, 46, 9, 3),
+(212, 47, 9, 3),
+(213, 5, 10, 3),
+(214, 48, 10, 3),
+(215, 49, 10, 3),
+(216, 50, 10, 3),
+(217, 51, 10, 3),
+(218, 52, 11, 3),
+(219, 53, 11, 3),
+(220, 54, 11, 3),
+(221, 55, 11, 3),
+(222, 56, 11, 3),
+(223, 57, 12, 3),
+(224, 58, 12, 3),
+(225, 59, 12, 3),
+(226, 60, 12, 3),
+(227, 61, 12, 3),
+(228, 62, 13, 3),
+(229, 63, 13, 3),
+(230, 64, 13, 3),
+(231, 65, 13, 3),
+(232, 66, 14, 3),
+(233, 67, 14, 3),
+(234, 68, 14, 3),
+(235, 69, 14, 3),
+(236, 70, 14, 3),
+(237, 71, 15, 3),
+(238, 72, 15, 3),
+(239, 73, 15, 3),
+(240, 74, 15, 3),
+(241, 75, 15, 3),
+(242, 76, 16, 3),
+(243, 77, 16, 3),
+(244, 78, 16, 3),
+(245, 79, 16, 3),
+(246, 80, 17, 3),
+(247, 81, 17, 3),
+(248, 82, 17, 3),
+(249, 83, 17, 3);
 
 -- --------------------------------------------------------
 
@@ -268,13 +351,13 @@ INSERT INTO `estaciones` (`id`, `descripcion`, `color`) VALUES
 (21, 'E21', '#20B2AA'),
 (22, 'E22', '#F4A460'),
 (23, 'E23', '#008B8B'),
-(24, 'E14', '#DC143C'),
+(24, 'E24', '#DC143C'),
 (25, 'E25', '#00CED1'),
-(26, 'area26', '#FFDAB9'),
-(27, 'area27', '#800000'),
-(28, 'area28', '#556B2F'),
-(29, 'area29', '#4B0082'),
-(30, 'area30', '#FFFAF0');
+(26, 'E26', '#FFDAB9'),
+(27, 'E27', '#800000'),
+(28, 'E28', '#556B2F'),
+(29, 'E29', '#4B0082'),
+(30, 'E30', '#FFFAF0');
 
 -- --------------------------------------------------------
 
@@ -296,7 +379,7 @@ CREATE TABLE `mesas` (
 
 INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 (1, '01', 1, 4, 0),
-(2, '02', 1, 4, 1),
+(2, '02', 1, 4, 0),
 (3, '03', 1, 4, 0),
 (4, '10', 1, 4, 0),
 (5, '100', 3, 4, 0),
@@ -386,13 +469,13 @@ INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 -- (Véase abajo para la vista actual)
 --
 CREATE TABLE `mesas_color` (
-`color` varchar(10)
-,`rol` varchar(100)
-,`id` int
-,`nombre` varchar(50)
-,`area_id` int
-,`n_personas` int
+`area_id` int
+,`color` varchar(10)
 ,`estado` int
+,`id` int
+,`n_personas` int
+,`nombre` varchar(50)
+,`rol` text
 );
 
 -- --------------------------------------------------------
@@ -402,9 +485,6 @@ CREATE TABLE `mesas_color` (
 -- (Véase abajo para la vista actual)
 --
 CREATE TABLE `mesas_estaciones` (
-`rol` varchar(100)
-,`estacion` varchar(50)
-,`mesas` text
 );
 
 -- --------------------------------------------------------
@@ -443,7 +523,7 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 (9, 'Joaquin', '3', NULL, 4, 0, '15:41:00', '01:01:04', 69, '2024-07-05', 3),
 (10, 'Carlos', '2', NULL, 2, 0, '20:07:46', '01:20:56', 5, '2024-07-30', 3),
 (11, 'Fernando Reyes', '4', 3311799528, 1, 0, '18:14:00', NULL, NULL, '2024-07-05', 1),
-(12, 'Miguel', '1,2,3,4', 0, 2, 2, '18:09:57', NULL, 2, '2024-07-31', 2),
+(12, 'Miguel', '1,2,3,4', 0, 2, 2, '18:09:57', '20:34:29', 2, '2024-07-31', 3),
 (13, 'Daniel', '1,3', 0, 2, 0, '19:10:00', '01:22:41', 3, '2024-07-31', 3),
 (14, 'xxx', '1,2', 0, 1, 2, '08:16:06', '00:12:24', 7, '2024-08-03', 3),
 (15, 'Gael', '3', 0, 2, 0, '18:26:12', '01:37:47', 71, '2024-07-05', 3),
@@ -468,7 +548,8 @@ CREATE TABLE `personal` (
   `id` int NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
-  `calificacion` int NOT NULL DEFAULT '4',
+  `descanso` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `turno` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `estado` int NOT NULL DEFAULT '1' COMMENT '0: inactivo, 1: activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -476,32 +557,32 @@ CREATE TABLE `personal` (
 -- Volcado de datos para la tabla `personal`
 --
 
-INSERT INTO `personal` (`id`, `nombre`, `apellido`, `calificacion`, `estado`) VALUES
-(1, 'Alfredo', 'Cruz', 4, 1),
-(2, 'Diego ', 'Antuna', 4, 1),
-(3, 'Leonardo', 'Morales', 4, 1),
-(4, 'Lenin', 'Contreras', 4, 0),
-(5, 'Bryan', 'Amezcua', 4, 1),
-(6, 'Jonatan', 'López', 4, 1),
-(7, 'Carlos', 'Hernandez', 4, 1),
-(8, 'Luis', 'Torres', 4, 1),
-(9, 'Marco', 'Hernandez', 4, 1),
-(10, 'Joahan', 'Reyes', 4, 1),
-(11, 'Francisco', 'Tapia', 4, 1),
-(12, 'Oliver', 'Perez', 4, 1),
-(13, 'Uriel', 'Rosales', 4, 1),
-(14, 'Michell', 'Reyes', 4, 1),
-(15, 'Jonany', 'Mejia', 4, 1),
-(16, 'Hector', 'Hernandez', 4, 1),
-(17, 'Edgar', 'Nuño', 4, 1),
-(18, 'Eder', 'Contreras', 4, 1),
-(19, 'Jose', 'Velez', 4, 1),
-(20, 'Heriberto', 'Valadez', 4, 1),
-(23, 'David', 'Hernandez', 4, 1),
-(24, 'Ricardo', 'Lozano', 4, 1),
-(25, 'Ulises', 'Rodriguez', 4, 0),
-(26, 'Manuel', 'Flores', 4, 1),
-(27, 'Hugo', ' Acuña', 4, 1);
+INSERT INTO `personal` (`id`, `nombre`, `apellido`, `descanso`, `turno`, `estado`) VALUES
+(1, 'Alfredo', 'Cruz', 'fines', '1', 1),
+(2, 'Diego ', 'Antuna', '3', '1', 1),
+(3, 'Leonardo', 'Morales', '1', '2', 1),
+(4, 'Lenin', 'Contreras', '4', '2', 0),
+(5, 'Bryan', 'Amezcua', '4', '1', 1),
+(6, 'Jonatan', 'López', '2', '2', 1),
+(7, 'Carlos', 'Hernandez', '4', '1', 1),
+(8, 'Luis', 'Torres', '3', '1', 1),
+(9, 'Marco', 'Hernandez', 'fines', '1', 1),
+(10, 'Joahan', 'Reyes', '1', '2', 1),
+(11, 'Francisco', 'Tapia', '1', '1', 1),
+(12, 'Oliver', 'Perez', '1', '2', 1),
+(13, 'Uriel', 'Rosales', '1', '2', 1),
+(14, 'Michell', 'Reyes', '2', '1', 1),
+(15, 'Jonany', 'Mejia', '2', '1', 1),
+(16, 'Hector', 'Hernandez', '2', '2', 1),
+(17, 'Edgar', 'Nuño', '3', '1', 1),
+(18, 'Eder', 'Contreras', '3', '2', 1),
+(19, 'Jose', 'Velez', '3', '2', 1),
+(20, 'Heriberto', 'Valadez', '4', '1', 1),
+(23, 'David', 'Hernandez', '2', '2', 1),
+(24, 'Ricardo', 'Lozano', '3', '2', 1),
+(25, 'Ulises', 'Rodriguez', '4', '1', 0),
+(26, 'Manuel', 'Flores', '4', '1', 1),
+(27, 'Hugo', ' Acuña', '2', '2', 1);
 
 -- --------------------------------------------------------
 
@@ -559,7 +640,6 @@ INSERT INTO `personal_bloqueado` (`id`, `personal_id`, `fecha_inicio`, `fecha_fi
 
 CREATE TABLE `roles` (
   `id` int NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
   `descripcion` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -567,9 +647,10 @@ CREATE TABLE `roles` (
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'ROL 1', 'Rol para 23 meseros'),
-(2, 'ROL 2', 'Rol para 24 meseros');
+INSERT INTO `roles` (`id`, `descripcion`) VALUES
+(1, '23'),
+(2, '21'),
+(3, '17');
 
 -- --------------------------------------------------------
 
@@ -638,7 +719,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 --
 DROP TABLE IF EXISTS `mesas_color`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`nombre` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`descripcion` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
 
 -- --------------------------------------------------------
 
@@ -741,7 +822,7 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `asignacion_mesas`
 --
 ALTER TABLE `asignacion_mesas`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 
 --
 -- AUTO_INCREMENT de la tabla `estaciones`
@@ -777,7 +858,7 @@ ALTER TABLE `personal_bloqueado`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tareas_preapertura`

@@ -399,6 +399,7 @@ if (isset($_GET["message"])) {
 <?php endif ?>
 
 <script src="<?php echo $ubicacion; ?>/assets/tools/scripts/mesas.js"></script>
+<script src="<?php echo $ubicacion; ?>/assets/tools/scripts/mapa_mesas.js"></script>
 
 <?php
 
