@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 19-09-2024 a las 19:03:24
+-- Tiempo de generación: 19-09-2024 a las 22:25:48
 -- Versión del servidor: 8.0.39
 -- Versión de PHP: 8.2.8
 
@@ -227,89 +227,89 @@ INSERT INTO `asignacion_mesas` (`id`, `mesa_id`, `estacion_id`, `rol_id`) VALUES
 (164, 81, 21, 2),
 (165, 82, 21, 2),
 (166, 83, 21, 2),
-(167, 1, 1, 3),
-(168, 2, 1, 3),
-(169, 3, 1, 3),
-(170, 6, 1, 3),
-(171, 7, 1, 3),
-(172, 8, 1, 3),
-(173, 9, 2, 3),
-(174, 10, 2, 3),
-(175, 4, 2, 3),
-(176, 11, 2, 3),
-(177, 12, 2, 3),
-(178, 13, 2, 3),
-(179, 14, 3, 3),
-(180, 15, 3, 3),
-(181, 16, 3, 3),
-(182, 17, 3, 3),
-(183, 18, 3, 3),
-(184, 19, 3, 3),
-(185, 20, 4, 3),
-(186, 21, 4, 3),
-(187, 22, 4, 3),
-(188, 23, 4, 3),
-(189, 24, 4, 3),
-(190, 25, 5, 3),
-(191, 26, 5, 3),
-(192, 27, 5, 3),
-(193, 28, 5, 3),
-(194, 29, 5, 3),
-(195, 30, 6, 3),
-(196, 31, 6, 3),
-(197, 32, 6, 3),
-(198, 33, 6, 3),
-(199, 34, 6, 3),
-(200, 35, 7, 3),
-(201, 36, 7, 3),
-(202, 37, 7, 3),
-(203, 38, 7, 3),
-(204, 39, 7, 3),
-(205, 40, 8, 3),
-(206, 41, 8, 3),
-(207, 42, 8, 3),
-(208, 43, 8, 3),
-(209, 44, 9, 3),
-(210, 45, 9, 3),
-(211, 46, 9, 3),
-(212, 47, 9, 3),
-(213, 5, 10, 3),
-(214, 48, 10, 3),
-(215, 49, 10, 3),
-(216, 50, 10, 3),
-(217, 51, 10, 3),
-(218, 52, 11, 3),
-(219, 53, 11, 3),
-(220, 54, 11, 3),
-(221, 55, 11, 3),
-(222, 56, 11, 3),
-(223, 57, 12, 3),
-(224, 58, 12, 3),
-(225, 59, 12, 3),
-(226, 60, 12, 3),
-(227, 61, 12, 3),
-(228, 62, 13, 3),
-(229, 63, 13, 3),
-(230, 64, 13, 3),
-(231, 65, 13, 3),
-(232, 66, 14, 3),
-(233, 67, 14, 3),
-(234, 68, 14, 3),
-(235, 69, 14, 3),
-(236, 70, 14, 3),
-(237, 71, 15, 3),
-(238, 72, 15, 3),
-(239, 73, 15, 3),
-(240, 74, 15, 3),
-(241, 75, 15, 3),
-(242, 76, 16, 3),
-(243, 77, 16, 3),
-(244, 78, 16, 3),
-(245, 79, 16, 3),
-(246, 80, 17, 3),
-(247, 81, 17, 3),
-(248, 82, 17, 3),
-(249, 83, 17, 3);
+(418, 1, 1, 3),
+(419, 2, 1, 3),
+(420, 3, 1, 3),
+(421, 6, 1, 3),
+(422, 7, 1, 3),
+(423, 8, 1, 3),
+(424, 9, 2, 3),
+(425, 10, 2, 3),
+(427, 4, 2, 3),
+(428, 11, 2, 3),
+(429, 12, 2, 3),
+(430, 13, 3, 3),
+(431, 14, 3, 3),
+(432, 15, 3, 3),
+(433, 16, 3, 3),
+(434, 17, 3, 3),
+(436, 18, 4, 3),
+(437, 19, 4, 3),
+(438, 20, 4, 3),
+(439, 21, 4, 3),
+(440, 22, 4, 3),
+(441, 23, 4, 3),
+(442, 24, 5, 3),
+(443, 25, 5, 3),
+(444, 26, 5, 3),
+(445, 27, 5, 3),
+(446, 28, 5, 3),
+(447, 29, 5, 3),
+(448, 30, 6, 3),
+(449, 31, 6, 3),
+(450, 32, 6, 3),
+(451, 33, 6, 3),
+(452, 34, 6, 3),
+(453, 35, 7, 3),
+(454, 36, 7, 3),
+(455, 37, 7, 3),
+(456, 38, 7, 3),
+(457, 39, 7, 3),
+(458, 40, 8, 3),
+(459, 41, 8, 3),
+(460, 42, 8, 3),
+(461, 43, 8, 3),
+(462, 44, 9, 3),
+(463, 45, 9, 3),
+(464, 46, 9, 3),
+(465, 47, 9, 3),
+(466, 5, 10, 3),
+(467, 48, 10, 3),
+(468, 49, 10, 3),
+(469, 50, 10, 3),
+(470, 51, 10, 3),
+(471, 52, 11, 3),
+(472, 53, 11, 3),
+(473, 54, 11, 3),
+(474, 55, 11, 3),
+(475, 56, 11, 3),
+(476, 57, 12, 3),
+(477, 58, 12, 3),
+(478, 59, 12, 3),
+(479, 60, 12, 3),
+(480, 61, 12, 3),
+(481, 62, 13, 3),
+(482, 63, 13, 3),
+(483, 64, 13, 3),
+(484, 65, 13, 3),
+(485, 66, 14, 3),
+(486, 67, 14, 3),
+(487, 68, 14, 3),
+(488, 69, 14, 3),
+(489, 70, 14, 3),
+(490, 71, 15, 3),
+(491, 72, 15, 3),
+(492, 73, 15, 3),
+(493, 74, 15, 3),
+(494, 75, 15, 3),
+(495, 76, 16, 3),
+(496, 77, 16, 3),
+(497, 78, 16, 3),
+(498, 79, 16, 3),
+(499, 80, 17, 3),
+(500, 81, 17, 3),
+(501, 82, 17, 3),
+(502, 83, 17, 3);
 
 -- --------------------------------------------------------
 
@@ -475,7 +475,7 @@ CREATE TABLE `mesas_color` (
 ,`id` int
 ,`n_personas` int
 ,`nombre` varchar(50)
-,`rol` text
+,`rol` int
 );
 
 -- --------------------------------------------------------
@@ -719,7 +719,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 --
 DROP TABLE IF EXISTS `mesas_color`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`descripcion` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`id` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
 
 -- --------------------------------------------------------
 
@@ -745,9 +745,9 @@ ALTER TABLE `areas`
 --
 ALTER TABLE `asignacion_mesas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `mesa_id` (`mesa_id`),
   ADD KEY `estacion_id` (`estacion_id`),
-  ADD KEY `rol_id` (`rol_id`);
+  ADD KEY `rol_id` (`rol_id`),
+  ADD KEY `asignacion_mesas_ibfk_1` (`mesa_id`);
 
 --
 -- Indices de la tabla `estaciones`
@@ -822,7 +822,7 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `asignacion_mesas`
 --
 ALTER TABLE `asignacion_mesas`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=503;
 
 --
 -- AUTO_INCREMENT de la tabla `estaciones`
@@ -834,7 +834,7 @@ ALTER TABLE `estaciones`
 -- AUTO_INCREMENT de la tabla `mesas`
 --
 ALTER TABLE `mesas`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `mesa_cliente`
@@ -886,7 +886,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `asignacion_mesas`
 --
 ALTER TABLE `asignacion_mesas`
-  ADD CONSTRAINT `asignacion_mesas_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`),
+  ADD CONSTRAINT `asignacion_mesas_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `asignacion_mesas_ibfk_2` FOREIGN KEY (`estacion_id`) REFERENCES `estaciones` (`id`),
   ADD CONSTRAINT `asignacion_mesas_ibfk_3` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
 

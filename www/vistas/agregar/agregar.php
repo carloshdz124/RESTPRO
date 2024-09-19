@@ -24,9 +24,14 @@ if ($result->rowCount() > 0) {
 
 $message = isset($_GET['message']) ? $_GET['message'] : '';
 if ($message == 'ok') {
+    $tipo_alerta = 'class="alert alert-success alert-dismissible mt-3"';
     $message = 'Se registro correctamente';
 } else if ($message == 'no') {
+    $tipo_alerta = 'class="alert alert-danger alert-dismissible mt-3"';
     $message = 'Error al Agregar datos';
+} elseif ($message == 'delete') {
+    $tipo_alerta = 'class="alert alert-danger alert-dismissible mt-3"';
+    $message = 'Se elimino exitosamente';
 }
 ?>
 <style>
@@ -50,7 +55,7 @@ if ($message == 'ok') {
 <div class="container mt-3">
     <!-- Alerta de aviso de accion -->
     <?php if ($message != '') { ?>
-        <div class="alert alert-success mt-3" style="text-align: center;">
+        <div <?php echo $tipo_alerta; ?> style="text-align: center;">
             <?php echo $message; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -140,7 +145,7 @@ if ($message == 'ok') {
                             <tr>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">area</th>
-                                <th scope="col">estado</th>
+                                <th scope="col">OPC</th>
                             </tr>
                         </thead>
                         <tbody class="table-secondary">
@@ -157,7 +162,15 @@ if ($message == 'ok') {
                                     } ?>
                                     <td scope="row"><?php echo $mesa->nombre; ?></td>
                                     <td scope="row"><?php echo $mesa->area_id; ?></td>
-                                    <td scope="row"><button class="btn btn-<?php echo $estado; ?>">x</button></td>
+                                    <td>
+
+
+                                        <button title="Eliminar" type="button" class="btn btn-danger"
+                                            onclick="confirmarEliminacion(<?php echo $mesa->id; ?>,'<?php echo $mesa->nombre; ?>')">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </button>
+
+                                    </td>
                                 </tr>
                             <?php endforeach ?>
                     </table>
@@ -196,7 +209,7 @@ if ($message == 'ok') {
                         </div>
                         <div class="mb-3">
                             <label for="n_personas" class="form-label">Numero de personas</label>
-                            <input placeholder="Nombre o numero de mesa" type="num" class="form-control" id="n_personas"
+                            <input placeholder="Nombre o numero de mesa" type="number" class="form-control" id="n_personas"
                                 name="tb_nPersonas" required>
                         </div>
                     </div>
@@ -277,3 +290,5 @@ if ($message == 'ok') {
         </div>
     </div>
 </div>
+
+<script src="<?php echo $ubicacion; ?>/assets/tools/scripts/agregar.js"></script>

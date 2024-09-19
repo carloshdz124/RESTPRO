@@ -1,6 +1,6 @@
 <?php
 $ubicacion = "../../";
-include_once ($ubicacion . "/config/config.php");
+include_once($ubicacion . "/config/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formulario = $_POST["formulario"];
@@ -85,6 +85,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();
         }
+    }
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $id = $_GET['id'];
+    $accion = $_GET['accion'];
+
+    if ($accion == 'eliminacion') {
+        $sql = "DELETE FROM mesas WHERE id = :tb_id  ";
+        $ejecucion = $pdo->prepare($sql);
+        $result = $ejecucion->execute(array(":tb_id" => $id));
+
+        header("Location: agregar.php?message=delete");
+        exit();
     }
 } else {
     echo "No se recibieron datos.";

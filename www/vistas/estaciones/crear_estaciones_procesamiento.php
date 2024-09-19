@@ -17,6 +17,7 @@ if (isset($_POST['datos'])) {
         foreach ($resultRoles as $rol) {
             if (count($dataEstaciones) == $rol->descripcion) {
                 $bandera_existeRol = true;
+                $rol_id = $rol->id;
             }
         }
         // Validamos si la bandera se activo entonces ya existe un rol.
@@ -34,12 +35,42 @@ if (isset($_POST['datos'])) {
             $sql = substr($sql, 0, -1);
             $result = $pdo->prepare($sql);
             if ($result->execute()) {
-                header("Location: estaciones.php?message=ok");
-                exit();
+                //header("Location: estaciones.php?message=ok");
+                //exit();
             } else {
                 echo "Error en la inserción";
             }
         } else {
+            $sql = "SELECT COUNT(*) FROM asignacion_mesas WHERE rol_id = $rol_id";
+            $result = $pdo->query($sql);
+            $n_mesasEstacion = $result->fetchColumn();
+
+            $sql = "SELECT COUNT(*) FROM mesas";
+            $result = $pdo->query($sql);
+            $n_mesas = $result->fetchColumn();
+
+            // Comparamos el total de mesas con el total de las mesas registradas en esa estacion
+            $diferencia = $n_mesas - $n_mesasEstacion;
+            if ($diferencia != 0) {
+                // Si existe diferencia eliminamos todas las mesas de asignacion mesas
+                $sql = "DELETE FROM asignacion_mesas WHERE rol_id = $rol_id";
+                $result = $pdo->query($sql);
+                // Ahora creamos la consulta para agregar las mesas repartidas actualizadas
+                $sql = "INSERT INTO asignacion_mesas (mesa_id,estacion_id,rol_id) VALUES ";
+                foreach ($dataEstaciones as $estacionId => $mesas) {
+                    foreach ($mesas as $mesa) {
+                        $sql .= "(" . $mesa['id'] . "," . $estacionId . "," . $rol_id . "),";
+                    }
+                }
+                $sql = substr($sql, 0, -1);
+                $result = $pdo->prepare($sql);
+                if ($result->execute()) {
+                    header("Location: estaciones.php?message=ok");
+                    exit();
+                } else {
+                    echo "Error en la inserción";
+                }
+            }
             header("Location: estaciones.php?message=no");
             exit();
         }
