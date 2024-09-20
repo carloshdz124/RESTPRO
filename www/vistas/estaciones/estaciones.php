@@ -5,9 +5,17 @@ include($ubicacion . "includes/header.php");
 
 include('consultas/consultas.php');
 
-$sql = "SELECT COUNT(*) FROM asignacion_mesas WHERE rol_id = $rol_seleccionado";
-$result = $pdo->query($sql);
-$n_mesasEstacion = $result->fetchColumn();
+if (isset($rol_seleccionado)) {
+    $sql = "SELECT COUNT(*) FROM asignacion_mesas WHERE rol_id = $rol_seleccionado";
+    $result = $pdo->query($sql);
+    $n_mesasEstacion = $result->fetchColumn();
+    $msj_button = 'Ver detalles de zona';
+
+} else {
+    $rol_descripcion = "N/A";
+    $msj_button = 'Crear Zona zona';
+    $n_mesasEstacion = 0;
+}
 
 $sql = "SELECT COUNT(*) FROM mesas";
 $result = $pdo->query($sql);
@@ -44,13 +52,19 @@ if ($diferencia != 0) {
     <div class="row">
         <div class="col">
             <a href="crear_estaciones.php" title="Crear Zona" class="btn btn-success">
-                Crear Zona
+                <?php echo $msj_button ?>
             </a>
         </div>
-        <div class="col">
-            <h5 style="text-align: center;">
+        <div class="col" style="text-align: center;">
+            <p>
                 ROL PARA <?php echo $rol_descripcion; ?>
-            </h5>
+            </p>
+            <br>
+            <?php if ($rol_descripcion != 'N/A'): ?>
+                <button onclick="recargar();" class="btn btn-primary">
+                    Elegir rol de hoy
+                </button>
+            <?php endif ?>
         </div>
         <div class="col">
             <!-- Boton para seleccionar areas y mostrarlas -->
@@ -83,6 +97,10 @@ if ($diferencia != 0) {
 
     function seleccionaRol(nombre) {
         window.location.href = 'estaciones.php?rol=' + nombre;
+    }
+
+    function recargar() {
+        window.location.href = 'estaciones.php';
     }
 </script>
 

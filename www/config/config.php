@@ -2,6 +2,8 @@
 
 $appEnv = getenv('APP_ENV');
 
+date_default_timezone_set('America/Mexico_City');
+
 if ($appEnv === 'docker') {
     // Configuración de la base de datos
     $servername = 'db';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 20-09-2024 a las 05:35:01
+-- Tiempo de generación: 20-09-2024 a las 05:20:36
 -- Versión del servidor: 8.0.39
 -- Versión de PHP: 8.2.8
 
@@ -42,19 +42,6 @@ INSERT INTO `areas` (`id`, `nombre`, `descripcion`) VALUES
 (2, 'Terraza 1', 'Area de fumar'),
 (3, 'Terraza 2', 'Zona de fumar, area abierta\r\n'),
 (4, 'Mezzanin', 'Area infantil');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `area_mesero`
---
-
-CREATE TABLE `area_mesero` (
-  `id` int NOT NULL,
-  `mesero_id` int NOT NULL,
-  `area_id` int NOT NULL,
-  `contador` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -727,6 +714,36 @@ INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `mesas_color`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `mesas_color` (
+`color` varchar(10)
+,`rol` int
+,`id` int
+,`nombre` varchar(50)
+,`area_id` int
+,`n_personas` int
+,`estado` int
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `mesas_estaciones`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `mesas_estaciones` (
+`rol` int
+,`rol_descripcion` text
+,`area_id` int
+,`estacion` varchar(50)
+,`mesas` text
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `mesa_cliente`
 --
 
@@ -958,50 +975,20 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `md5`, `tipo_usuario`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `vista_mesas_color`
--- (Véase abajo para la vista actual)
+-- Estructura para la vista `mesas_color`
 --
-CREATE TABLE `vista_mesas_color` (
-`color` varchar(10)
-,`rol` int
-,`id` int
-,`nombre` varchar(50)
-,`area_id` int
-,`n_personas` int
-,`estado` int
-);
+DROP TABLE IF EXISTS `mesas_color`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`id` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `vista_mesas_estaciones`
--- (Véase abajo para la vista actual)
+-- Estructura para la vista `mesas_estaciones`
 --
-CREATE TABLE `vista_mesas_estaciones` (
-`rol` int
-,`rol_descripcion` text
-,`area_id` int
-,`estacion` varchar(50)
-,`mesas` text
-);
+DROP TABLE IF EXISTS `mesas_estaciones`;
 
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vista_mesas_color`
---
-DROP TABLE IF EXISTS `vista_mesas_color`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`id` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) ;
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vista_mesas_estaciones`
---
-DROP TABLE IF EXISTS `vista_mesas_estaciones`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesas_estaciones`  AS SELECT `roles`.`id` AS `rol`, `roles`.`descripcion` AS `rol_descripcion`, `mesas`.`area_id` AS `area_id`, `estaciones`.`descripcion` AS `estacion`, group_concat(`mesas`.`nombre` order by `mesas`.`nombre` ASC separator ', ') AS `mesas` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) GROUP BY `roles`.`id`, `mesas`.`area_id`, `estaciones`.`descripcion` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `mesas_estaciones`  AS SELECT `roles`.`id` AS `rol`, `roles`.`descripcion` AS `rol_descripcion`, `mesas`.`area_id` AS `area_id`, `estaciones`.`descripcion` AS `estacion`, group_concat(`mesas`.`nombre` order by `mesas`.`nombre` ASC separator ', ') AS `mesas` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) GROUP BY `roles`.`id`, `mesas`.`area_id`, `estaciones`.`descripcion` ;
 
 --
 -- Índices para tablas volcadas
@@ -1011,12 +998,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_m
 -- Indices de la tabla `areas`
 --
 ALTER TABLE `areas`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `area_mesero`
---
-ALTER TABLE `area_mesero`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1096,12 +1077,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `areas`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `area_mesero`
---
-ALTER TABLE `area_mesero`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `asignacion_mesas`

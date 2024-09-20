@@ -12,7 +12,7 @@ if ($result->rowCount() > 0) {
 }
 
 if (isset($resultEstados)) {
-    $fecha = '2024-07-05';
+    //$fecha = '2024-07-05';
     $fechaUsada = isset($fecha) ? $fecha : date('Y-m-d');
     foreach ($resultEstados as $meseroEstado) {
         if ($meseroEstado->fecha_fin <= $fechaUsada) {

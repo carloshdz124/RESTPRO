@@ -35,8 +35,8 @@ if (isset($_POST['datos'])) {
             $sql = substr($sql, 0, -1);
             $result = $pdo->prepare($sql);
             if ($result->execute()) {
-                //header("Location: estaciones.php?message=ok");
-                //exit();
+                header("Location: estaciones.php?message=ok");
+                exit();
             } else {
                 echo "Error en la inserción";
             }

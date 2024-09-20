@@ -3,19 +3,27 @@ $ubicacion = "../../";
 $titulo = "Rol";
 include($ubicacion . "includes/header.php");
 
-$result = $pdo->query("SELECT * FROM personal WHERE estado = 1");
-if ($result->rowCount() > 0) {
-    $resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
-    $ctn_meseros = 0;
-    $resultMeseros = desordernar($resultMeseros);
+
+$hoy = date("w");
+if ($hoy >= 1 && $hoy <= 4) {
+    $result = $pdo->query('SELECT * FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
+    $resultCount = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
+} else {
+    $result = $pdo->query('SELECT * FROM personal WHERE estado = 1 AND descanso != ' . $hoy);
+    $resultCount = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy);
 }
+$resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
+$ctn_meseros = 0;
+$resultMeseros = asignarMeseros($resultMeseros);
+$n_meseros = $resultCount->fetchColumn();
+echo $n_meseros;
 
 $result = $pdo->query("SELECT * FROM areas");
 if ($result->rowCount() > 0) {
     $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
-$result = $pdo->query("SELECT * FROM estaciones");
+$result = $pdo->query("SELECT * FROM vista_mesas_estaciones WHERE rol_descripcion = $n_meseros");
 if ($result->rowCount() > 0) {
     $resultEstaciones = $result->fetchAll(PDO::FETCH_OBJ);
 }
@@ -43,35 +51,50 @@ if ($result->rowCount() > 0) {
     </div>
     <br>
     <div class="centrar d-flex">
-        <?php if (isset($resultAreas)) { ?>
-            <table class="table table-bordered table-dark" style="width: 500px;">
-                <?php foreach ($resultAreas as $area):
-                    $nombre_area = $area->nombre;
-                    ?>
-                    <thead>
-                        <tr>
-                            <th scope="col"><?php echo $nombre_area; ?></th>
-                            <th scope="col">Mesas</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <?php foreach ($resultMeseros as $mesero):
-                            if (($ctn_meseros == 8 && $area->id == 1)||($ctn_meseros == 13 && $area->id == 2)||($ctn_meseros == 18 && $area->id == 3)||($ctn_meseros == 23 && $area->id == 4)) {
-                                break;
-                            }
-                            ?>
+        <?php if (isset($resultEstaciones)) {
+            //Recorremos cada area para mostrarla en la tabla -->
+            if (isset($resultAreas)) { ?>
+                <table class="table table-bordered table-dark" style="width: 500px;">
+                    <?php foreach ($resultAreas as $area):
+                        $nombre_area = $area->nombre;
+                        $area_id = $area->id;
+                        ?>
+                        <thead>
                             <tr>
-                                <th scope="row"><?php echo $resultMeseros[$ctn_meseros]->nombre; ?></th>
-                                <td><?php echo $resultEstaciones[$ctn_meseros]->descripcion; ?></td>
+                                <th scope="col"><?php echo $nombre_area; ?></th>
+                                <th scope="col">Mesas</th>
                             </tr>
-                            <?php $ctn_meseros += 1; endforeach ?>
-                    </tbody>
-                <?php endforeach ?>
-            </table>
-        <?php } else {
-            echo 'No existen areas';
-        } ?>
-    </div>
+                        </thead>
+                        <tbody class="table-secondary">
+                            <?php foreach ($resultMeseros as $mesero):
+                                if ($ctn_meseros > $n_meseros - 1 || $area_id != $resultEstaciones[$ctn_meseros]->area_id) {
+                                    break;
+                                }
+                                ?>
+                                <tr>
+                                    <th scope="row"><?php echo $resultMeseros[$ctn_meseros]->nombre; ?></th>
+                                    <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
+                                </tr>
+                                <?php $ctn_meseros += 1; endforeach ?>
+                        </tbody>
+                    <?php endforeach ?>
+                </table>
+            <?php } else {
+                echo 'No existen areas';
+            }
+        } else { ?>
+        </div>
+        <div style="text-align:center;">
+
+            <p>
+                No existe rol para la cantidad de meseros.
+            </p>
+            <a href="../estaciones/crear_estaciones.php" title="Crear Zona" class="btn btn-danger">
+                Crear rol
+            </a>
+        </div>
+    <?php }
+        ?>
 </div> <!-- Final del container -->
 
 <!-- Modal Lista de días de roles -->
@@ -83,31 +106,7 @@ if ($result->rowCount() > 0) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex centrar">
-                <table class="table table-dark" style="width: 300px;">
-                    <thead>
-                        <tr>
-                            <th scope="col"><strong>Día</strong></th>
-                            <th scope="col">Ver</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <tr>
-                            <th scope="row">23-07-2024</th>
-                            <td><button data-bs-toggle="modal" data-bs-target="#modalRol" class="btn btn-success"><i
-                                        class="bi bi-eye"></i></button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">22-07-2024</th>
-                            <td><button data-bs-toggle="modal" data-bs-target="#modalRol" class="btn btn-success"><i
-                                        class="bi bi-eye"></i></button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">21-07-2024</th>
-                            <td><button data-bs-toggle="modal" data-bs-target="#modalRol" class="btn btn-success"><i
-                                        class="bi bi-eye"></i></button></td>
-                        </tr>
-                    </tbody>
-                </table>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
@@ -125,67 +124,7 @@ if ($result->rowCount() > 0) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body centrar d-flex">
-                <table class="table table-bordered table-dark" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Salon</th>
-                            <th scope="col">Mesas</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <tr>
-                            <th scope="row">Juan</th>
-                            <td>1 - 2 - 10 - 11</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Pedro</th>
-                            <td>3 - 4 - 12 - 13</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Manuel</th>
-                            <td>20 - 21 - 30 - 31</td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th scope="col">Terraza</th>
-                            <th scope="col">Mesas</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-                        <tr>
-                            <th scope="row">Juan</th>
-                            <td>1 - 2 - 10 - 11</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Pedro</th>
-                            <td>3 - 4 - 12 - 13</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Manuel</th>
-                            <td>20 - 21 - 30 - 31</td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th scope="col">Area Infantil</th>
-                            <th scope="col">Mesas</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-secondary">
-
-                        <tr>
-                            <th scope="row">Juan</th>
-                            <td>1 - 2 - 10 - 11</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Pedro</th>
-                            <td>3 - 4 - 12 - 13</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Manuel</th>
-                            <td>20 - 21 - 30 - 31</td>
-                </table>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="exportToPDF" data-bs-dismiss="modal"><i
@@ -210,7 +149,7 @@ if ($result->rowCount() > 0) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
 <?php
-function desordernar($array)
+function asignarMeseros($array)
 {
     // Copiar el array para no modificar el original
     $arrayCopia = $array;

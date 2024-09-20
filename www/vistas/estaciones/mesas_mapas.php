@@ -7,9 +7,8 @@ $globalCategorizadoPorColor = [];
 
 // Iterar sobre los resultados de las áreas
 foreach ($resultAreas as $area) {
-    if(isset($bandera_estacion)){
-        $result = $pdo->query('SELECT * FROM mesas_color WHERE area_id=' . $area->id . ' AND rol='. $rol_seleccionado .' ORDER BY nombre ASC');
-
+    if(isset($bandera_estacion) && isset($rol_seleccionado)){
+        $result = $pdo->query('SELECT * FROM vista_mesas_color WHERE area_id=' . $area->id . ' AND rol='. $rol_seleccionado .' ORDER BY nombre ASC');
     }else{
         $result = $pdo->query('SELECT * FROM mesas WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
     
@@ -48,7 +47,7 @@ foreach ($resultAreas as $area) {
                 $categorizadoPorColor[$estacion_id] = [];
             }
             $categorizadoPorColor[$estacion_id][] = ['id' => $mesa->id, 'nombre' => $mesa->nombre];
-        } elseif(isset($bandera_estacion)){
+        } elseif(isset($bandera_estacion) && isset($rol_seleccionado)){
             $color = $mesa->color;
         }else{
             $color = 'transparent';

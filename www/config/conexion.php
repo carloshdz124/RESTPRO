@@ -4,7 +4,7 @@ $username = "root";
 $password = "";
 $dbname = "db_restpro";
 
-$fecha = '2024-07-05';
+//$fecha = '2024-07-05';
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
