@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 20-09-2024 a las 05:35:01
+-- Tiempo de generación: 20-09-2024 a las 09:40:44
 -- Versión del servidor: 8.0.39
 -- Versión de PHP: 8.2.8
 
@@ -53,8 +53,106 @@ CREATE TABLE `area_mesero` (
   `id` int NOT NULL,
   `mesero_id` int NOT NULL,
   `area_id` int NOT NULL,
-  `contador` int NOT NULL
+  `contador` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `area_mesero`
+--
+
+INSERT INTO `area_mesero` (`id`, `mesero_id`, `area_id`, `contador`) VALUES
+(1, 24, 1, 0),
+(2, 1, 1, 1),
+(3, 2, 1, 0),
+(4, 3, 1, 0),
+(5, 5, 1, 0),
+(6, 6, 1, 0),
+(7, 7, 1, 0),
+(8, 8, 1, 1),
+(9, 9, 1, 0),
+(10, 10, 1, 0),
+(11, 11, 1, 0),
+(12, 12, 1, 0),
+(13, 13, 1, 0),
+(14, 14, 1, 0),
+(15, 15, 1, 0),
+(16, 16, 1, 0),
+(17, 17, 1, 0),
+(18, 18, 1, 0),
+(19, 19, 1, 0),
+(20, 20, 1, 0),
+(21, 23, 1, 0),
+(22, 26, 1, 0),
+(23, 27, 1, 0),
+(24, 1, 2, 0),
+(25, 2, 2, 0),
+(26, 3, 2, 0),
+(27, 5, 2, 0),
+(28, 6, 2, 0),
+(29, 7, 2, 0),
+(30, 8, 2, 0),
+(31, 9, 2, 0),
+(32, 10, 2, 0),
+(33, 11, 2, 0),
+(34, 12, 2, 0),
+(35, 13, 2, 0),
+(36, 14, 2, 0),
+(37, 15, 2, 0),
+(38, 16, 2, 0),
+(39, 17, 2, 0),
+(40, 18, 2, 0),
+(41, 19, 2, 0),
+(42, 20, 2, 0),
+(43, 23, 2, 0),
+(44, 24, 2, 0),
+(45, 26, 2, 0),
+(46, 27, 2, 0),
+(47, 1, 3, 0),
+(48, 2, 3, 0),
+(49, 3, 3, 0),
+(50, 5, 3, 0),
+(51, 6, 3, 0),
+(52, 7, 3, 0),
+(53, 8, 3, 0),
+(54, 9, 3, 0),
+(55, 10, 3, 0),
+(56, 11, 3, 0),
+(57, 12, 3, 0),
+(58, 13, 3, 0),
+(59, 14, 3, 0),
+(60, 15, 3, 0),
+(61, 16, 3, 0),
+(62, 17, 3, 0),
+(63, 18, 3, 0),
+(64, 19, 3, 0),
+(65, 20, 3, 0),
+(66, 23, 3, 0),
+(67, 24, 3, 0),
+(68, 26, 3, 0),
+(69, 27, 3, 0),
+(70, 1, 4, 0),
+(71, 2, 4, 0),
+(72, 3, 4, 0),
+(73, 5, 4, 0),
+(74, 6, 4, 0),
+(75, 7, 4, 0),
+(76, 8, 4, 0),
+(77, 9, 4, 0),
+(78, 10, 4, 0),
+(79, 11, 4, 0),
+(80, 12, 4, 0),
+(81, 13, 4, 0),
+(82, 14, 4, 0),
+(83, 15, 4, 0),
+(84, 16, 4, 0),
+(85, 17, 4, 0),
+(86, 18, 4, 0),
+(87, 19, 4, 0),
+(88, 20, 4, 0),
+(89, 23, 4, 0),
+(90, 24, 4, 0),
+(91, 26, 4, 0),
+(92, 27, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -1017,7 +1115,9 @@ ALTER TABLE `areas`
 -- Indices de la tabla `area_mesero`
 --
 ALTER TABLE `area_mesero`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_mesero_id` (`mesero_id`),
+  ADD KEY `fk_area_id` (`area_id`);
 
 --
 -- Indices de la tabla `asignacion_mesas`
@@ -1101,7 +1201,7 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `area_mesero`
 --
 ALTER TABLE `area_mesero`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT de la tabla `asignacion_mesas`
@@ -1166,6 +1266,13 @@ ALTER TABLE `usuarios`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `area_mesero`
+--
+ALTER TABLE `area_mesero`
+  ADD CONSTRAINT `fk_area_id` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mesero_id` FOREIGN KEY (`mesero_id`) REFERENCES `personal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `asignacion_mesas`
