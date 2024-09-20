@@ -3,31 +3,9 @@ $ubicacion = "../../";
 $titulo = "Rol";
 include($ubicacion . "includes/header.php");
 
+include("consultas/consultas.php");
 
-$hoy = date("w");
-if ($hoy >= 1 && $hoy <= 4) {
-    $result = $pdo->query('SELECT * FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
-    $resultCount = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
-} else {
-    $result = $pdo->query('SELECT * FROM personal WHERE estado = 1 AND descanso != ' . $hoy);
-    $resultCount = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy);
-}
-$resultMeseros = $result->fetchAll(PDO::FETCH_OBJ);
-$ctn_meseros = 0;
-$resultMeseros = asignarMeseros($resultMeseros);
-$n_meseros = $resultCount->fetchColumn();
-echo $n_meseros;
-
-$result = $pdo->query("SELECT * FROM areas");
-if ($result->rowCount() > 0) {
-    $resultAreas = $result->fetchAll(PDO::FETCH_OBJ);
-}
-
-$result = $pdo->query("SELECT * FROM vista_mesas_estaciones WHERE rol_descripcion = $n_meseros");
-if ($result->rowCount() > 0) {
-    $resultEstaciones = $result->fetchAll(PDO::FETCH_OBJ);
-}
-
+include("consultas/asignarMeserosAEstacion.php");
 
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
@@ -43,9 +21,14 @@ if ($result->rowCount() > 0) {
         <div class="col">
             <p><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
         </div>
-
+        <?php
+        $jsonData = json_encode($meserosAsignados);
+        ?>
         <div class="col" style="text-align: right;">
-            <button onclick="window.location.reload();" class="btn btn-dark">Generar</button>
+            <form id="miFormulario" method="POST" action="rol_procesar.php">
+                <input type="hidden" name="datos" value='<?php echo $jsonData; ?>'>
+                <button class="btn btn-dark" type="submit">Crear rol</button>
+            </form>
             <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">Historial</button>
         </div>
     </div>
@@ -56,6 +39,7 @@ if ($result->rowCount() > 0) {
             if (isset($resultAreas)) { ?>
                 <table class="table table-bordered table-dark" style="width: 500px;">
                     <?php foreach ($resultAreas as $area):
+                        $ctn_meseros_x_area = 0;
                         $nombre_area = $area->nombre;
                         $area_id = $area->id;
                         ?>
@@ -72,12 +56,14 @@ if ($result->rowCount() > 0) {
                                 }
                                 ?>
                                 <tr>
-                                    <th scope="row"><?php echo $resultMeseros[$ctn_meseros]->nombre; ?></th>
+                                    <th scope="row"><?php echo $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->nombre; ?></th>
                                     <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
                                 </tr>
-                                <?php $ctn_meseros += 1; endforeach ?>
+                                <?php $ctn_meseros += 1;
+                                $ctn_meseros_x_area += 1;
+                            endforeach ?>
                         </tbody>
-                    <?php endforeach ?>
+                        <?php $ctn_areas += 1; endforeach ?>
                 </table>
             <?php } else {
                 echo 'No existen areas';
@@ -124,7 +110,7 @@ if ($result->rowCount() > 0) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body centrar d-flex">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="exportToPDF" data-bs-dismiss="modal"><i
@@ -135,13 +121,7 @@ if ($result->rowCount() > 0) {
     </div>
 </div>
 
-<script>
-    document.getElementById('showAlertGenerar').addEventListener('click', function () {
-        const alert = document.getElementById('alertGenerar');
-        alert.style.display = 'block';
-        alert.classList.add('show');
-    });
-</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
