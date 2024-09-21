@@ -5,36 +5,34 @@ include($ubicacion . "includes/header.php");
 
 include("consultas/consultas.php");
 
-include("consultas/asignarMeserosAEstacion.php");
+if (isset($resultEstaciones)) {
+    include("consultas/asignarMeserosAEstacion.php");
+}
 
+$id_mesero_ordenado = [];
 ?>
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
 <div class="container mt-3">
-    <!-- Alerta -->
-    <div id="alertGenerar" class="alert alert-warning alert-dismissible fade" role="alert" style="display: none;">
-        <strong>En proceso:</strong> Aquí generará roles distintos cada que se presione.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
     <h1 class="text-center"><?php echo $titulo; ?></h1>
-    <div class="row">
-        <div class="col">
-            <p><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
+    <?php if (isset($resultEstaciones)) { ?>
+        <div class="row">
+            <div class="col">
+                <p><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
+            </div>
+            <div class="col" style="text-align: right;" id="sendButton">
+                <!-- Boton que envia formulario de ids de meseros, esta debajo -->
+                <button class="btn btn-dark">
+                    Crear rol
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">
+                    Historial
+                </button>
+            </div>
         </div>
-        <?php
-        $jsonData = json_encode($meserosAsignados);
-        ?>
-        <div class="col" style="text-align: right;">
-            <form id="miFormulario" method="POST" action="rol_procesar.php">
-                <input type="hidden" name="datos" value='<?php echo $jsonData; ?>'>
-                <button class="btn btn-dark" type="submit">Crear rol</button>
-            </form>
-            <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">Historial</button>
-        </div>
-    </div>
-    <br>
-    <div class="centrar d-flex">
-        <?php if (isset($resultEstaciones)) {
+        <br>
+        <div class="centrar d-flex">
+            <?php
             //Recorremos cada area para mostrarla en la tabla -->
             if (isset($resultAreas)) { ?>
                 <table class="table table-bordered table-dark" style="width: 500px;">
@@ -59,28 +57,35 @@ include("consultas/asignarMeserosAEstacion.php");
                                     <th scope="row"><?php echo $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->nombre; ?></th>
                                     <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
                                 </tr>
-                                <?php $ctn_meseros += 1;
+                                <?php
+                                $id_mesero_ordenado[] = $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->id;
+                                $ctn_meseros += 1;
                                 $ctn_meseros_x_area += 1;
                             endforeach ?>
                         </tbody>
                         <?php $ctn_areas += 1; endforeach ?>
                 </table>
+                <?php
+                $jsonData = json_encode($id_mesero_ordenado);
+                ?>
+                <form id="miFormulario" method="POST" action="rol_procesar.php">
+                    <input type="hidden" name="datos" value='<?php echo $jsonData; ?>'>
+                </form>
             <?php } else {
                 echo 'No existen areas';
             }
-        } else { ?>
+    } else { ?>
         </div>
         <div style="text-align:center;">
 
             <p>
                 No existe rol para la cantidad de meseros.
             </p>
-            <a href="../estaciones/crear_estaciones.php" title="Crear Zona" class="btn btn-danger">
+            <a href="../estaciones/crear_estaciones.php" title="Crear Rol" class="btn btn-danger">
                 Crear rol
             </a>
         </div>
-    <?php }
-        ?>
+    <?php } ?>
 </div> <!-- Final del container -->
 
 <!-- Modal Lista de días de roles -->
@@ -127,6 +132,12 @@ include("consultas/asignarMeserosAEstacion.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
 <script src="<?php echo $ubicacion; ?>assets/tools/scripts/guardarRol.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('sendButton').addEventListener('click', function () {
+        document.getElementById('miFormulario').submit();
+    });
+</script>
 
 <?php
 function asignarMeseros($array)

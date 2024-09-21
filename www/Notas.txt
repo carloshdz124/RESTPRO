@@ -5,7 +5,24 @@ se agregaron descansos para que estos no aparezcan cuando descansan.
 
 Agregar cambiar de descanso en personal.
 
+vista:
+SELECT 
+    me.nombre AS mesero, 
+    e.descripcion AS estacion, 
+    GROUP_CONCAT(m.nombre ORDER BY m.id SEPARATOR ', ') AS mesas, 
+    ams.fecha, 
+    r.descripcion AS rol
+FROM asignacion_meseros ams
+JOIN personal me ON ams.mesero_id = me.id
+JOIN estaciones e ON ams.estacion_id = e.id
+JOIN asignacion_mesas am ON am.estacion_id = e.id AND am.rol_id = ams.rol_id
+JOIN mesas m ON am.mesa_id = m.id  -- Unir con la tabla de mesas
+JOIN roles r ON ams.rol_id = r.id
+WHERE ams.fecha = '2024-09-21'
+GROUP BY e.id, me.nombre, ams.fecha, r.descripcion;
 
+Agregar poner fecha al registrar rol y si ya se selecciono uno en el dia, que ya no deje crear mas.
+Validar que aunque cambien el numero de meseros, se siga viendo que mesas tuve ese dia.
 
 Link: para pruebas vista MESA.php
 http://localhost/PROYECTO_MODULAR/vistas/mesas.php?areas%5B0%5D=1&areas%5B1%5D=2&areas%5B2%5D=3

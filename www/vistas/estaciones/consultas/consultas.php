@@ -41,7 +41,8 @@ if ($result->rowCount() > 0) {
 if (isset($_GET['datos'])) {
     // Obtener el array de datos
     $meseroxArea = $_GET['datos'];
-    $meseroxArea = $meseroxArea[0]; // Esto mostrará el array enviado
+    // Esto mostrará el array enviado
+    $meseroxArea = $meseroxArea[0];
 
     // Dividir la cadena en un array usando la coma como delimitador
     $arrayString = explode(',', $meseroxArea);
@@ -53,6 +54,7 @@ if (isset($_GET['datos'])) {
     if ($resultConsultaEstaciones->rowCount() > 0) {
         $resultEstaciones = $resultConsultaEstaciones->fetch(PDO::FETCH_OBJ);
     }
+// Condicion en caso de que se envien datos get para visualizar otros roles.
 } elseif (isset($_GET['rol'])) {
     $rol_seleccionado = $_GET['rol'];
 }

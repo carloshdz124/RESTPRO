@@ -12,8 +12,6 @@ if (isset($rol_seleccionado)) {
     $msj_button = 'Ver detalles de zona';
 
 } else {
-    $rol_descripcion = "N/A";
-    $msj_button = 'Crear Zona zona';
     $n_mesasEstacion = 0;
 }
 
@@ -31,6 +29,9 @@ $message = isset($message) ? $message : '';
 // Comparamos el total de mesas con el total de las mesas registradas en esa estacion
 $diferencia = $n_mesas - $n_mesasEstacion;
 if ($diferencia != 0) {
+    $rol_descripcion = "N/A";
+    $msj_button = 'Crear Zona zona';
+    $n_mesasEstacion = 0;
     $alert = 'alert alert-danger alert-dismissible mt-3';
     $message = 'Hay <strong>' . $diferencia . ' mesas </strong> sin estacion asignada<br>
     Crea una zona.';
@@ -67,6 +68,7 @@ if ($diferencia != 0) {
             <?php endif ?>
         </div>
         <div class="col">
+            <?php if($diferencia == 0) { ?>
             <!-- Boton para seleccionar areas y mostrarlas -->
             <div class="dropdown" style="text-align: right;">
                 <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
@@ -80,6 +82,7 @@ if ($diferencia != 0) {
                     <?php } ?>
                 </ul>
             </div>
+            <?php } ?>
         </div>
     </div>
 

@@ -1,6 +1,5 @@
 <?php
 
-
 $meserosxArea = calcularMeserosxArea($n_areas, $pdo, $n_meseros);
 
 $mesero_array = [];
@@ -11,14 +10,14 @@ foreach ($resultMeseros as $mesero) {
     // Recorremos cada area
     foreach ($resultAreas as $area) {
         // Consultamos si existen datos de este mesero en esta area.
-        $result = $pdo->query("SELECT * FROM area_mesero WHERE mesero_id=$mesero->id AND area_id=$area->id");
+        $result = $pdo->query("SELECT * FROM ctn_area_mesero WHERE mesero_id=$mesero->id AND area_id=$area->id");
         // Si existe, solo almacenamos la cantidad de veces que ah estado en cada area
         if ($result->rowCount() > 0) {
             $resultAreaMesero = $result->fetch(PDO::FETCH_OBJ);
             $veces_en_area[] = $resultAreaMesero->contador;
             // Sino creamos un registro de ese mesero en esa area.
         } else {
-            $result = $pdo->query("INSERT INTO area_mesero (mesero_id,area_id) VALUES ($mesero->id, $area->id)");
+            $result = $pdo->query("INSERT INTO ctn_area_mesero (mesero_id,area_id) VALUES ($mesero->id, $area->id)");
         }
     }
     //$orden = ordenarAreasMenores($veces_en_area);

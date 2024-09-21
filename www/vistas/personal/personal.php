@@ -85,7 +85,8 @@ $n_meseros = $result->fetchColumn();
                             <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
                             <td>
                                 <?php 
-                                if($mesero->descanso != 'fines') echo obtenerDiaSemana($mesero->descanso); 
+                                if($mesero->descanso == null) echo obtenerDiaSemana(1);
+                                elseif($mesero->descanso != 'fines') echo obtenerDiaSemana($mesero->descanso); 
                                 else echo 'fin de semana';
                                 ?>
                             </td>
