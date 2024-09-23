@@ -19,21 +19,28 @@ if (isset($_POST['datos'])) {
 
     $n_meseros = count($meserosOrdenados);
 
+    // Calculamos cuantos meseros son por zona, y acumulamos los resultados para saber cuando cambia de area cada mesero
     $meserosxArea = sumarPosiciones(calcularMeserosxArea($n_areas, $pdo, $n_meseros));
 
+    // Consultamos los roles cuando para ver cual es el activo.
     $result = $pdo->query("SELECT * FROM roles WHERE descripcion = $n_meseros");
     if ($result->rowCount() > 0) {
         $resultRol = $result->fetch(PDO::FETCH_OBJ);
+        // Guardamos el rol_id
         $rol_seleccionado = $resultRol->id;
     }
+    // Creamos la consulta para crear el nuevo rol que asigna estacion, mesas y mesero
     $sql = "INSERT INTO asignacion_meseros (mesero_id,estacion_id,rol_id,fecha) VALUES ";
+    $fecha = date("Y-m-d");
     foreach ($meserosOrdenados as $estacion_id => $mesero_id) {
-        $sql .= "($mesero_id," . $estacion_id + 1 . ",$rol_seleccionado,null),";
+        $sql .= "($mesero_id," . $estacion_id + 1 . ",$rol_seleccionado,'$fecha'),";
     }
     $sql = substr($sql, 0, -1);
     $result = $pdo->query($sql);
     $ctn_n_areas = 0;
+    // Ahora recorreremos a todos los meseros para aumentar en su contador de area una unidad
     foreach ($meserosOrdenados as $estacion_id => $mesero_id){
+        // Recorremos las areas para ver que area es la que le toco cada mesero y aumentar el contador
         foreach ($resultAreas as $area) {
             if($estacion_id == $meserosxArea[$ctn_n_areas]){
                 $ctn_n_areas += 1;

@@ -23,10 +23,10 @@ if (isset($_GET['message'])) {
 
 // Consulta para ver numero de meseros
 $hoy = date("w");
-if ($hoy >= 1 && $hoy <= 4) {
-    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
-} else {
-    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy);
+if($hoy > 0 && $hoy < 5){
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy .' AND descanso != "fines" ');
+}else{
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != '. $hoy .' OR descanso = "fines" )');
 }
 $ctn_meseros = $result->fetchColumn();
 

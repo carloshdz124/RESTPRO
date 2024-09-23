@@ -14,68 +14,95 @@ $id_mesero_ordenado = [];
 <link rel="stylesheet" href="<?php echo $ubicacion; ?>/assets/tools/styles/estilos_vistas.css">
 
 <div class="container mt-3">
+    <?php if (isset($message) && $message != '') { ?>
+        <div class="<?php echo $alert; ?>" style="text-align: center;">
+            <?php echo $message; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php } ?>
     <h1 class="text-center"><?php echo $titulo; ?></h1>
     <?php if (isset($resultEstaciones)) { ?>
         <div class="row">
             <div class="col">
-                <p><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
+                <p><strong>FECHA: </strong><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
             </div>
-            <div class="col" style="text-align: right;" id="sendButton">
+            <div class="col centrar">
+                Rol para: <?php echo count($resultEstaciones); ?>
+            </div>
+            <div class="col" style="text-align: right;">
                 <!-- Boton que envia formulario de ids de meseros, esta debajo -->
-                <button class="btn btn-dark">
-                    Crear rol
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">
-                    Historial
-                </button>
+                <?php if (isset($result_vista_meseros_mesas)) { ?>
+                    <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">
+                        Historial
+                    </button>
+                <?php } else { ?>
+                    <div id="sendButton">
+                        <button class="btn btn-dark">
+                            Crear rol
+                        </button>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <br>
         <div class="centrar d-flex">
             <?php
-            //Recorremos cada area para mostrarla en la tabla -->
-            if (isset($resultAreas)) { ?>
-                <table class="table table-bordered table-dark" style="width: 500px;">
-                    <?php foreach ($resultAreas as $area):
-                        $ctn_meseros_x_area = 0;
-                        $nombre_area = $area->nombre;
-                        $area_id = $area->id;
-                        ?>
-                        <thead>
-                            <tr>
-                                <th scope="col"><?php echo $nombre_area; ?></th>
-                                <th scope="col">Mesas</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-secondary">
-                            <?php foreach ($resultMeseros as $mesero):
-                                if ($ctn_meseros > $n_meseros - 1 || $area_id != $resultEstaciones[$ctn_meseros]->area_id) {
-                                    break;
-                                }
-                                ?>
+            // Si ya se creo el rol para el dia de hoy, se muestra ese rol.
+            if (isset($result_vista_meseros_mesas)) {
+                include_once 'consultas/tabla_rol_creado.php';
+                // Si no se ah creado se muestra el recomendado.
+            } else {
+                //Recorremos cada area para mostrarla en la tabla -->
+                if (isset($resultAreas)) { ?>
+                    <table class="table table-bordered table-dark" style="width: 500px;">
+                        <?php // Recorremos las areas para poder mostrarlas
+                                    foreach ($resultAreas as $area):
+                                        $ctn_meseros_x_area = 0;
+                                        $nombre_area = $area->nombre;
+                                        $area_id = $area->id;
+                                        ?>
+                            <thead>
                                 <tr>
-                                    <th scope="row"><?php echo $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->nombre; ?></th>
-                                    <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
+                                    <th scope="col"><?php echo $nombre_area; ?></th>
+                                    <th scope="col">Mesas</th>
                                 </tr>
-                                <?php
-                                $id_mesero_ordenado[] = $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->id;
-                                $ctn_meseros += 1;
-                                $ctn_meseros_x_area += 1;
-                            endforeach ?>
-                        </tbody>
-                        <?php $ctn_areas += 1; endforeach ?>
-                </table>
-                <?php
-                $jsonData = json_encode($id_mesero_ordenado);
-                ?>
-                <form id="miFormulario" method="POST" action="rol_procesar.php">
-                    <input type="hidden" name="datos" value='<?php echo $jsonData; ?>'>
-                </form>
-            <?php } else {
-                echo 'No existen areas';
-            }
-    } else { ?>
+                            </thead>
+                            <tbody class="table-secondary">
+                                <?php // Recorremos los meseros disponibles en el dia 
+                                                foreach ($resultMeseros as $mesero):
+                                                    // Si el contador de meseros es mayor a numero de meseros o el area_id es distinta al al area_id de la estacion
+                                                    // terminamos el ciclo para pasar a la siguiente area
+                                                    if ($ctn_meseros > $n_meseros - 1 || $area_id != $resultEstaciones[$ctn_meseros]->area_id) {
+                                                        break;
+                                                    }
+                                                    ?>
+                                    <tr>
+                                        <th scope="row"><?php echo $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->nombre; ?></th>
+                                        <td><?php echo $resultEstaciones[$ctn_meseros]->mesas; ?></td>
+                                    </tr>
+                                    <?php
+                                    // Agregamos a un array el id del mesero, ordenamos como deben ir en el rol.
+                                    $id_mesero_ordenado[] = $resultMeseros[$meserosAsignados[$ctn_meseros] - 1]->id;
+                                    $ctn_meseros += 1;
+                                    $ctn_meseros_x_area += 1;
+                                                endforeach ?>
+                            </tbody>
+                            <?php $ctn_areas += 1; endforeach ?>
+                    </table>
+                    <?php
+                    $jsonData = json_encode($id_mesero_ordenado);
+                    ?>
+                    <form id="miFormulario" method="POST" action="rol_procesar.php">
+                        <input type="hidden" name="datos" value='<?php echo $jsonData; ?>'>
+                    </form>
+                    <?php
+                } else {
+                    echo 'No existen areas';
+                }
+            } ?>
         </div>
+        <?php
+    } else { ?>
         <div style="text-align:center;">
 
             <p>
@@ -85,7 +112,8 @@ $id_mesero_ordenado = [];
                 Crear rol
             </a>
         </div>
-    <?php } ?>
+        <?php
+    } ?>
 </div> <!-- Final del container -->
 
 <!-- Modal Lista de días de roles -->
@@ -97,7 +125,14 @@ $id_mesero_ordenado = [];
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex centrar">
-
+                <?php
+                if (isset($resultRolesPasados)) {
+                    foreach($resultRolesPasados as $rol){
+                        echo "<br>" . $rol->fecha . "<i class='bi bi-eye-fill'></i>";
+                    }
+                } else {
+                    echo "No existen roles pasados.";
+                } ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>

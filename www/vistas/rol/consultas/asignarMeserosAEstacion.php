@@ -20,9 +20,7 @@ foreach ($resultMeseros as $mesero) {
             $result = $pdo->query("INSERT INTO ctn_area_mesero (mesero_id,area_id) VALUES ($mesero->id, $area->id)");
         }
     }
-    //$orden = ordenarAreasMenores($veces_en_area);
     $mesero_array[] = $veces_en_area;
-    //print_r($orden);
 }
 $meserosAsignados = acomodar($mesero_array,$n_areas,$meserosxArea);
 
@@ -61,41 +59,4 @@ function acomodar($meseros, $numAreas, $meserosPorArea)
     }
     
     return $meserosSeleccionados; // Devolver un solo array sencillo
-}
-
-function ordenarAreasMenores($array)
-{
-    // Obtener las posiciones en orden ascendente
-    $posiciones = array_keys($array);
-    array_multisort($array, SORT_ASC, $posiciones);
-
-    // Mostrar resultados
-    return ($posiciones);
-}
-function calcularMeserosxArea($n_areas, $pdo, $n_meseros)
-{
-    // Array para almacenar los meseros por area
-    $n_meseros_x_area = array();
-    for ($area = 1; $area <= $n_areas; $area++) {
-        //Consultamos el total de mesas por area
-        $result = $pdo->query("SELECT COUNT(*) FROM mesas WHERE area_id = {$area}");
-        //Guardamos el resultado
-        $mesasxarea = $result->fetchColumn();
-        //Calculamos el porcentaje de mesas de x area respecto al total de mesas
-        $porcentajeMesasArea = round($mesasxarea * 100 / 83);
-        //calculamos el numero de meseros por area
-        $meserosxarea = round($n_meseros * $porcentajeMesasArea / 100);
-        //Agreamos el total de meseros por area en el array
-        array_push($n_meseros_x_area, $meserosxarea);
-    }
-    //validamos que no sobren o falten meseros comparado con el total de meseros por area
-    if (array_sum($n_meseros_x_area) - $n_meseros < 0) {
-        //Si faltan, añadimos uno
-        $n_meseros_x_area[2] = $n_meseros_x_area[2] + 1;
-    } elseif (array_sum($n_meseros_x_area) - $n_meseros > 0) {
-        //Si sobran, eliminamos uno
-        $n_meseros_x_area[0] = $n_meseros_x_area[0] - 1;
-    }
-
-    return $n_meseros_x_area;
 }

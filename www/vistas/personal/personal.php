@@ -33,10 +33,10 @@ if ($result->rowCount() > 0) {
 }
 
 $hoy = date("w");
-if($hoy >= 1 && $hoy <= 4){
+if($hoy > 0 && $hoy < 5){
     $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy .' AND descanso != "fines" ');
 }else{
-    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy);
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != '. $hoy .' OR descanso = "fines" )');
 }
 $n_meseros = $result->fetchColumn();
 
