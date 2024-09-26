@@ -33,19 +33,27 @@ if($hoy > 0 && $hoy < 5){
 }
 $n_meseros = $result->fetchColumn();
 
-// Consulta para validar si existe rol para cantidad de meseros
+// Consulta para validar si existe estaciones para cantidad de meseros
 $result = $pdo->query("SELECT 1 FROM roles WHERE descripcion = $n_meseros");
 if ($result->rowCount() > 0) {
     $_SESSION["estaciones"] = true;
+    
 }else{
     $_SESSION["estaciones"] = false;
 }
 
 // Consulta para ver si existe rol de hoy.
 $fecha = date('Y-m-d');
-$result = $pdo->query("SELECT 1 FROM vista_mesero_mesa WHERE fecha = '$fecha'");
+$result = $pdo->query("SELECT * FROM vista_mesero_mesa WHERE fecha = '$fecha'");
 if ($result->rowCount() > 0) {
     $_SESSION["rol_creado"] = true;
+    $n_estaciones = $result->fetch(PDO::FETCH_OBJ);
+    $n_estaciones = $n_estaciones->rol;
+    // Validamos que sea para el numero correcto de meseros y estaciones
+    if ($n_estaciones != $n_meseros) {
+        $result = $pdo->query("DELETE FROM `asignacion_meseros` WHERE fecha = '$fecha'");
+        $_SESSION["rol_creado"] = false;
+    }
 }else{
     $_SESSION["rol_creado"] = false;
 }

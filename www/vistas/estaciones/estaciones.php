@@ -21,7 +21,11 @@ if (isset($rol_seleccionado)) {
     $msj_button = 'Ver detalles de zona';
 
 } else {
+    $_SESSION["estaciones"] = false;
     $n_mesasEstacion = 0;
+    echo '<script type="text/javascript">
+            window.location.reload();
+          </script>';
 }
 
 $sql = "SELECT COUNT(*) FROM mesas";

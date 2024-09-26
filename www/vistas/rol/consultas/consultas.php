@@ -26,11 +26,6 @@ if ($result->rowCount() > 0) {
     $n_areas = $result->fetchColumn();
 }
 
-//Consultamos la vista mesas estacion para mostrar todas las mesas de cada estacion
-$result = $pdo->query("SELECT * FROM vista_mesas_estaciones WHERE rol_descripcion = $n_meseros");
-if ($result->rowCount() > 0) {
-    $resultEstaciones = $result->fetchAll(PDO::FETCH_OBJ);
-}
 
 // Consulta para ver si existe rol de hoy.
 $fecha = date('Y-m-d');
@@ -39,11 +34,23 @@ if ($result->rowCount() > 0) {
     $result_vista_meseros_mesas = $result->fetchAll(PDO::FETCH_OBJ);
     // Calculamos cuantos meseros son por zona, y acumulamos los resultados para saber cuando cambia de area cada mesero
     $meserosxArea_acumulados = sumarPosiciones(calcularMeserosxArea($n_areas, $pdo, $n_meseros));
+    $resultCount = $pdo->query("SELECT COUNT(*) FROM vista_mesero_mesa WHERE fecha = '$fecha' ");
+    $n_estaciones = $resultCount->fetchColumn();
+    // Validamos que sea para el numero correcto de meseros y estaciones
+    if ($n_estaciones != $n_meseros) {
+        $result = $pdo->query("DELETE FROM `asignacion_meseros` WHERE fecha = '$fecha'");
+        $_SESSION["rol_creado"] = false;
+    }
 }
 
+//Consultamos la vista mesas estacion para mostrar todas las mesas de cada estacion
+$result = $pdo->query("SELECT * FROM vista_mesas_estaciones WHERE rol_descripcion = $n_meseros");
+if ($result->rowCount() > 0) {
+    $resultEstaciones = $result->fetchAll(PDO::FETCH_OBJ);
+}
 // Consulta para ver roles pasados.
 $result = $pdo->query("SELECT DISTINCT fecha FROM vista_mesero_mesa ORDER BY fecha DESC");
-if($result->rowCount() > 0){
+if ($result->rowCount() > 0) {
     $resultRolesPasados = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
@@ -60,15 +67,16 @@ if (isset($_GET['message'])) {
 
 
 
-function sumarPosiciones($array) {
+function sumarPosiciones($array)
+{
     $resultado = [];
     $suma = 0;
-    
+
     foreach ($array as $valor) {
         $suma += $valor;
         $resultado[] = $suma;
     }
-    
+
     return $resultado;
 }
 function calcularMeserosxArea($n_areas, $pdo, $n_meseros)

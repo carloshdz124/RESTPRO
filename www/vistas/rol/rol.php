@@ -4,8 +4,9 @@ $titulo = "Rol";
 include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
+// Consultas necesarias para rol.php
 include("consultas/consultas.php");
-
+// Si existe estaciones con meseros compatible, creamos la a crear.
 if (isset($resultEstaciones)) {
     include("consultas/asignarMeserosAEstacion.php");
 }
@@ -28,7 +29,7 @@ $id_mesero_ordenado = [];
                 <p><strong>FECHA: </strong><?php echo isset($fecha) ? $fecha : date('Y-m-d'); ?></p>
             </div>
             <div class="col centrar">
-                Rol para: <?php echo count($resultEstaciones); ?>
+                Rol para: <?php echo $resultEstaciones[0]->rol_descripcion; ?>
             </div>
             <div class="col" style="text-align: right;">
                 <!-- Boton que envia formulario de ids de meseros, esta debajo -->
@@ -128,7 +129,7 @@ $id_mesero_ordenado = [];
             <div class="modal-body d-flex centrar">
                 <?php
                 if (isset($resultRolesPasados)) {
-                    foreach($resultRolesPasados as $rol){
+                    foreach ($resultRolesPasados as $rol) {
                         echo "<br>" . $rol->fecha . "<i class='bi bi-eye-fill'></i>";
                     }
                 } else {
@@ -172,13 +173,13 @@ $id_mesero_ordenado = [];
 
 <?php //Condicion, si existe rol creado, no se existira el script, para evitar errores en consola.
 if (!isset($result_vista_meseros_mesas)) { ?>
-<script>
-    document.getElementById('sendButton').addEventListener('click', function () {
-        document.getElementById('miFormulario').submit();
-    });
-</script>
+    <script>
+        document.getElementById('sendButton').addEventListener('click', function () {
+            document.getElementById('miFormulario').submit();
+        });
+    </script>
 
-<?php
+    <?php
 }
 function asignarMeseros($array)
 {

@@ -1,5 +1,6 @@
 <?php
 
+echo "n_meseros: $n_meseros  ";
 $meserosxArea = calcularMeserosxArea($n_areas, $pdo, $n_meseros);
 
 $mesero_array = [];
@@ -15,6 +16,7 @@ foreach ($resultMeseros as $mesero) {
         if ($result->rowCount() > 0) {
             $resultAreaMesero = $result->fetch(PDO::FETCH_OBJ);
             $veces_en_area[] = $resultAreaMesero->contador;
+            
             // Sino creamos un registro de ese mesero en esa area.
         } else {
             $result = $pdo->query("INSERT INTO ctn_area_mesero (mesero_id,area_id) VALUES ($mesero->id, $area->id)");
@@ -23,12 +25,14 @@ foreach ($resultMeseros as $mesero) {
     $mesero_array[] = $veces_en_area;
 }
 $meserosAsignados = acomodar($mesero_array,$n_areas,$meserosxArea);
+echo(count($mesero_array));
 
 function acomodar($meseros, $numAreas, $meserosPorArea)
 {
     // Array para almacenar los meseros seleccionados por área
     $meserosSeleccionados = [];
-    $meserosAsignados = []; // Array para llevar el control de los meseros ya asignados
+    // Array para llevar el control de los meseros ya asignados
+    $meserosAsignados = []; 
     
     // Proceso de selección
     foreach (range(0, $numAreas - 1) as $area) {
@@ -38,7 +42,8 @@ function acomodar($meseros, $numAreas, $meserosPorArea)
         foreach (range(0, count($meseros) - 1) as $mesero) {
             // Solo considerar meseros no asignados aún
             if (!in_array($mesero + 1, $meserosAsignados)) {
-                $meserosConConteo[$mesero] = $meseros[$mesero][$area]; // Número de veces en el área
+                // Número de veces en el área
+                $meserosConConteo[$mesero] = $meseros[$mesero][$area]; 
             }
         }
         

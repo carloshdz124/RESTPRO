@@ -14,6 +14,8 @@ if (isset($_SESSION['user'])) {
 if (!isset($ubicacion)) {
     $ubicacion = "";
 }
+
+include_once __DIR__ ."/../config/consultas.php";
 ?>
 <!doctype html>
 <html lang="es">

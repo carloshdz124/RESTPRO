@@ -1,6 +1,5 @@
 <?php
 $titulo = "Index";
-$ubicacion = "";
 
 include_once "includes/header.php";
 ?>
