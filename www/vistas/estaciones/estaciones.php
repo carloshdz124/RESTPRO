@@ -1,6 +1,15 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Estaciones";
+
+session_start(); // Iniciar la sesión
+
+// Si no existe estacion, entonces redireccionamos a craer
+if ($_SESSION["estaciones"] == false) {
+    header('Location: crear_estaciones.php');
+}
+
+include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
 include('consultas/consultas.php');
@@ -19,7 +28,7 @@ $sql = "SELECT COUNT(*) FROM mesas";
 $result = $pdo->query($sql);
 $n_mesas = $result->fetchColumn();
 
-$sql = "SELECT * FROM roles";
+$sql = "SELECT * FROM roles ORDER BY descripcion DESC";
 $result = $pdo->query($sql);
 if ($result->rowCount() > 0) {
     $resultRoles = $result->fetchAll(PDO::FETCH_OBJ);
@@ -28,14 +37,7 @@ $message = isset($message) ? $message : '';
 
 // Comparamos el total de mesas con el total de las mesas registradas en esa estacion
 $diferencia = $n_mesas - $n_mesasEstacion;
-if ($diferencia != 0) {
-    $rol_descripcion = "N/A";
-    $msj_button = 'Crear Zona zona';
-    $n_mesasEstacion = 0;
-    $alert = 'alert alert-danger alert-dismissible mt-3';
-    $message = 'Hay <strong>' . $diferencia . ' mesas </strong> sin estacion asignada<br>
-    Crea una zona.';
-}
+
 ?>
 
 <div class="container mt-3">
@@ -53,7 +55,7 @@ if ($diferencia != 0) {
     <div class="row">
         <div class="col">
             <a href="crear_estaciones.php" title="Crear Zona" class="btn btn-success">
-                <?php echo $msj_button ?>
+                Ver detalles
             </a>
         </div>
         <div class="col" style="text-align: center;">
@@ -61,11 +63,9 @@ if ($diferencia != 0) {
                 ROL PARA <?php echo $rol_descripcion; ?>
             </p>
             <br>
-            <?php if ($rol_descripcion != 'N/A'): ?>
                 <button onclick="recargar();" class="btn btn-primary">
                     Elegir rol de hoy
                 </button>
-            <?php endif ?>
         </div>
         <div class="col">
             <?php if($diferencia == 0) { ?>

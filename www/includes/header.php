@@ -1,12 +1,14 @@
 <?php
-session_start(); // Iniciar la sesión
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Solo inicia la sesión si no hay una activa
+}
 // Verificar si el usuario está conectado
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $tipo_user = $_SESSION['tipo_user'];
 } else {
     header('Location: ' . $ubicacion . 'login.php');
+    exit();
 }
 
 if (!isset($ubicacion)) {
@@ -38,3 +40,19 @@ if (!isset($ubicacion)) {
     <?php
     include_once $ubicacion . "includes/navbar.php";
     ?>
+
+    <div class="container mt-5 centrar">
+        <?php if ($_SESSION["estaciones"] == false) { ?>
+            <div class="alert alert-danger alert-dismissible mt-3" style="text-align: center;">
+                <?php echo "No hay estaciones compatibles!!! <br>
+                        <a href='$ubicacion/vistas/estaciones/crear_estaciones.php'>Favor de crearla.</a>"; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?> <?php if ($_SESSION["rol_creado"] == false) { ?>
+            <div class="alert alert-danger alert-dismissible mt-3" style="text-align: center;">
+                <?php echo "No se ah crado un rol para el dia de hoy!!! <br>
+                        <a href='$ubicacion/vistas/rol/rol.php'>Favor de crearlo.</a>"; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+    </div>

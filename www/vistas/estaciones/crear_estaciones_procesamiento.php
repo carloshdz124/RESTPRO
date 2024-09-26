@@ -15,6 +15,7 @@ if (isset($_POST['datos'])) {
         $resultRoles = $result->fetchAll(PDO::FETCH_OBJ);
         $bandera_existeRol = false;
         foreach ($resultRoles as $rol) {
+            // Comparamos el total de estaciones con la descipcion del rol para ver si existe rol.
             if (count($dataEstaciones) == $rol->descripcion) {
                 $bandera_existeRol = true;
                 $rol_id = $rol->id;
@@ -35,6 +36,7 @@ if (isset($_POST['datos'])) {
             $sql = substr($sql, 0, -1);
             $result = $pdo->prepare($sql);
             if ($result->execute()) {
+                $_SESSION["estaciones"] = true;
                 header("Location: estaciones.php?message=ok");
                 exit();
             } else {
@@ -65,6 +67,7 @@ if (isset($_POST['datos'])) {
                 $sql = substr($sql, 0, -1);
                 $result = $pdo->prepare($sql);
                 if ($result->execute()) {
+                    $_SESSION["estaciones"] = true;
                     header("Location: estaciones.php?message=ok");
                     exit();
                 } else {

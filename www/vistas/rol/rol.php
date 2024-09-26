@@ -1,6 +1,7 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Rol";
+include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
 include("consultas/consultas.php");
@@ -32,9 +33,9 @@ $id_mesero_ordenado = [];
             <div class="col" style="text-align: right;">
                 <!-- Boton que envia formulario de ids de meseros, esta debajo -->
                 <?php if (isset($result_vista_meseros_mesas)) { ?>
-                    <button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">
+                    <!--button data-bs-toggle="modal" data-bs-target="#modalHistorial" class="btn btn-dark">
                         Historial
-                    </button>
+                    </button-->
                 <?php } else { ?>
                     <div id="sendButton">
                         <button class="btn btn-dark">
@@ -168,6 +169,9 @@ $id_mesero_ordenado = [];
 <script src="<?php echo $ubicacion; ?>assets/tools/scripts/guardarRol.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
+
+<?php //Condicion, si existe rol creado, no se existira el script, para evitar errores en consola.
+if (!isset($result_vista_meseros_mesas)) { ?>
 <script>
     document.getElementById('sendButton').addEventListener('click', function () {
         document.getElementById('miFormulario').submit();
@@ -175,6 +179,7 @@ $id_mesero_ordenado = [];
 </script>
 
 <?php
+}
 function asignarMeseros($array)
 {
     // Copiar el array para no modificar el original

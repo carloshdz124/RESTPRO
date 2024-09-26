@@ -24,5 +24,7 @@ GROUP BY e.id, me.nombre, ams.fecha, r.descripcion;
 Agregar poner fecha al registrar rol y si ya se selecciono uno en el dia, que ya no deje crear mas.
 Validar que aunque cambien el numero de meseros, se siga viendo que mesas tuve ese dia.
 
+Agregar form para añadir descansos y turno
+
 Link: para pruebas vista MESA.php
 http://localhost/PROYECTO_MODULAR/vistas/mesas.php?areas%5B0%5D=1&areas%5B1%5D=2&areas%5B2%5D=3

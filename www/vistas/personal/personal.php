@@ -33,10 +33,10 @@ if ($result->rowCount() > 0) {
 }
 
 $hoy = date("w");
-if($hoy > 0 && $hoy < 5){
-    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy .' AND descanso != "fines" ');
-}else{
-    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != '. $hoy .' OR descanso = "fines" )');
+if ($hoy > 0 && $hoy < 5) {
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
+} else {
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != ' . $hoy . ' OR descanso = "fines" )');
 }
 $n_meseros = $result->fetchColumn();
 
@@ -60,7 +60,7 @@ $n_meseros = $result->fetchColumn();
             </button>
         </div>
         <div class="col" style="text-align: right;">
-                <strong>Meseros Disponibles: <?php echo $n_meseros; ?></strong>
+            <strong>Meseros Disponibles: <?php echo $n_meseros; ?></strong>
         </div>
     </div>
 
@@ -84,16 +84,21 @@ $n_meseros = $result->fetchColumn();
                             <th><?php echo $ctn_meseros; ?></th>
                             <td><?php echo $mesero->nombre . " " . $mesero->apellido; ?></td>
                             <td>
-                                <?php 
-                                if($mesero->descanso == null) echo obtenerDiaSemana(1);
-                                elseif($mesero->descanso != 'fines') echo obtenerDiaSemana($mesero->descanso); 
-                                else echo 'fin de semana';
+                                <?php
+                                if ($mesero->descanso == null)
+                                    echo obtenerDiaSemana(1);
+                                elseif ($mesero->descanso != 'fines')
+                                    echo obtenerDiaSemana($mesero->descanso);
+                                else
+                                    echo 'fin de semana';
                                 ?>
                             </td>
                             <td>
-                                <?php 
-                                if($mesero->turno == 1)echo "<i class='fs-1 bi-moon-fill' style='color: grey;'></i>"; 
-                                else echo "<i class='fs-1 bi-brightness-high-fill' style='color: #ffc107;'></i>"; 
+                                <?php
+                                if ($mesero->turno == 1)
+                                    echo "<i class='fs-1 bi-moon-fill' style='color: grey;'></i>";
+                                else
+                                    echo "<i class='fs-1 bi-brightness-high-fill' style='color: #ffc107;'></i>";
                                 ?>
                             </td>
                             <td>
@@ -117,7 +122,8 @@ $n_meseros = $result->fetchColumn();
                                     <button title="Editar" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#modalEditar" type="button" data-id="<?php echo $mesero->id; ?>"
                                         data-name="<?php echo $mesero->nombre; ?>"
-                                        data-apellido="<?php echo $mesero->apellido; ?>"><i class="bi bi-pencil-square"></i>
+                                        data-apellido="<?php echo $mesero->apellido; ?>"
+                                        data-descanso="<?php echo $mesero->descanso; ?>"><i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button title="Eliminar" type="button" class="btn btn-danger"
                                         onclick="confirmarEliminacion(<?php echo $mesero->id; ?>)">
@@ -160,6 +166,15 @@ $n_meseros = $result->fetchColumn();
                         <input placeholder="Apellido de mesero" type="text" class="form-control" id="apellido"
                             name="tb_apellido" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="descanso" class="form-label"><strong>Descanso</strong></label>
+                        <select class="form-select" id="descanso" name="dp_descanso">
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miercoles</option>
+                            <option value="4">Jueves</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
@@ -192,6 +207,15 @@ $n_meseros = $result->fetchColumn();
                     <div class="mb-3">
                         <label for="modal-apellido" class="form-label">Apellido</label>
                         <input type="text" class="form-control" id="modal-apellido" name="tb_apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-descanso" class="form-label"><strong>Descanso</strong></label>
+                        <select class="form-select" id="modal-descanso" name="dp_descanso">
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miercoles</option>
+                            <option value="4">Jueves</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -256,8 +280,9 @@ $n_meseros = $result->fetchColumn();
     </div>
 </div>
 
-<?php 
-function obtenerDiaSemana($dia){
+<?php
+function obtenerDiaSemana($dia)
+{
     $diasSemana = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
     //$diaNumero = date("w"); // 'w' devuelve el número del día de la semana (0 para domingo, 6 para sábado
 

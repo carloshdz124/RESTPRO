@@ -9,10 +9,7 @@ where personal_bloqueado.vigencia = 0';
 $result = $pdo->query("$sql");
 if ($result->rowCount() > 0) {
     $resultEstados = $result->fetchAll(PDO::FETCH_OBJ);
-}
-
-if (isset($resultEstados)) {
-    //$fecha = '2024-07-05';
+    // Si existe, verificamos cuando vence su bloqueo para volver a activarlo.
     $fechaUsada = isset($fecha) ? $fecha : date('Y-m-d');
     foreach ($resultEstados as $meseroEstado) {
         if ($meseroEstado->fecha_fin <= $fechaUsada) {
@@ -27,8 +24,30 @@ if (isset($resultEstados)) {
     }
 }
 
-function mesasDisponibles($Zonas){
-    echo ' ';
+// Consulta para ver numero de meseros
+$hoy = date("w");
+if($hoy > 0 && $hoy < 5){
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != '. $hoy .' AND descanso != "fines" ');
+}else{
+    $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != '. $hoy .' OR descanso = "fines" )');
+}
+$n_meseros = $result->fetchColumn();
+
+// Consulta para validar si existe rol para cantidad de meseros
+$result = $pdo->query("SELECT 1 FROM roles WHERE descripcion = $n_meseros");
+if ($result->rowCount() > 0) {
+    $_SESSION["estaciones"] = true;
+}else{
+    $_SESSION["estaciones"] = false;
+}
+
+// Consulta para ver si existe rol de hoy.
+$fecha = date('Y-m-d');
+$result = $pdo->query("SELECT 1 FROM vista_mesero_mesa WHERE fecha = '$fecha'");
+if ($result->rowCount() > 0) {
+    $_SESSION["rol_creado"] = true;
+}else{
+    $_SESSION["rol_creado"] = false;
 }
 
 ?>

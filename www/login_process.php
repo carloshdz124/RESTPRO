@@ -12,10 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($resultados->rowCount() > 0) {
         $datos_usuario = $resultados->fetch(PDO::FETCH_OBJ);
 
-        session_start();
         $_SESSION["id"] = $datos_usuario->id;
         $_SESSION["user"] = $datos_usuario->usuario;
         $_SESSION["tipo_user"] = $datos_usuario->tipo_usuario;
+
+        include_once "config/consultas.php";
 
         // Redireccionar al index una vez validada la sesión
         header("Location: index.php");

@@ -9,15 +9,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($formulario == "agregarMesero") {
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
         $tb_apellido = htmlspecialchars($_POST["tb_apellido"]);
+        $dp_descanso = htmlspecialchars($_POST["dp_descanso"]);
         // Preparar la consulta SQL
-        $sql = "INSERT INTO personal (nombre, apellido) VALUES (:tb_nombre, :tb_apellido)";
+        $sql = "INSERT INTO personal (nombre, apellido,descanso) VALUES (:tb_nombre, :tb_apellido, :dp_descanso)";
         $ejecucion = $pdo->prepare($sql);
 
         // Ejecutar la consulta
         $result = $ejecucion->execute(
             array(
                 ":tb_nombre" => $tb_nombre,
-                ":tb_apellido" => $tb_apellido
+                ":tb_apellido" => $tb_apellido,
+                ":dp_descanso" => $dp_descanso
             )
         );
         if ($result) {
@@ -32,14 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tb_id = htmlspecialchars($_POST["tb_id"]);
         $tb_nombre = htmlspecialchars($_POST["tb_nombre"]);
         $tb_apellido = htmlspecialchars($_POST["tb_apellido"]);
+        $dp_descanso = htmlspecialchars($_POST["dp_descanso"]);
         // Preparar la consulta SQL
-        $sql = "UPDATE personal SET nombre = :tb_nombre, apellido = :tb_apellido WHERE id = :tb_id";
+        $sql = "UPDATE personal SET nombre = :tb_nombre, apellido = :tb_apellido, descanso=:dp_descanso WHERE id = :tb_id";
         $ejecucion = $pdo->prepare($sql);
         $ejecucion->execute(
             array(
                 ":tb_id" => $tb_id,
                 ":tb_nombre" => $tb_nombre,
-                ":tb_apellido" => $tb_apellido
+                ":tb_apellido" => $tb_apellido,
+                ":dp_descanso" => $dp_descanso
             )
         );
         if ($ejecucion->rowCount() > 0) {

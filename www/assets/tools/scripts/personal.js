@@ -25,15 +25,18 @@
         var id = link.getAttribute('data-id');
         var name = link.getAttribute('data-name');
         var apellido = link.getAttribute('data-apellido');
+        var descanso = link.getAttribute('data-descanso');
 
         // Actualizar el contenido del modal
         var modalId = modalEditar.querySelector('#modal-id');
         var modalName = modalEditar.querySelector('#modal-name');
         var modalApellido = modalEditar.querySelector('#modal-apellido');
+        var modalDescanso = modalEditar.querySelector('#modal-descanso');
 
         modalId.value = id;
         modalName.value = name;
         modalApellido.value = apellido;
+        modalDescanso.value = descanso;
     });
 
     var modalBloquear = document.getElementById('modalBloquear');

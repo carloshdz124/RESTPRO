@@ -1,6 +1,3 @@
-<?php
-include_once $ubicacion . 'config/consultas.php';
-?>
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">

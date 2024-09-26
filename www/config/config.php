@@ -2,6 +2,10 @@
 
 $appEnv = getenv('APP_ENV');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Solo inicia la sesión si no hay una activa
+}
+
 date_default_timezone_set('America/Mexico_City');
 
 if ($appEnv === 'docker') {

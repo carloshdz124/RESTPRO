@@ -39,19 +39,20 @@ if (isset($_POST['datos'])) {
     $result = $pdo->query($sql);
     $ctn_n_areas = 0;
     // Ahora recorreremos a todos los meseros para aumentar en su contador de area una unidad
-    foreach ($meserosOrdenados as $estacion_id => $mesero_id){
+    foreach ($meserosOrdenados as $estacion_id => $mesero_id) {
         // Recorremos las areas para ver que area es la que le toco cada mesero y aumentar el contador
         foreach ($resultAreas as $area) {
-            if($estacion_id == $meserosxArea[$ctn_n_areas]){
+            if ($estacion_id == $meserosxArea[$ctn_n_areas]) {
                 $ctn_n_areas += 1;
-            }else{
-                $sql = "UPDATE ctn_area_mesero SET contador = contador + 1 WHERE mesero_id = $mesero_id AND area_id= " .$resultAreas[$ctn_n_areas]->id;
+            } else {
+                $sql = "UPDATE ctn_area_mesero SET contador = contador + 1 WHERE mesero_id = $mesero_id AND area_id= " . $resultAreas[$ctn_n_areas]->id;
                 $result = $pdo->query($sql);
                 break;
             }
         }
     }
     if ($result->rowCount() > 0) {
+        $_SESSION["rol_creado"] = true;
         header("Location: rol.php?message=ok");
         exit();
     }
@@ -60,15 +61,16 @@ if (isset($_POST['datos'])) {
     echo 'No se recibieron datos...';
 }
 
-function sumarPosiciones($array) {
+function sumarPosiciones($array)
+{
     $resultado = [];
     $suma = 0;
-    
+
     foreach ($array as $valor) {
         $suma += $valor;
         $resultado[] = $suma;
     }
-    
+
     return $resultado;
 }
 

@@ -32,6 +32,7 @@ if ($result->rowCount() > 0) {
     $resultEstaciones = $result->fetchAll(PDO::FETCH_OBJ);
 }
 
+// Consulta para ver si existe rol de hoy.
 $fecha = date('Y-m-d');
 $result = $pdo->query("SELECT * FROM vista_mesero_mesa WHERE fecha = '$fecha'");
 if ($result->rowCount() > 0) {
@@ -40,6 +41,7 @@ if ($result->rowCount() > 0) {
     $meserosxArea_acumulados = sumarPosiciones(calcularMeserosxArea($n_areas, $pdo, $n_meseros));
 }
 
+// Consulta para ver roles pasados.
 $result = $pdo->query("SELECT DISTINCT fecha FROM vista_mesero_mesa ORDER BY fecha DESC");
 if($result->rowCount() > 0){
     $resultRolesPasados = $result->fetchAll(PDO::FETCH_OBJ);

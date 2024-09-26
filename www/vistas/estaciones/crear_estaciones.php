@@ -1,6 +1,7 @@
 <?php
 $ubicacion = "../../";
 $titulo = "Crear estaciones";
+include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
 
 include('consultas/consultas.php');
