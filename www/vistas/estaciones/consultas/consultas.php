@@ -56,7 +56,7 @@ if (isset($_GET['datos'])) {
     }
 // Condicion en caso de que se envien datos get para visualizar otros roles.
 } elseif (isset($_GET['rol'])) {
-    $rol_seleccionado = $_GET['rol'];
+    $rol_seleccionado_get = $_GET['rol'];
 }
 
 function calcularMeserosxArea($ctn_areas, $pdo, $ctn_meseros)

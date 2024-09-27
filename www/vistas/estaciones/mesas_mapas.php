@@ -5,13 +5,16 @@ if (isset($resultAreas)) {
     // Inicializar un array global para almacenar los resultados categorizados por estación
     $globalCategorizadoPorColor = [];
 
+    // Si tenemos seleccionamos un rol manualmente, asignamos la variable para cambiar la busqueda.
+    $rol_seleccionado = isset($rol_seleccionado_get)?$rol_seleccionado_get : $rol_seleccionado;
+
     // Iterar sobre los resultados de las áreas
     foreach ($resultAreas as $area) {
         if (isset($bandera_estacion) && isset($rol_seleccionado)) {
             $result = $pdo->query('SELECT * FROM vista_mesas_color WHERE area_id=' . $area->id . ' AND rol=' . $rol_seleccionado . ' ORDER BY nombre ASC');
+
         } else {
             $result = $pdo->query('SELECT * FROM mesas WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
-
             if ($result->rowCount() > 0) {
                 // Si se recibieron datos get para crear la estaciones.
                 if (isset($meseroxArea)) {
@@ -26,9 +29,9 @@ if (isset($resultAreas)) {
         }
         $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
         // Consulta para ver mesas por zonas
-        
+
         echo "<p>  $area->nombre</p>";
-        
+
         // Variable para identificar cada fila
         $fila = 0;
         $categorizadoPorColor = [];
@@ -48,11 +51,17 @@ if (isset($resultAreas)) {
                     $categorizadoPorColor[$estacion_id] = [];
                 }
                 $categorizadoPorColor[$estacion_id][] = ['id' => $mesa->id, 'nombre' => $mesa->nombre];
+            // Si existe rol seleccionado mostramos los colores.
             } elseif (isset($bandera_estacion) && isset($rol_seleccionado)) {
                 $color = $mesa->color;
+                // Si el rol seleccionado es por get, entonces no mostramos nombres de meseros
+                if(!isset($rol_seleccionado_get)){
+                    $tooltip = "<br>Mesero: {$mesa->mesero_nombre}";
+                }
             } else {
                 $color = 'transparent';
             }
+            $tooltip = isset($tooltip)? $tooltip : "";
 
             // Condición para hacer salto de línea si se cambia de fila
             if (strlen($mesa->nombre) == 2) {
@@ -68,12 +77,12 @@ if (isset($resultAreas)) {
             }
 
             // Botones que representan las mesas
-            echo "<div class='d-inline-block border-custom' style='background-color:$color;' id='tooltip-{$mesa->id}' data-bs-placement='top' title='N. personas: {$mesa->n_personas}'>
-            <button type='button' class='btn btn-success' data-id='{$mesa->id}'>
-                {$mesa->nombre}
-            </button>
-        </div>";
-
+            echo "<div class='d-inline-block border-custom' style='background-color:$color;' id='tooltip-{$mesa->id}' data-bs-placement='top' data-bs-html='true'
+                title='N. personas: {$mesa->n_personas}$tooltip'>
+                <button type='button' class='btn btn-success' data-id='{$mesa->id}'>
+                    {$mesa->nombre}
+                </button>
+            </div>";
         }
 
         // Si hay datos en $_GET['datos'], hacer fetch adicional

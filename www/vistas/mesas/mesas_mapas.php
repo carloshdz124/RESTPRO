@@ -3,7 +3,7 @@
 if (isset($resultAreas)) {
     foreach ($resultAreas as $area) {
         // Consulta para ver mesas por zonas, si venimos de estaciones, ademas añadimos colores a las estaciones
-        $result = $pdo->query('SELECT * FROM mesas WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
+        $result = $pdo->query("SELECT * FROM vista_mesas_color WHERE area_id= $area->id AND rol = $rol_id ORDER BY nombre ASC");
         if ($result->rowCount() > 0) {
             $resultMesas = $result->fetchAll(PDO::FETCH_OBJ);
         } ?>
@@ -26,11 +26,12 @@ if (isset($resultAreas)) {
                     }
                 }
                 // Botones que representan las mesas
-                echo '<div class="d-inline-block border-custom" id="tooltip-' . $mesa->id . '" data-bs-placement="top" title="N. personas: ' . $mesa->n_personas . '" >
-                <button type="button" data-bs-toggle="modal" data-bs-target="#verClientes" data-estado="' . $mesa->estado . '"
-                    data-id="' . $mesa->id . '" data-nombre="' . $mesa->nombre . '" data-n_personas="' . $mesa->n_personas . '" data-id_zona="' . $mesa->area_id . '"
-                    class="btn">' . $mesa->nombre . '</button>
-            </div>';
+                echo "<div class='d-inline-block border-custom' id='tooltip-$mesa->id' data-bs-placement='top' data-bs-html='true'
+                        title='N. personas: {$mesa->n_personas}<br>Mesero: $mesa->mesero_nombre'>
+                        <button type='button' data-bs-toggle='modal' data-bs-target='#verClientes' data-estado='$mesa->estado'
+                            data-id='$mesa->id' data-nombre='$mesa->nombre' data-n_personas='$mesa->n_personas' data-id_zona='$mesa->area_id'
+                            data-mesero='$mesa->mesero_nombre' class='btn'>$mesa->nombre </button>
+                    </div>";
             } ?>
         </div>
 

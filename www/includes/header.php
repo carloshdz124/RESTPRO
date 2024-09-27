@@ -2,6 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Solo inicia la sesión si no hay una activa
 }
+if (!isset($ubicacion)) {
+    $ubicacion = "";
+}
 // Verificar si el usuario está conectado
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
@@ -11,9 +14,6 @@ if (isset($_SESSION['user'])) {
     exit();
 }
 
-if (!isset($ubicacion)) {
-    $ubicacion = "";
-}
 
 include_once __DIR__ ."/../config/consultas.php";
 ?>

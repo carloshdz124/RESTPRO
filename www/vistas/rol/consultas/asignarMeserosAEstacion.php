@@ -1,6 +1,5 @@
 <?php
 
-echo "n_meseros: $n_meseros  ";
 $meserosxArea = calcularMeserosxArea($n_areas, $pdo, $n_meseros);
 
 $mesero_array = [];
@@ -20,12 +19,12 @@ foreach ($resultMeseros as $mesero) {
             // Sino creamos un registro de ese mesero en esa area.
         } else {
             $result = $pdo->query("INSERT INTO ctn_area_mesero (mesero_id,area_id) VALUES ($mesero->id, $area->id)");
+            $veces_en_area[] = 0;
         }
     }
     $mesero_array[] = $veces_en_area;
 }
 $meserosAsignados = acomodar($mesero_array,$n_areas,$meserosxArea);
-echo(count($mesero_array));
 
 function acomodar($meseros, $numAreas, $meserosPorArea)
 {

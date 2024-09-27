@@ -97,9 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_zona = trim($data['id_zona']);
             $n_personas = $data['n_personas'];
             $estado_mesa = $data['estado_mesa'];
+            $mesero = $data['mesero'];
 
             if ($estado_mesa == 0) {
-
                 // Consulta filtrando, clientes con igual o menor cantidad de personas, y que busqyen en esta zona ordenamos como llegaron
                 $sql = "SELECT * FROM `mesa_cliente` WHERE ((n_adultos + n_ninos) <= " . $n_personas . " AND estado = 0) AND zonas_deseadas LIKE '%" . $id_zona . "%' ORDER BY id ASC;";
                 $result = $pdo->query($sql);
@@ -134,7 +134,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $id_cliente = $cliente->id;
                     $nombre_cliente = $cliente->nombre;
 
-                    $mesero = 'x';
                     echo '<p><strong>MESA OCUPADA:</strong></p>
                     <p>Cliente: ' . $nombre_cliente . '</p>
                     <p>Atendido por: ' . $mesero . ' <br> <br>
