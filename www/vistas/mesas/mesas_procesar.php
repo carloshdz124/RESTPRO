@@ -70,7 +70,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
             $consulta = implode(' OR ', $condiciones);
 
-            $sql = 'SELECT * FROM mesas WHERE (' . $consulta . ') AND n_personas >= ' . $total_personas . ' ORDER BY n_personas ASC ';
+            // Consulta para ver numero de meseros
+            $hoy = date("w");
+            if ($hoy > 0 && $hoy < 5) {
+                $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND descanso != ' . $hoy . ' AND descanso != "fines" ');
+            } else {
+                $result = $pdo->query('SELECT COUNT(*) FROM personal WHERE estado = 1 AND (descanso != ' . $hoy . ' OR descanso = "fines" )');
+            }
+            $n_meseros = $result->fetchColumn();
+
+            // Consulta para seleccionar el rol del dia
+            $result = $pdo->query("SELECT * FROM roles WHERE descripcion = $n_meseros");
+            if ($result->rowCount() > 0) {
+                $resultRol = $result->fetch(PDO::FETCH_OBJ);
+                $rol_id = $resultRol->id;
+            }
+            //Realizamos la busqueda usando la vista de con los meseros asignados.
+            $sql = "SELECT * FROM vista_mesas_color WHERE ($consulta AND n_personas >= $total_personas) AND rol = $rol_id ORDER BY n_personas ASC ";
             $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Muestra los resultados
@@ -78,11 +94,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $cantidadPersonas = $mesasDisponibles->n_personas;
                     $nombre_mesa = $mesasDisponibles->nombre;
                     $id_mesa = $mesasDisponibles->id;
+                    $id_mesero = $mesasDisponibles->mesero_id;
                     echo "
                         <tr>
                         <td>" . $nombre_mesa . "</td>
                         <td>" . $cantidadPersonas . "</td>
-                        <td><button class='btn btn-primary' onclick='asignarMesa(" . $id_mesa . "," . $id_cliente . ")' type='button' data-bs-dismiss='modal'>
+                        <td><button class='btn btn-primary' onclick='asignarMesa($id_mesa,$id_cliente,$id_mesero)' type='button' data-bs-dismiss='modal'>
                         Asignar
                         </button>
                         </td>
@@ -98,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $n_personas = $data['n_personas'];
             $estado_mesa = $data['estado_mesa'];
             $mesero = $data['mesero'];
+            $id_mesero = $data['mesero_id'];
 
             if ($estado_mesa == 0) {
                 // Consulta filtrando, clientes con igual o menor cantidad de personas, y que busqyen en esta zona ordenamos como llegaron
@@ -115,28 +133,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tr>
                             <td>" . $nombre_mesa . "</td>
                             <td>" . $total_personas . "</td>
-                            <td><button class='btn btn-primary' onclick='asignarMesa(" . $id_mesa . "," . $id_cliente . ")' type='button' data-bs-dismiss='modal'>
+                            <td><button class='btn btn-primary' onclick='asignarMesa($id_mesa,$id_cliente,$id_mesero)' type='button' data-bs-dismiss='modal'>
                             Asignar
                             </button>
                             </td>
                             </tr>
                             ";
                     }
-                }else{
+                } else {
                     echo 'No hay Clientes';
                 }
             } else {
-                $sql = 'SELECT id, nombre FROM mesa_cliente WHERE mesa_id = :id_mesa AND estado = 2';
-                $result = $pdo->prepare($sql);
-                $result->execute(array(":id_mesa" => $id_mesa));
+                $sql = "SELECT mesa_cliente.id AS cliente_id, mesas.nombre AS nombre_mesa, mesa_cliente.nombre AS nombre_cliente, personal.nombre AS nombre_mesero 
+                        FROM cliente_mesa_mesero 
+                        LEFT JOIN mesas ON cliente_mesa_mesero.mesa_id = mesas.id 
+                        LEFT JOIN mesa_cliente ON cliente_mesa_mesero.cliente_id = mesa_cliente.id 
+                        LEFT JOIN personal ON cliente_mesa_mesero.mesero_id = personal.id 
+                        WHERE mesa_id = $id_mesa;";
+                $result = $pdo->query($sql);
                 if ($result->rowCount() > 0) {
                     $cliente = $result->fetch(PDO::FETCH_OBJ);
-                    $id_cliente = $cliente->id;
-                    $nombre_cliente = $cliente->nombre;
+                    $id_cliente = $cliente->cliente_id;
+                    $nombre_cliente = $cliente->nombre_cliente;
+                    $nombre_mesero = $cliente->nombre_mesero;
 
                     echo '<p><strong>MESA OCUPADA:</strong></p>
                     <p>Cliente: ' . $nombre_cliente . '</p>
-                    <p>Atendido por: ' . $mesero . ' <br> <br>
+                    <p>Atendido por: ' . $nombre_mesero . ' <br> <br>
                     <button type="button" onclick="cofirmarLiberacionMesa(' . $id_cliente . ',' . $id_mesa . ');" class="btn btn-primary w-100" data-bs-dismiss="modal">
                         Liberar Mesa
                     </button>';
@@ -146,16 +169,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($accion == 'asignarMesa') {
             $id_mesa = $data['id_mesa'];
             $id_cliente = $data['id_cliente'];
+            $id_mesero = $data['id_mesero'];
+            $fecha = date('Y-m-d');
 
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
-            $sql = "UPDATE mesas SET estado = 1 WHERE id =:id_mesa";
-            $result = $pdo->prepare($sql);
-            $result->execute(array(":id_mesa" => $id_mesa));
+            $result = $pdo->query("UPDATE mesas SET estado = 1 WHERE id =$id_mesa");
+            $sql = "INSERT INTO cliente_mesa_mesero (cliente_id,mesero_id,mesa_id,fecha) VALUES ($id_cliente,$id_mesero,$id_mesa,'$fecha')";
+            $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Si la consulta es correcta, cambiamos el estado del cliente
-                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 2 WHERE id=:id_cliente";
+                $sql = "UPDATE mesa_cliente SET estado = 2 WHERE id=:id_cliente";
                 $result = $pdo->prepare($sql);
-                $result->execute(array(":id_mesa" => $id_mesa, ":id_cliente" => $id_cliente));
+                $result->execute(array(":id_cliente" => $id_cliente));
                 if ($result->rowCount() > 0) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong>¡Se asigno mesa correctamente!</strong>
@@ -174,9 +199,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result->execute(array(":id_mesa" => $id_mesa));
             if ($result->rowCount() > 0) {
                 // Si la consulta es correcta, cambiamos el estado del cliente
-                $sql = "UPDATE mesa_cliente SET mesa_id=:id_mesa, estado = 3, hora_salida =:hora_salida WHERE id=:id_cliente";
+                $sql = "UPDATE mesa_cliente SET estado = 3, hora_salida =:hora_salida WHERE id=:id_cliente";
                 $result = $pdo->prepare($sql);
-                $result->execute(array(":id_mesa" => $id_mesa, "hora_salida"=>$hora_salida, ":id_cliente" => $id_cliente));
+                $result->execute(array("hora_salida" => $hora_salida, ":id_cliente" => $id_cliente));
                 if ($result->rowCount() > 0) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>¡Se libero Mesa!</strong>
@@ -184,19 +209,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>';
                 }
             }
-        }elseif ($accion == 'eliminarReservacion'){
+        } elseif ($accion == 'eliminarReservacion') {
             $id_reservacion = $data['id_reservacion'];
 
             // Eliminamos la reservacion
             $sql = "DELETE FROM mesa_cliente WHERE id = :id_reservacion";
-                $result = $pdo->prepare($sql);
-                $result->execute(array(":id_reservacion" => $id_reservacion));
-                if ($result->rowCount() > 0) {
-                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            $result = $pdo->prepare($sql);
+            $result->execute(array(":id_reservacion" => $id_reservacion));
+            if ($result->rowCount() > 0) {
+                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong>¡Se Cancelo reservación!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
-                }
+            }
         }
     }
 

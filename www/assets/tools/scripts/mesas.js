@@ -58,10 +58,11 @@ function cofirmarLiberacionMesa(id_cliente, id_mesa) {
 }
 
 // Asignamos mesa a cliente
-function asignarMesa(id_mesa, id_cliente) {
+function asignarMesa(id_mesa, id_cliente,id_mesero) {
     var data = {
         id_mesa: id_mesa,
         id_cliente: id_cliente,
+        id_mesero: id_mesero,
         accion: 'asignarMesa'
     };
     sendAJAX(data);
@@ -97,6 +98,7 @@ verClientes.addEventListener('show.bs.modal', function (event) {
     var id_zona = link.getAttribute('data-id_zona');
     var estado_mesa = link.getAttribute('data-estado');
     var mesero = link.getAttribute('data-mesero');
+    var mesero_id = link.getAttribute('data-id-mesero');
 
     // Actualizar el contenido del modal
     var modalId = verClientes.querySelector('#modal-id');
@@ -114,6 +116,7 @@ verClientes.addEventListener('show.bs.modal', function (event) {
         id_zona: id_zona,
         estado_mesa: estado_mesa,
         mesero: mesero,
+        mesero_id: mesero_id,
         accion: 'verClientes'
     };
 

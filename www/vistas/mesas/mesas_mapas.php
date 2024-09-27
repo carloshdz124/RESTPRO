@@ -30,7 +30,7 @@ if (isset($resultAreas)) {
                         title='N. personas: {$mesa->n_personas}<br>Mesero: $mesa->mesero_nombre'>
                         <button type='button' data-bs-toggle='modal' data-bs-target='#verClientes' data-estado='$mesa->estado'
                             data-id='$mesa->id' data-nombre='$mesa->nombre' data-n_personas='$mesa->n_personas' data-id_zona='$mesa->area_id'
-                            data-mesero='$mesa->mesero_nombre' class='btn'>$mesa->nombre </button>
+                            data-mesero='$mesa->mesero_nombre' data-id-mesero='$mesa->mesero_id'class='btn'>$mesa->nombre </button>
                     </div>";
             } ?>
         </div>
