@@ -1,6 +1,6 @@
   //Llamamos endpoint para que los estados esten actualizados junto con su color
   function actualizarEstados() {
-    fetch('../endpoints/mesas_estado.php') // Cambia a la ruta de tu endpoint
+    fetch('../endpoints/mesas_estado.php')
         .then(response => response.json())
         .then(data => {
             // Recorre todos los botones y actualiza su clase según el estado

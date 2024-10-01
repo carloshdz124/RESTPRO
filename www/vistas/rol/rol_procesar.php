@@ -29,6 +29,8 @@ if (isset($_POST['datos'])) {
         // Guardamos el rol_id
         $rol_seleccionado = $resultRol->id;
     }
+    // Eliminamos todos los roles de con ese id para crear uno nuevo actualizado.
+    $result = $pdo->query("DELETE FROM `asignacion_meseros` WHERE rol_id = $rol_seleccionado");
     // Creamos la consulta para crear el nuevo rol que asigna estacion, mesas y mesero
     $sql = "INSERT INTO asignacion_meseros (mesero_id,estacion_id,rol_id,fecha) VALUES ";
     $fecha = date("Y-m-d");

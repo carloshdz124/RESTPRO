@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 27-09-2024 a las 10:06:57
+-- Tiempo de generación: 01-10-2024 a las 11:01:39
 -- Versión del servidor: 8.0.39
 -- Versión de PHP: 8.2.8
 
@@ -911,22 +911,6 @@ CREATE TABLE `asignacion_meseros` (
 --
 
 INSERT INTO `asignacion_meseros` (`id`, `mesero_id`, `estacion_id`, `rol_id`, `fecha`) VALUES
-(633, 3, 1, 6, '2024-09-25'),
-(634, 5, 2, 6, '2024-09-25'),
-(635, 6, 3, 6, '2024-09-25'),
-(636, 7, 4, 6, '2024-09-25'),
-(637, 20, 5, 6, '2024-09-25'),
-(638, 23, 6, 6, '2024-09-25'),
-(639, 26, 7, 6, '2024-09-25'),
-(640, 27, 8, 6, '2024-09-25'),
-(641, 16, 9, 6, '2024-09-25'),
-(642, 28, 10, 6, '2024-09-25'),
-(643, 10, 11, 6, '2024-09-25'),
-(644, 11, 12, 6, '2024-09-25'),
-(645, 12, 13, 6, '2024-09-25'),
-(646, 13, 14, 6, '2024-09-25'),
-(647, 14, 15, 6, '2024-09-25'),
-(648, 15, 16, 6, '2024-09-25'),
 (982, 17, 1, 9, '2024-09-26'),
 (983, 18, 2, 9, '2024-09-26'),
 (984, 19, 3, 9, '2024-09-26'),
@@ -945,30 +929,46 @@ INSERT INTO `asignacion_meseros` (`id`, `mesero_id`, `estacion_id`, `rol_id`, `f
 (997, 10, 16, 9, '2024-09-26'),
 (998, 11, 17, 9, '2024-09-26'),
 (999, 12, 18, 9, '2024-09-26'),
-(1000, 1, 1, 14, '2024-09-27'),
-(1001, 9, 2, 14, '2024-09-27'),
-(1002, 20, 3, 14, '2024-09-27'),
-(1003, 26, 4, 14, '2024-09-27'),
-(1004, 5, 5, 14, '2024-09-27'),
-(1005, 7, 6, 14, '2024-09-27'),
-(1006, 28, 7, 14, '2024-09-27'),
-(1007, 2, 8, 14, '2024-09-27'),
-(1008, 23, 9, 14, '2024-09-27'),
-(1009, 24, 10, 14, '2024-09-27'),
-(1010, 27, 11, 14, '2024-09-27'),
-(1011, 6, 12, 14, '2024-09-27'),
-(1012, 8, 13, 14, '2024-09-27'),
-(1013, 17, 14, 14, '2024-09-27'),
-(1014, 18, 15, 14, '2024-09-27'),
-(1015, 19, 16, 14, '2024-09-27'),
-(1016, 3, 17, 14, '2024-09-27'),
-(1017, 10, 18, 14, '2024-09-27'),
-(1018, 11, 19, 14, '2024-09-27'),
-(1019, 12, 20, 14, '2024-09-27'),
-(1020, 13, 21, 14, '2024-09-27'),
-(1021, 14, 22, 14, '2024-09-27'),
-(1022, 15, 23, 14, '2024-09-27'),
-(1023, 16, 24, 14, '2024-09-27');
+(1192, 15, 1, 14, '2024-09-29'),
+(1193, 16, 2, 14, '2024-09-29'),
+(1194, 17, 3, 14, '2024-09-29'),
+(1195, 23, 4, 14, '2024-09-29'),
+(1196, 24, 5, 14, '2024-09-29'),
+(1197, 26, 6, 14, '2024-09-29'),
+(1198, 27, 7, 14, '2024-09-29'),
+(1199, 28, 8, 14, '2024-09-29'),
+(1200, 1, 9, 14, '2024-09-29'),
+(1201, 2, 10, 14, '2024-09-29'),
+(1202, 9, 11, 14, '2024-09-29'),
+(1203, 10, 12, 14, '2024-09-29'),
+(1204, 11, 13, 14, '2024-09-29'),
+(1205, 12, 14, 14, '2024-09-29'),
+(1206, 13, 15, 14, '2024-09-29'),
+(1207, 14, 16, 14, '2024-09-29'),
+(1208, 18, 17, 14, '2024-09-29'),
+(1209, 19, 18, 14, '2024-09-29'),
+(1210, 20, 19, 14, '2024-09-29'),
+(1211, 3, 20, 14, '2024-09-29'),
+(1212, 5, 21, 14, '2024-09-29'),
+(1213, 6, 22, 14, '2024-09-29'),
+(1214, 7, 23, 14, '2024-09-29'),
+(1215, 8, 24, 14, '2024-09-29'),
+(1216, 20, 1, 6, '2024-10-01'),
+(1217, 24, 2, 6, '2024-10-01'),
+(1218, 26, 3, 6, '2024-10-01'),
+(1219, 28, 4, 6, '2024-10-01'),
+(1220, 3, 5, 6, '2024-10-01'),
+(1221, 5, 6, 6, '2024-10-01'),
+(1222, 7, 7, 6, '2024-10-01'),
+(1223, 8, 8, 6, '2024-10-01'),
+(1224, 13, 9, 6, '2024-10-01'),
+(1225, 17, 10, 6, '2024-10-01'),
+(1226, 18, 11, 6, '2024-10-01'),
+(1227, 19, 12, 6, '2024-10-01'),
+(1228, 2, 13, 6, '2024-10-01'),
+(1229, 10, 14, 6, '2024-10-01'),
+(1230, 11, 15, 6, '2024-10-01'),
+(1231, 12, 16, 6, '2024-10-01');
 
 -- --------------------------------------------------------
 
@@ -981,6 +981,7 @@ CREATE TABLE `cliente_mesa_mesero` (
   `cliente_id` int DEFAULT NULL,
   `mesero_id` int DEFAULT NULL,
   `mesa_id` int DEFAULT NULL,
+  `mesa_separada_id` int DEFAULT NULL COMMENT 'Si es separada, se agrega id',
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -988,15 +989,33 @@ CREATE TABLE `cliente_mesa_mesero` (
 -- Volcado de datos para la tabla `cliente_mesa_mesero`
 --
 
-INSERT INTO `cliente_mesa_mesero` (`id`, `cliente_id`, `mesero_id`, `mesa_id`, `fecha`) VALUES
-(1, 26, 9, 9, '2024-09-27'),
-(2, 41, 5, 18, '2024-09-27'),
-(3, 23, 5, 19, '2024-09-27'),
-(4, 6, 28, 31, '2024-09-27'),
-(5, 16, 23, 50, '2024-09-27'),
-(6, 25, 23, 33, '2024-09-27'),
-(7, 42, 6, 43, '2024-09-27'),
-(8, 43, 16, 82, '2024-09-27');
+INSERT INTO `cliente_mesa_mesero` (`id`, `cliente_id`, `mesero_id`, `mesa_id`, `mesa_separada_id`, `fecha`) VALUES
+(1, 26, 9, 9, NULL, '2024-09-27'),
+(2, 41, 5, 18, NULL, '2024-09-27'),
+(3, 23, 5, 19, NULL, '2024-09-27'),
+(4, 6, 28, 31, NULL, '2024-09-27'),
+(5, 16, 23, 50, NULL, '2024-09-27'),
+(6, 25, 23, 33, NULL, '2024-09-27'),
+(7, 42, 6, 43, NULL, '2024-09-27'),
+(8, 43, 16, 82, NULL, '2024-09-27'),
+(9, 47, 7, 34, NULL, '2024-09-28'),
+(10, 44, 10, 52, NULL, '2024-09-28'),
+(11, 46, 19, 60, NULL, '2024-09-28'),
+(12, 48, 1, 48, NULL, '2024-09-28'),
+(13, 45, 2, 69, NULL, '2024-09-28'),
+(14, 49, 1, 48, NULL, '2024-09-28'),
+(15, 50, 3, 70, NULL, '2024-09-28'),
+(16, 51, 23, 16, NULL, '2024-09-28'),
+(17, 52, 28, 29, NULL, '2024-09-29'),
+(18, 53, 13, 5, NULL, '2024-10-01'),
+(32, 54, 28, 24, NULL, '2024-10-01'),
+(33, 55, 28, 24, NULL, '2024-10-01'),
+(35, 56, 28, 24, NULL, '2024-10-01'),
+(36, 57, 20, 2, NULL, '2024-10-01'),
+(37, 58, 20, 2, NULL, '2024-10-01'),
+(38, 59, 28, 24, 1002, '2024-10-01'),
+(39, 60, 28, 24, 1001, '2024-10-01'),
+(40, 61, 26, 16, NULL, '2024-10-01');
 
 -- --------------------------------------------------------
 
@@ -1016,102 +1035,102 @@ CREATE TABLE `ctn_area_mesero` (
 --
 
 INSERT INTO `ctn_area_mesero` (`id`, `mesero_id`, `area_id`, `contador`) VALUES
-(1, 24, 1, 15),
-(2, 1, 1, 5),
+(1, 24, 1, 20),
+(2, 1, 1, 9),
 (3, 2, 1, 16),
-(4, 3, 1, 15),
-(5, 5, 1, 11),
-(6, 6, 1, 15),
-(7, 7, 1, 11),
-(8, 8, 1, 15),
-(9, 9, 1, 5),
-(10, 10, 1, 15),
-(11, 11, 1, 15),
-(12, 12, 1, 15),
-(13, 13, 1, 15),
-(14, 14, 1, 15),
-(15, 15, 1, 15),
-(16, 16, 1, 15),
-(17, 17, 1, 15),
-(18, 18, 1, 15),
-(19, 19, 1, 15),
-(20, 20, 1, 10),
-(21, 23, 1, 15),
-(22, 26, 1, 10),
-(23, 27, 1, 15),
-(24, 1, 2, 2),
-(25, 2, 2, 12),
-(26, 3, 2, 12),
-(27, 5, 2, 7),
-(28, 6, 2, 12),
-(29, 7, 2, 7),
-(30, 8, 2, 12),
-(31, 9, 2, 2),
-(32, 10, 2, 11),
-(33, 11, 2, 11),
-(34, 12, 2, 11),
-(35, 13, 2, 11),
-(36, 14, 2, 11),
-(37, 15, 2, 11),
-(38, 16, 2, 11),
-(39, 17, 2, 11),
-(40, 18, 2, 11),
-(41, 19, 2, 11),
+(4, 3, 1, 16),
+(5, 5, 1, 15),
+(6, 6, 1, 16),
+(7, 7, 1, 15),
+(8, 8, 1, 16),
+(9, 9, 1, 9),
+(10, 10, 1, 16),
+(11, 11, 1, 16),
+(12, 12, 1, 16),
+(13, 13, 1, 16),
+(14, 14, 1, 16),
+(15, 15, 1, 17),
+(16, 16, 1, 17),
+(17, 17, 1, 17),
+(18, 18, 1, 17),
+(19, 19, 1, 17),
+(20, 20, 1, 17),
+(21, 23, 1, 19),
+(22, 26, 1, 19),
+(23, 27, 1, 19),
+(24, 1, 2, 4),
+(25, 2, 2, 14),
+(26, 3, 2, 15),
+(27, 5, 2, 9),
+(28, 6, 2, 14),
+(29, 7, 2, 9),
+(30, 8, 2, 15),
+(31, 9, 2, 4),
+(32, 10, 2, 15),
+(33, 11, 2, 15),
+(34, 12, 2, 14),
+(35, 13, 2, 14),
+(36, 14, 2, 14),
+(37, 15, 2, 12),
+(38, 16, 2, 12),
+(39, 17, 2, 12),
+(40, 18, 2, 12),
+(41, 19, 2, 12),
 (42, 20, 2, 7),
-(43, 23, 2, 11),
-(44, 24, 2, 11),
+(43, 23, 2, 12),
+(44, 24, 2, 12),
 (45, 26, 2, 7),
-(46, 27, 2, 11),
-(47, 1, 3, 2),
-(48, 2, 3, 12),
-(49, 3, 3, 13),
-(50, 5, 3, 7),
-(51, 6, 3, 13),
-(52, 7, 3, 7),
-(53, 8, 3, 12),
-(54, 9, 3, 2),
-(55, 10, 3, 13),
-(56, 11, 3, 13),
-(57, 12, 3, 12),
-(58, 13, 3, 12),
-(59, 14, 3, 12),
-(60, 15, 3, 12),
-(61, 16, 3, 12),
-(62, 17, 3, 12),
-(63, 18, 3, 12),
-(64, 19, 3, 12),
-(65, 20, 3, 7),
-(66, 23, 3, 12),
-(67, 24, 3, 12),
+(46, 27, 2, 12),
+(47, 1, 3, 3),
+(48, 2, 3, 14),
+(49, 3, 3, 14),
+(50, 5, 3, 8),
+(51, 6, 3, 14),
+(52, 7, 3, 8),
+(53, 8, 3, 14),
+(54, 9, 3, 3),
+(55, 10, 3, 14),
+(56, 11, 3, 14),
+(57, 12, 3, 16),
+(58, 13, 3, 16),
+(59, 14, 3, 15),
+(60, 15, 3, 16),
+(61, 16, 3, 16),
+(62, 17, 3, 17),
+(63, 18, 3, 16),
+(64, 19, 3, 16),
+(65, 20, 3, 9),
+(66, 23, 3, 13),
+(67, 24, 3, 13),
 (68, 26, 3, 6),
-(69, 27, 3, 11),
-(70, 1, 4, 2),
-(71, 2, 4, 9),
-(72, 3, 4, 10),
-(73, 5, 4, 6),
-(74, 6, 4, 10),
-(75, 7, 4, 6),
-(76, 8, 4, 11),
-(77, 9, 4, 1),
-(78, 10, 4, 11),
-(79, 11, 4, 11),
-(80, 12, 4, 12),
-(81, 13, 4, 12),
-(82, 14, 4, 12),
-(83, 15, 4, 12),
-(84, 16, 4, 12),
-(85, 17, 4, 11),
-(86, 18, 4, 11),
-(87, 19, 4, 11),
+(69, 27, 3, 13),
+(70, 1, 4, 3),
+(71, 2, 4, 14),
+(72, 3, 4, 14),
+(73, 5, 4, 8),
+(74, 6, 4, 14),
+(75, 7, 4, 8),
+(76, 8, 4, 14),
+(77, 9, 4, 2),
+(78, 10, 4, 14),
+(79, 11, 4, 14),
+(80, 12, 4, 13),
+(81, 13, 4, 13),
+(82, 14, 4, 13),
+(83, 15, 4, 13),
+(84, 16, 4, 13),
+(85, 17, 4, 12),
+(86, 18, 4, 13),
+(87, 19, 4, 13),
 (88, 20, 4, 7),
-(89, 23, 4, 12),
-(90, 24, 4, 11),
+(89, 23, 4, 14),
+(90, 24, 4, 13),
 (91, 26, 4, 8),
-(92, 27, 4, 13),
-(93, 28, 1, 15),
-(94, 28, 2, 11),
-(95, 28, 3, 11),
-(96, 28, 4, 13);
+(92, 27, 4, 14),
+(93, 28, 1, 20),
+(94, 28, 2, 12),
+(95, 28, 3, 13),
+(96, 28, 4, 14);
 
 -- --------------------------------------------------------
 
@@ -1267,6 +1286,32 @@ INSERT INTO `mesas` (`id`, `nombre`, `area_id`, `n_personas`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `mesas_separadas`
+--
+
+CREATE TABLE `mesas_separadas` (
+  `id` int NOT NULL,
+  `nombre` varchar(20) NOT NULL,
+  `mesa_id` int DEFAULT NULL,
+  `area_id` int DEFAULT NULL,
+  `n_personas` int NOT NULL,
+  `estado` int NOT NULL DEFAULT '1' COMMENT '0 = disponible\r\n1 = Ocupada\r\n2 = Reservada	',
+  `activa` int NOT NULL DEFAULT '0' COMMENT '0: Inactiva\r\n1:Inactiva'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `mesas_separadas`
+--
+
+INSERT INTO `mesas_separadas` (`id`, `nombre`, `mesa_id`, `area_id`, `n_personas`, `estado`, `activa`) VALUES
+(1001, '30', 24, 1, 4, 0, 1),
+(1002, '30A', 24, 1, 4, 0, 1),
+(1003, '31', 25, 1, 4, 0, 1),
+(1004, '31A', 25, 1, 4, 0, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `mesa_cliente`
 --
 
@@ -1315,7 +1360,25 @@ INSERT INTO `mesa_cliente` (`id`, `nombre`, `zonas_deseadas`, `telefono`, `n_adu
 (40, 'Celular', '1,2,3,4', NULL, 2, 1, '21:43:46', '02:40:30', '2024-09-12', 3),
 (41, 'Enrique', '1,4', NULL, 2, 2, '00:21:36', '02:33:19', '2024-09-27', 3),
 (42, 'chicharito', '2,3', NULL, 3, 0, '02:40:59', '03:48:59', '2024-09-27', 3),
-(43, 'CR7', '4', NULL, 2, 6, '03:49:32', '04:06:30', '2024-09-27', 3);
+(43, 'CR7', '4', NULL, 2, 6, '03:49:32', '04:06:30', '2024-09-27', 3),
+(44, 'Carlos Gómez', '3', NULL, 4, 1, '01:22:15', '01:38:40', '2024-09-28', 3),
+(45, 'Lucía Fernández', '4', NULL, 2, 1, '01:22:28', '01:38:34', '2024-09-28', 3),
+(46, 'Miguel Martínez', '3,4', NULL, 1, 3, '01:22:39', '01:38:22', '2024-09-28', 3),
+(47, 'Ana Sánchez', '2,3', NULL, 2, 2, '01:22:51', '01:38:28', '2024-09-28', 3),
+(48, 'Javier López', '3', NULL, 5, 1, '01:23:11', '02:38:52', '2024-09-28', 3),
+(49, 'María Pérez', '3', NULL, 6, 0, '01:48:41', NULL, '2024-09-28', 2),
+(50, 'Andrés Torres', '4', NULL, 1, 1, '02:08:02', '02:38:50', '2024-09-28', 3),
+(51, 'Sofía Ramírez', '1', NULL, 3, 0, '02:08:55', '03:37:46', '2024-09-28', 3),
+(52, 'Raúl García', '1', NULL, 1, 0, '02:22:07', '03:40:02', '2024-09-28', 3),
+(53, 'Majinbu', '3', NULL, 2, 0, '03:02:33', '03:03:22', '2024-10-01', 3),
+(54, 'Vegeta', '1', NULL, 1, 0, '03:03:38', '04:03:33', '2024-10-01', 3),
+(55, 'Goku', '1', NULL, 2, 2, '03:55:46', '04:03:33', '2024-10-01', 3),
+(56, 'gohan', '1', NULL, 2, 1, '04:06:10', '04:33:13', '2024-10-01', 3),
+(57, 'piccolo', '1,2,3,4', NULL, 1, 2, '04:14:29', '04:16:31', '2024-10-01', 3),
+(58, 'krilin', '1,2,3,4', NULL, 2, 1, '04:16:53', '04:33:26', '2024-10-01', 3),
+(59, 'milk', '1,2,3,4', NULL, 1, 0, '04:33:43', '05:00:15', '2024-10-01', 3),
+(60, 'bulma', '1,2,3,4', NULL, 1, 1, '04:39:47', '05:00:51', '2024-10-01', 3),
+(61, 'Maestro Roshi', '1,2,3,4', NULL, 4, 0, '04:40:23', '04:54:45', '2024-10-01', 3);
 
 -- --------------------------------------------------------
 
@@ -1500,11 +1563,16 @@ CREATE TABLE `vista_mesas_color` (
 `area_id` int
 ,`color` varchar(10)
 ,`estado` int
+,`estado_mesa_separadas` int
+,`fecha` date
 ,`id` int
+,`mesa_separada_id` int
 ,`mesero_id` int
 ,`mesero_nombre` varchar(50)
 ,`n_personas` int
+,`n_personas_separadas` int
 ,`nombre` varchar(50)
+,`nombre_mesa_separadas` varchar(20)
 ,`rol` int
 );
 
@@ -1520,6 +1588,25 @@ CREATE TABLE `vista_mesas_estaciones` (
 ,`mesas` text
 ,`rol` int
 ,`rol_descripcion` text
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_mesero_cliente_mesa`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_mesero_cliente_mesa` (
+`area_id` bigint
+,`cliente_mesa_mesero_id` int
+,`cliente_nombre` varchar(100)
+,`fecha` date
+,`mesa_final_nombre` varchar(50)
+,`mesa_nombre` varchar(50)
+,`mesa_separada_nombre` varchar(20)
+,`mesero_nombre` varchar(50)
+,`n_personas` bigint
+,`tipo_mesa` varchar(13)
 );
 
 -- --------------------------------------------------------
@@ -1543,7 +1630,7 @@ CREATE TABLE `vista_mesero_mesa` (
 --
 DROP TABLE IF EXISTS `vista_mesas_color`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`id` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado`, `personal`.`nombre` AS `mesero_nombre`, `personal`.`id` AS `mesero_id` FROM (((((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) left join `asignacion_meseros` on(((`asignacion_mesas`.`estacion_id` = `asignacion_meseros`.`estacion_id`) and (`asignacion_mesas`.`rol_id` = `asignacion_meseros`.`rol_id`)))) left join `personal` on((`asignacion_meseros`.`mesero_id` = `personal`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesas_color`  AS SELECT `estaciones`.`color` AS `color`, `roles`.`id` AS `rol`, `mesas`.`id` AS `id`, `mesas`.`nombre` AS `nombre`, `mesas`.`area_id` AS `area_id`, `mesas`.`n_personas` AS `n_personas`, `mesas`.`estado` AS `estado`, `personal`.`nombre` AS `mesero_nombre`, `personal`.`id` AS `mesero_id`, `asignacion_meseros`.`fecha` AS `fecha`, `mesas_separadas`.`id` AS `mesa_separada_id`, `mesas_separadas`.`n_personas` AS `n_personas_separadas`, `mesas_separadas`.`nombre` AS `nombre_mesa_separadas`, `mesas_separadas`.`estado` AS `estado_mesa_separadas` FROM ((((((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) left join `asignacion_meseros` on(((`asignacion_mesas`.`estacion_id` = `asignacion_meseros`.`estacion_id`) and (`asignacion_mesas`.`rol_id` = `asignacion_meseros`.`rol_id`)))) left join `personal` on((`asignacion_meseros`.`mesero_id` = `personal`.`id`))) left join `mesas_separadas` on(((`mesas`.`id` = `mesas_separadas`.`mesa_id`) and (`mesas_separadas`.`activa` = 1)))) ;
 
 -- --------------------------------------------------------
 
@@ -1553,6 +1640,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_m
 DROP TABLE IF EXISTS `vista_mesas_estaciones`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesas_estaciones`  AS SELECT `roles`.`id` AS `rol`, `roles`.`descripcion` AS `rol_descripcion`, `mesas`.`area_id` AS `area_id`, `estaciones`.`descripcion` AS `estacion`, group_concat(`mesas`.`nombre` order by `mesas`.`nombre` ASC separator ', ') AS `mesas` FROM (((`asignacion_mesas` join `mesas` on((`asignacion_mesas`.`mesa_id` = `mesas`.`id`))) join `estaciones` on((`asignacion_mesas`.`estacion_id` = `estaciones`.`id`))) join `roles` on((`asignacion_mesas`.`rol_id` = `roles`.`id`))) GROUP BY `roles`.`id`, `mesas`.`area_id`, `estaciones`.`descripcion` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_mesero_cliente_mesa`
+--
+DROP TABLE IF EXISTS `vista_mesero_cliente_mesa`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vista_mesero_cliente_mesa`  AS SELECT `cmm`.`id` AS `cliente_mesa_mesero_id`, `mc`.`nombre` AS `cliente_nombre`, `cmm`.`fecha` AS `fecha`, `m`.`nombre` AS `mesa_nombre`, `ms`.`nombre` AS `mesa_separada_nombre`, coalesce(`m`.`nombre`,`ms`.`nombre`) AS `mesa_final_nombre`, coalesce(`m`.`n_personas`,`ms`.`n_personas`) AS `n_personas`, coalesce(`m`.`area_id`,`ms`.`area_id`) AS `area_id`, `p`.`nombre` AS `mesero_nombre`, (case when (`ms`.`id` is not null) then 'Mesa Separada' else 'Mesa Original' end) AS `tipo_mesa` FROM ((((`cliente_mesa_mesero` `cmm` left join `mesas` `m` on((`cmm`.`mesa_id` = `m`.`id`))) left join `mesas_separadas` `ms` on((`cmm`.`mesa_id` = `ms`.`mesa_id`))) left join `mesa_cliente` `mc` on((`cmm`.`cliente_id` = `mc`.`id`))) left join `personal` `p` on((`cmm`.`mesero_id` = `p`.`id`))) ;
 
 -- --------------------------------------------------------
 
@@ -1598,7 +1694,8 @@ ALTER TABLE `cliente_mesa_mesero`
   ADD PRIMARY KEY (`id`),
   ADD KEY `mesero_id` (`mesero_id`),
   ADD KEY `mesa_id` (`mesa_id`),
-  ADD KEY `cliente_id` (`cliente_id`);
+  ADD KEY `cliente_id` (`cliente_id`),
+  ADD KEY `cliente_mesa_mesero_ibfk_4` (`mesa_separada_id`);
 
 --
 -- Indices de la tabla `ctn_area_mesero`
@@ -1620,6 +1717,14 @@ ALTER TABLE `estaciones`
 ALTER TABLE `mesas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `area_id` (`area_id`);
+
+--
+-- Indices de la tabla `mesas_separadas`
+--
+ALTER TABLE `mesas_separadas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mesa_separadas_ibfk_1` (`mesa_id`),
+  ADD KEY `mesa_separadas_ibfk_2` (`area_id`);
 
 --
 -- Indices de la tabla `mesa_cliente`
@@ -1678,13 +1783,13 @@ ALTER TABLE `asignacion_mesas`
 -- AUTO_INCREMENT de la tabla `asignacion_meseros`
 --
 ALTER TABLE `asignacion_meseros`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1232;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_mesa_mesero`
 --
 ALTER TABLE `cliente_mesa_mesero`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `ctn_area_mesero`
@@ -1705,10 +1810,16 @@ ALTER TABLE `mesas`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
+-- AUTO_INCREMENT de la tabla `mesas_separadas`
+--
+ALTER TABLE `mesas_separadas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
+
+--
 -- AUTO_INCREMENT de la tabla `mesa_cliente`
 --
 ALTER TABLE `mesa_cliente`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `personal`
@@ -1766,7 +1877,8 @@ ALTER TABLE `asignacion_meseros`
 ALTER TABLE `cliente_mesa_mesero`
   ADD CONSTRAINT `cliente_mesa_mesero_ibfk_1` FOREIGN KEY (`mesero_id`) REFERENCES `personal` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `cliente_mesa_mesero_ibfk_2` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `cliente_mesa_mesero_ibfk_3` FOREIGN KEY (`cliente_id`) REFERENCES `mesa_cliente` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `cliente_mesa_mesero_ibfk_3` FOREIGN KEY (`cliente_id`) REFERENCES `mesa_cliente` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `cliente_mesa_mesero_ibfk_4` FOREIGN KEY (`mesa_separada_id`) REFERENCES `mesas_separadas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ctn_area_mesero`
@@ -1780,6 +1892,13 @@ ALTER TABLE `ctn_area_mesero`
 --
 ALTER TABLE `mesas`
   ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `mesas_separadas`
+--
+ALTER TABLE `mesas_separadas`
+  ADD CONSTRAINT `mesa_separadas_ibfk_1` FOREIGN KEY (`mesa_id`) REFERENCES `mesas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `mesa_separadas_ibfk_2` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `personal_bloqueado`

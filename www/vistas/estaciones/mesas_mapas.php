@@ -6,13 +6,21 @@ if (isset($resultAreas)) {
     $globalCategorizadoPorColor = [];
 
     // Si tenemos seleccionamos un rol manualmente, asignamos la variable para cambiar la busqueda.
-    $rol_seleccionado = isset($rol_seleccionado_get)?$rol_seleccionado_get : $rol_seleccionado;
+    //$rol_seleccionado = isset($rol_seleccionado_get)?$rol_seleccionado_get : $rol_seleccionado;
 
     // Iterar sobre los resultados de las áreas
     foreach ($resultAreas as $area) {
-        if (isset($bandera_estacion) && isset($rol_seleccionado)) {
-            $result = $pdo->query('SELECT * FROM vista_mesas_color WHERE area_id=' . $area->id . ' AND rol=' . $rol_seleccionado . ' ORDER BY nombre ASC');
-
+        if (isset($rol_seleccionado_get)) {
+            $sql = "SELECT DISTINCT nombre, color, n_personas, id FROM vista_mesas_color WHERE area_id = $area->id AND rol = '$rol_seleccionado_get' ORDER BY nombre ASC;";
+            $result = $pdo->query($sql);
+        } elseif (isset($bandera_estacion) && isset($rol_seleccionado)) {
+            $fecha = date('Y-m-d');
+            $result = $pdo->query("SELECT * FROM vista_mesas_color WHERE area_id = $area->id  AND fecha = '$fecha' ORDER BY nombre ASC");
+            // si aun no se ah creado un rol, muestra las estaciones que se utilizaran
+            if ($result->rowCount() == 0) {
+                $sql = "SELECT DISTINCT nombre, color, n_personas, id FROM vista_mesas_color WHERE area_id = $area->id AND rol = '$rol_seleccionado' ORDER BY nombre ASC;";
+                $result = $pdo->query($sql);
+            }
         } else {
             $result = $pdo->query('SELECT * FROM mesas WHERE area_id=' . $area->id . ' ORDER BY nombre ASC');
             if ($result->rowCount() > 0) {
@@ -51,17 +59,17 @@ if (isset($resultAreas)) {
                     $categorizadoPorColor[$estacion_id] = [];
                 }
                 $categorizadoPorColor[$estacion_id][] = ['id' => $mesa->id, 'nombre' => $mesa->nombre];
-            // Si existe rol seleccionado mostramos los colores.
+                // Si existe rol seleccionado mostramos los colores.
             } elseif (isset($bandera_estacion) && isset($rol_seleccionado)) {
                 $color = $mesa->color;
                 // Si el rol seleccionado es por get, entonces no mostramos nombres de meseros
-                if(!isset($rol_seleccionado_get)){
-                    $tooltip = "<br>Mesero: {$mesa->mesero_nombre}";
+                if (!isset($rol_seleccionado_get)) {
+                    $tooltip = isset($mesa->mesero_nombre) ? "<br>Mesero: " . $mesa->mesero_nombre : "";
                 }
             } else {
                 $color = 'transparent';
             }
-            $tooltip = isset($tooltip)? $tooltip : "";
+            $tooltip = isset($tooltip) ? $tooltip : "";
 
             // Condición para hacer salto de línea si se cambia de fila
             if (strlen($mesa->nombre) == 2) {
@@ -75,12 +83,15 @@ if (isset($resultAreas)) {
                     echo '<br>';
                 }
             }
+            
+            $mesa_nombre = isset($mesa->nombre_mesa_separadas)?$mesa->nombre_mesa_separadas:$mesa->nombre;
+            $mesa_n_personas = isset($mesa->n_personas_separadas)?$mesa->n_personas_separadas:$mesa->n_personas;
 
             // Botones que representan las mesas
             echo "<div class='d-inline-block border-custom' style='background-color:$color;' id='tooltip-{$mesa->id}' data-bs-placement='top' data-bs-html='true'
-                title='N. personas: {$mesa->n_personas}$tooltip'>
+                title='N. personas: {$mesa_n_personas}$tooltip'>
                 <button type='button' class='btn btn-success' data-id='{$mesa->id}'>
-                    {$mesa->nombre}
+                    {$mesa_nombre}
                 </button>
             </div>";
         }

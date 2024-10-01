@@ -24,43 +24,31 @@ foreach ($resultMeseros as $mesero) {
     }
     $mesero_array[] = $veces_en_area;
 }
+
 $meserosAsignados = acomodar($mesero_array,$n_areas,$meserosxArea);
 
 function acomodar($meseros, $numAreas, $meserosPorArea)
 {
     // Array para almacenar los meseros seleccionados por área
-    $meserosSeleccionados = [];
+    $meserosSeleccionados = array_fill(0, $numAreas, []);
     // Array para llevar el control de los meseros ya asignados
     $meserosAsignados = []; 
     
     // Proceso de selección
-    foreach (range(0, $numAreas - 1) as $area) {
-        // Array para almacenar meseros y su conteo de visitas a esta área
-        $meserosConConteo = [];
+    foreach ($meseros as $meseroIndex => $conteosAreas) {
+        // Ordenar las áreas en función del número de veces que este mesero ha estado
+        asort($conteosAreas);
         
-        foreach (range(0, count($meseros) - 1) as $mesero) {
-            // Solo considerar meseros no asignados aún
-            if (!in_array($mesero + 1, $meserosAsignados)) {
-                // Número de veces en el área
-                $meserosConConteo[$mesero] = $meseros[$mesero][$area]; 
-            }
-        }
-        
-        // Ordenar meseros por número de veces en esta área (ascendente)
-        asort($meserosConConteo);
-        
-        // Seleccionar meseros según la cantidad necesaria
-        $contador = 0;
-        foreach ($meserosConConteo as $mesero => $veces) {
-            if ($contador < $meserosPorArea[$area]) {
-                $meserosSeleccionados[] = $mesero + 1; // Almacenamos el mesero (sumando 1 para la numeración)
-                $meserosAsignados[] = $mesero + 1; // Marcar como asignado
-                $contador++;
-            } else {
-                break;
+        // Revisar áreas de menor a mayor número de veces que ha estado
+        foreach ($conteosAreas as $areaIndex => $veces) {
+            // Si aún hay cupo en el área, asignamos al mesero
+            if (count($meserosSeleccionados[$areaIndex]) < $meserosPorArea[$areaIndex]) {
+                $meserosSeleccionados[$areaIndex][] = $meseroIndex + 1; // Almacenamos el mesero (sumando 1 para la numeración)
+                $meserosAsignados[] = $meseroIndex + 1; // Marcar como asignado
+                break; // Romper el ciclo para pasar al siguiente mesero
             }
         }
     }
     
-    return $meserosSeleccionados; // Devolver un solo array sencillo
+    return array_merge(...$meserosSeleccionados); // Devolver array con los meseros seleccionados por área
 }

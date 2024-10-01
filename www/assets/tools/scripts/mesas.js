@@ -45,12 +45,24 @@ $(document).ready(function () {
 });
 
 // Funcion para liberar mesa y dejarla disponible
-function cofirmarLiberacionMesa(id_cliente, id_mesa) {
+function cofirmarLiberacionMesa(id_cliente, id_mesa, id_mesa_separada) {
     if (confirm('Esta seguro de que ya se retiro el cliente de la mesa y esta lista para otro cliente?')) {
         var data = {
             id_cliente: id_cliente,
             id_mesa: id_mesa,
+            id_mesa_separada: id_mesa_separada,
             accion: 'liberarMesa'
+        };
+
+        sendAJAX(data);
+    }
+}
+
+function separarMesa(id_mesa) {
+    if (confirm('Esta seguro que desea separar mesa?')) {
+        var data = {
+            id_mesa: id_mesa,
+            accion: 'separarMesa'
         };
 
         sendAJAX(data);
@@ -99,6 +111,7 @@ verClientes.addEventListener('show.bs.modal', function (event) {
     var estado_mesa = link.getAttribute('data-estado');
     var mesero = link.getAttribute('data-mesero');
     var mesero_id = link.getAttribute('data-id-mesero');
+    var separada = link.getAttribute('data-separada');
 
     // Actualizar el contenido del modal
     var modalId = verClientes.querySelector('#modal-id');
@@ -117,6 +130,7 @@ verClientes.addEventListener('show.bs.modal', function (event) {
         estado_mesa: estado_mesa,
         mesero: mesero,
         mesero_id: mesero_id,
+        separada: separada,
         accion: 'verClientes'
     };
 
@@ -162,23 +176,25 @@ function sendAJAX(data) {
     if (data.accion == 'verMesas') {
         id_div_respuesta = '#mesasDisponibles';
         document.getElementById('mesaOcupada').classList.add('d-none');
-        document.getElementById('clientesContainer').classList.remove('d-none');
+        document.getElementById('clientesDisponibles').classList.remove('d-none');
     // Verifixamos si es de verClientes
     } else if (data.accion == 'verClientes') {
-        // Si la mesa esta desocupada, enviamos los datos a clientes disponibles
-        if (data.estado_mesa == 0) {
+        // Verificamos si la mesa está desocupada
+        if (data.estado_mesa == 0) { // Mesa desocupada
             id_div_respuesta = '#clientesDisponibles';
             document.getElementById('mesaOcupada').classList.add('d-none');
-            document.getElementById('clientesContainer').classList.remove('d-none');
-        // Si esta ocupada mostramos los datos del cliente y la mesa.
-        } else {
+            document.getElementById('clientesDisponibles').classList.remove('d-none');
+        } else { // Mesa ocupada
             id_div_respuesta = '#mesaOcupada';
-            document.getElementById('clientesContainer').classList.add('d-none');
+            document.getElementById('clientesDisponibles').classList.add('d-none');
             document.getElementById('mesaOcupada').classList.remove('d-none');
         }
-    } else if (data.accion == 'asignarMesa' || data.accion == 'liberarMesa' || data.accion == 'eliminarReservacion') {
+    } else{
         id_div_respuesta = '#alertPlaceholder';
     }
+    /*else if (data.accion == 'asignarMesa' || data.accion == 'liberarMesa' || data.accion == 'eliminarReservacion') {
+        id_div_respuesta = '#alertPlaceholder';
+    }*/
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "mesas_procesar.php", true);

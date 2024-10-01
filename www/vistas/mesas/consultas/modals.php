@@ -194,7 +194,7 @@
     </div>
 </div>
 
-<!-- Modal Clientes a elegir -->
+<!-- Modal boton de mesa para mostrar Clientes a elegir -->
 <div class="modal fade" id="verClientes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -218,20 +218,8 @@
                     </div>
                     <div class="mb-3">
                         <!-- Si esta desocupada la mesa, entonces mostramos opciones de clientes a elegir-->
-                        <div id="clientesContainer" class="d-none">
-                            <p><strong>Clientes a elegir: </strong></p>
-                            <table class="table table-dark centrar" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Cliente</th>
-                                        <th scope="col">N. personas</th>
-                                        <th scope="col">Opc</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-secondary" id="clientesDisponibles">
-                                    <!-- Aquí se mostrarán los clientes disponibles -->
-                                </tbody>
-                            </table>
+                        <div id="clientesDisponibles" class="d-none">
+
                         </div>
                         <!-- Si ya esta ocupada la mesa, entonces mostramos datos del cliente-->
                         <div id="mesaOcupada" class="d-none">

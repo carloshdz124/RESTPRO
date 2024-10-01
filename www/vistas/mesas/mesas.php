@@ -60,51 +60,55 @@ if (isset($_GET["message"])) {
 
     <!-- Botones principales -->
     <h1 class="text-center">MESAS</h1>
-    <div class="row centrar">
-        <div class="col">
-            <button class="btn btn-estilo" data-bs-toggle="modal" data-bs-target="#modalAsignarMesa">
-                Registrar mesa
-            </button>
+    <?php if ($_SESSION["rol_creado"] == true) { ?>
+        <div class="row centrar">
+            <div class="col">
+                <button class="btn btn-estilo" data-bs-toggle="modal" data-bs-target="#modalAsignarMesa">
+                    Registrar mesa
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-estilo " data-bs-toggle="modal" data-bs-target="#modalReservacion">
+                    Registrar reservacion
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-estilo " data-bs-toggle="modal" data-bs-target="#modalReservacionHoy">
+                    Reservaciones
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-estilo" data-bs-toggle="modal" data-bs-target="#modalListaEspera">
+                    Lista de espera
+                </button>
+            </div>
         </div>
-        <div class="col">
-            <button class="btn btn-estilo " data-bs-toggle="modal" data-bs-target="#modalReservacion">
-                Registrar reservacion
+        <br>
+        <!-- Boton para seleccionar areas y mostrarlas -->
+        <div class="dropdown" style="text-align: right;">
+            <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Areas
             </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <?php foreach ($resultAreas as $area) { ?>
+                    <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
+                            class="dropdown-item"><?php echo $area->nombre ?></a></li>
+                <?php } ?>
+            </ul>
         </div>
-        <div class="col">
-            <button class="btn btn-estilo " data-bs-toggle="modal" data-bs-target="#modalReservacionHoy">
-                Reservaciones
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-estilo" data-bs-toggle="modal" data-bs-target="#modalListaEspera">
-                Lista de espera
-            </button>
-        </div>
+        <!-- Si existen areas mostramos mapas de areas -->
+        <?php
+        include_once('mesas_mapas.php');
+        ?>
     </div>
-    <br>
-    <!-- Boton para seleccionar areas y mostrarlas -->
-    <div class="dropdown" style="text-align: right;">
-        <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Areas
-        </button>
-        <ul class="dropdown-menu dropdown-menu-dark">
-            <?php foreach ($resultAreas as $area) { ?>
-                <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
-                        class="dropdown-item"><?php echo $area->nombre ?></a></li>
-            <?php } ?>
-        </ul>
-    </div>
-    <!-- Si existen areas mostramos mapas de areas -->
-    <?php
-    include_once('mesas_mapas.php');
-    ?>
-</div>
 
-<?php
-include_once "consultas/modals.php";
-?>
+    <?php
+    include_once "consultas/modals.php";
+    } else {
+        echo "<p class='centrar'> No puedes ver mesas, hasta crear el rol!!! </p>";
+    }
+    ?>
 
 <script src="<?php echo $ubicacion; ?>/assets/tools/scripts/mesas.js"></script>
 <script src="<?php echo $ubicacion; ?>/assets/tools/scripts/mapa_mesas.js"></script>

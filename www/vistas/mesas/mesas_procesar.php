@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($areasSelec as $areaSelec) {
                 $condiciones[] = ' area_id = ' . $pdo->quote($areaSelec) . ' AND estado = 0 ';
             }
-            //Con implode unimos en una cadena los elementos de del anterior array pero entre ellos un OR 
+            //Con implode unimos en una cadena los elementos del anterior array pero entre ellos un OR 
             $consulta = implode(' OR ', $condiciones);
 
             // Consulta para ver numero de meseros
@@ -86,7 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $rol_id = $resultRol->id;
             }
             //Realizamos la busqueda usando la vista de con los meseros asignados.
-            $sql = "SELECT * FROM vista_mesas_color WHERE ($consulta AND n_personas >= $total_personas) AND rol = $rol_id ORDER BY n_personas ASC ";
+            $fecha = date('Y-m-d');
+            $sql = "SELECT * FROM vista_mesas_color WHERE ($consulta AND n_personas >= $total_personas) AND fecha='$fecha' ORDER BY n_personas ASC ";
             $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Muestra los resultados
@@ -117,11 +118,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mesero = $data['mesero'];
             $id_mesero = $data['mesero_id'];
 
+            // Verificamos si esta desocupada
             if ($estado_mesa == 0) {
                 // Consulta filtrando, clientes con igual o menor cantidad de personas, y que busqyen en esta zona ordenamos como llegaron
                 $sql = "SELECT * FROM `mesa_cliente` WHERE ((n_adultos + n_ninos) <= " . $n_personas . " AND estado = 0) AND zonas_deseadas LIKE '%" . $id_zona . "%' ORDER BY id ASC;";
                 $result = $pdo->query($sql);
+                if ($n_personas > 5) {
+                    echo "<button type='button' class='btn btn-primary w-100' onclick='separarMesa($id_mesa)' data-bs-dismiss='modal'>Separar</button>";
+                }
                 if ($result->rowCount() > 0) {
+                    echo "<p><strong>Clientes a elegir: </strong></p>
+                            <table class='table table-dark centrar' style='width:100%;'>
+                                <thead>
+                                    <tr>
+                                        <th scope='col'>Cliente</th>
+                                        <th scope='col'>N. personas</th>
+                                        <th scope='col'>Opc</th>
+                                    </tr>
+                                </thead>
+                                <tbody class='table-secondary' id='clientesDisponibles'>";
+                    // Aquí se mostrarán los clientes disponibles -->
+
                     while ($clientesDsiponibles = $result->fetch(PDO::FETCH_OBJ)) {
                         $id_cliente = $clientesDsiponibles->id;
                         $nombre_mesa = $clientesDsiponibles->nombre;
@@ -140,27 +157,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </tr>
                             ";
                     }
+                    echo "</tbody>";
                 } else {
                     echo 'No hay Clientes';
                 }
+                // Sino, esta desocupada
             } else {
-                $sql = "SELECT mesa_cliente.id AS cliente_id, mesas.nombre AS nombre_mesa, mesa_cliente.nombre AS nombre_cliente, personal.nombre AS nombre_mesero 
+                $result = $pdo->query("SELECT * FROM mesas_separadas WHERE id = '$id_mesa'");
+                // Si se encuentra un resultado, entonces no esta separada
+                if ($result->rowCount() > 0) {
+                    $mesa_separada_id = $id_mesa;
+                    $id_mesa = $result->fetch(PDO::FETCH_OBJ)->mesa_id;
+                }
+                $mesa_separada = isset($mesa_separada_id)?"= $mesa_separada_id":" IS NULL";
+                $mesa_separada_id = isset($mesa_separada_id)?$mesa_separada_id:0;
+                $sql = "SELECT mesa_cliente.id AS cliente_id, 
+                            mesas.nombre AS nombre_mesa, 
+                            mesa_cliente.nombre AS nombre_cliente, 
+                            personal.nombre AS nombre_mesero 
                         FROM cliente_mesa_mesero 
                         LEFT JOIN mesas ON cliente_mesa_mesero.mesa_id = mesas.id 
                         LEFT JOIN mesa_cliente ON cliente_mesa_mesero.cliente_id = mesa_cliente.id 
                         LEFT JOIN personal ON cliente_mesa_mesero.mesero_id = personal.id 
-                        WHERE mesa_id = $id_mesa;";
+                        WHERE mesa_id = $id_mesa AND mesa_separada_id $mesa_separada
+                        AND mesa_cliente.estado = 2";
                 $result = $pdo->query($sql);
                 if ($result->rowCount() > 0) {
                     $cliente = $result->fetch(PDO::FETCH_OBJ);
                     $id_cliente = $cliente->cliente_id;
                     $nombre_cliente = $cliente->nombre_cliente;
                     $nombre_mesero = $cliente->nombre_mesero;
+                    $mesa_separada = isset($mesa_separada)?$mesa_separada:0;
 
                     echo '<p><strong>MESA OCUPADA:</strong></p>
                     <p>Cliente: ' . $nombre_cliente . '</p>
                     <p>Atendido por: ' . $nombre_mesero . ' <br> <br>
-                    <button type="button" onclick="cofirmarLiberacionMesa(' . $id_cliente . ',' . $id_mesa . ');" class="btn btn-primary w-100" data-bs-dismiss="modal">
+                    <button type="button" onclick="cofirmarLiberacionMesa(' . $id_cliente . ',' . $id_mesa . ',' . $mesa_separada_id . ');" class="btn btn-primary w-100" data-bs-dismiss="modal">
                         Liberar Mesa
                     </button>';
 
@@ -172,9 +204,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_mesero = $data['id_mesero'];
             $fecha = date('Y-m-d');
 
+            // Verificamos si es una mesa separada
+            $result = $pdo->query("SELECT * FROM mesas_separadas WHERE id = '$id_mesa'");
+            // Si se encuentra un resultado, entonces no esta separada
+            if ($result->rowCount() > 0) {
+                $mesa = $result->fetch(PDO::FETCH_OBJ);
+                $id_mesa = $mesa->mesa_id;
+                $id_mesa_separada = $mesa->id;
+                $result = $pdo->query("UPDATE mesas_separadas SET estado = 1 WHERE id =$id_mesa_separada");
+
+                // Sino, entonces es separada.
+            } else {
+                $result = $pdo->query("UPDATE mesas SET estado = 1 WHERE id =$id_mesa");
+            }
+            $id_mesa_separada = isset($id_mesa_separada) ? $id_mesa_separada : "null";
+
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
-            $result = $pdo->query("UPDATE mesas SET estado = 1 WHERE id =$id_mesa");
-            $sql = "INSERT INTO cliente_mesa_mesero (cliente_id,mesero_id,mesa_id,fecha) VALUES ($id_cliente,$id_mesero,$id_mesa,'$fecha')";
+            $sql = "INSERT INTO cliente_mesa_mesero (cliente_id,mesero_id,mesa_id,mesa_separada_id,fecha) VALUES ($id_cliente,$id_mesero,$id_mesa,$id_mesa_separada,'$fecha')";
             $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Si la consulta es correcta, cambiamos el estado del cliente
@@ -191,12 +237,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($accion == 'liberarMesa') {
             $id_mesa = $data['id_mesa'];
             $id_cliente = $data['id_cliente'];
+            $id_mesa_separada = $data['id_mesa_separada'];
             $hora_salida = date('H:i:s');
-
+            
+            if($id_mesa_separada != 0){
+                $sql = "UPDATE mesas_separadas SET estado = 0 WHERE id = $id_mesa_separada";
+            }else{
+                $sql = "UPDATE mesas SET estado = 0 WHERE id =$id_mesa";
+            }
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
-            $sql = "UPDATE mesas SET estado = 0 WHERE id =:id_mesa";
-            $result = $pdo->prepare($sql);
-            $result->execute(array(":id_mesa" => $id_mesa));
+            $result = $pdo->query($sql);
             if ($result->rowCount() > 0) {
                 // Si la consulta es correcta, cambiamos el estado del cliente
                 $sql = "UPDATE mesa_cliente SET estado = 3, hora_salida =:hora_salida WHERE id=:id_cliente";
@@ -205,6 +255,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($result->rowCount() > 0) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>¡Se libero Mesa!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                }
+                else{
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>¡NOOOOOOOOOOOOOOOOOOOO!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
                 }
@@ -222,6 +278,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
             }
+        } elseif ($accion == 'separarMesa') {
+            $id_mesa = $data['id_mesa'];
+            // Consultamos los datos de la mesa original para trabajar con sus datos
+            $result = $pdo->query("SELECT * FROM mesas WHERE id = $id_mesa");
+            $resultMesaOriginal = $result->fetch(PDO::FETCH_OBJ);
+            // Consultamos mesas separadas para ver si existe, y sino crearla
+            $result = $pdo->query("SELECT * FROM mesas_separadas WHERE mesa_id = $id_mesa");
+            if ($result->rowCount() > 0) {
+                //$result = $pdo->query("INSERT INTO mesas_separadas (mesa_id,araea_id)");
+            } else {
+                $mesa_id = $resultMesaOriginal->id;
+                $nombre1 = $resultMesaOriginal->nombre;
+                $nombre2 = $resultMesaOriginal->nombre . "A";
+                $area_id = $resultMesaOriginal->area_id;
+                $n_personas = intval($resultMesaOriginal->n_personas) / 2;
+
+                $sql = "INSERT INTO mesas_separadas (nombre,mesa_id,area_id,n_personas) VALUES ('$nombre1',$mesa_id,$area_id,$n_personas),
+                                                                                                ('$nombre2',$mesa_id,$area_id,$n_personas)";
+                $result = $pdo->query($sql);
+            }
+
+            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>¡Se separo mesa!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+
         }
     }
 
