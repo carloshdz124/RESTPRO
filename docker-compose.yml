@@ -32,5 +32,15 @@ services:
     depends_on:
       - db
 
+  ia:
+    image: python:3.9  # Usa la versión de Python que necesites
+    volumes:
+      - ./ia:/app  # Mapea tu carpeta de scripts de Python
+    working_dir: /app
+    command: |
+      bash -c "pip install -r requirements.txt && python app.py"  # Instalar dependencias y luego ejecutar la aplicación
+    ports:
+      - "8000:5000"  # Cambia el puerto según lo necesites
+
 volumes:
   db_data:

@@ -3,6 +3,13 @@ $titulo = "Index";
 
 include_once "includes/header.php";
 ?>
+<style>
+    #mensaje {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
 
 <div class="container mt-5 centrar">
     <h1>User: <?php echo $user; ?></h1>
@@ -81,7 +88,26 @@ include_once "includes/header.php";
         </div>
     </div>
 </div>
+<script>
+document.getElementById("miBoton").addEventListener("click", function() {
+    fetch('http://ia:5000/hola') // Cambia a 'http://localhost:5000/hola' si estás en el mismo entorno
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al cargar el mensaje');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Muestra el mensaje en tu aplicación
+            document.getElementById("mensaje").innerText = data.message;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("mensaje").innerText = 'Error al mostrar mensaje';
+        });
+});
 
+</script>
 
 <?php
 include_once "includes/footer.php";

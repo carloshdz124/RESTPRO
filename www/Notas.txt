@@ -26,7 +26,7 @@ Validar que aunque cambien el numero de meseros, se siga viendo que mesas tuve e
 
 Agregar form para añadir descansos y turno
 
-Jutar mesas de nuevo
+Jutar mesas de nuevo y al separar mesa, recargar mesas de nuevo
 
 Link: para pruebas vista MESA.php
 http://localhost/PROYECTO_MODULAR/vistas/mesas.php?areas%5B0%5D=1&areas%5B1%5D=2&areas%5B2%5D=3

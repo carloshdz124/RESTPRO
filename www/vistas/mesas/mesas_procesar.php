@@ -284,9 +284,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = $pdo->query("SELECT * FROM mesas WHERE id = $id_mesa");
             $resultMesaOriginal = $result->fetch(PDO::FETCH_OBJ);
             // Consultamos mesas separadas para ver si existe, y sino crearla
-            $result = $pdo->query("SELECT * FROM mesas_separadas WHERE mesa_id = $id_mesa");
+            $result = $pdo->query("SELECT * FROM mesas_separadas WHERE mesa_id = $id_mesa AND activa = 0");
             if ($result->rowCount() > 0) {
-                //$result = $pdo->query("INSERT INTO mesas_separadas (mesa_id,araea_id)");
+                // Si encuentra mesas, no activas las activa
+                $result = $pdo->query("UPDATE mesas_separadas SET activa = 1 WHERE mesa_id = $id_mesa");
             } else {
                 $mesa_id = $resultMesaOriginal->id;
                 $nombre1 = $resultMesaOriginal->nombre;
