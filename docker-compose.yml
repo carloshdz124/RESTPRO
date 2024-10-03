@@ -32,6 +32,27 @@ services:
     depends_on:
       - db
 
+  postgres_db:  # Nuevo servicio para PostgreSQL
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres_user  # Usuario de la base de datos
+      POSTGRES_PASSWORD: postgres_password  # Contraseña de la base de datos
+      POSTGRES_DB: api_db  # Base de datos específica para la API
+    ports:
+      - "5432:5432"  # Puerto por defecto de PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volumen para persistencia de datos
+
+  pgadmin:  # Opcional: Interfaz gráfica para gestionar PostgreSQL
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin  # Contraseña para pgAdmin
+    ports:
+      - "8082:80"
+    depends_on:
+      - postgres_db
+
   ia:
     image: python:3.9  # Usa la versión de Python que necesites
     volumes:
@@ -40,7 +61,10 @@ services:
     command: |
       bash -c "pip install -r requirements.txt && python app.py"  # Instalar dependencias y luego ejecutar la aplicación
     ports:
-      - "8000:5000"  # Cambia el puerto según lo necesites
+      - "8000:5000"
+    depends_on:
+      - postgres_db  # Tu API dependerá de PostgreSQL
 
 volumes:
   db_data:
+  postgres_data:
