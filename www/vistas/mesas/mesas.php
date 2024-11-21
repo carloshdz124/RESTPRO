@@ -3,12 +3,13 @@ $ubicacion = "../../";
 $titulo = "MESAS";
 include($ubicacion . "config/config.php");
 include($ubicacion . "includes/header.php");
+include("IA.php");
 
 include("consultas/consultas.php");
 
 // Se valida si recibe datos get, despues de la insercion para ver mesas disponibles en areas deseadas.
 if (isset($_GET["message"])) {
-    $message = 'Se registro mesa correctamente';
+    $message = 'Se registro mesa correctamente<br><strong>Se agrego a lista de espera</strong>';
     // Consulta del ultimo elemento insertado para mostrar mesas disponibles.
     $sql = "SELECT * FROM mesa_cliente ORDER BY id DESC LIMIT 1";
     $result = $pdo->query($sql);
@@ -46,11 +47,7 @@ if (isset($_GET["message"])) {
     <?php if ($message != '') { ?>
         <div class="alert alert-success alert-dismissible mt-3" style="text-align: center;">
             <?php echo $message;
-            if (isset($resultDisponibles)) { ?>
-                <br>
-                <button class="btn-open" data-bs-toggle="modal" data-bs-target="#modalVerMesa">
-                    Ver Mesas disponibles</button>
-            <?php } else { ?>
+            if (!isset($resultDisponibles)) { ?>
                 <br><i class="bi bi-exclamation-triangle-fill"></i>
                 <strong> No hay mesas disponibles </strong>
             <?php } ?>
@@ -84,18 +81,28 @@ if (isset($_GET["message"])) {
             </div>
         </div>
         <br>
-        <!-- Boton para seleccionar areas y mostrarlas -->
-        <div class="dropdown" style="text-align: right;">
-            <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Areas
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark">
-                <?php foreach ($resultAreas as $area) { ?>
-                    <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
-                            class="dropdown-item"><?php echo $area->nombre ?></a></li>
-                <?php } ?>
-            </ul>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verListaSalida">
+                    Salida esperada
+                </button>
+            </div>
+            <div class="col">
+                <!-- Boton para seleccionar areas y mostrarlas -->
+                <div class="dropdown" style="text-align: right;">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" style="background-color:grey"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Areas
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <?php foreach ($resultAreas as $area) { ?>
+                            <li><a onclick="seleccionaMapa('<?php echo $area->id; ?>')"
+                                    class="dropdown-item"><?php echo $area->nombre ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+
         </div>
         <!-- Si existen areas mostramos mapas de areas -->
         <?php

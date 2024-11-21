@@ -1,6 +1,8 @@
 <?php
 $ubicacion = "../../";
 include_once($ubicacion . "/config/config.php");
+include("IA.php");
+
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -169,8 +171,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mesa_separada_id = $id_mesa;
                     $id_mesa = $result->fetch(PDO::FETCH_OBJ)->mesa_id;
                 }
-                $mesa_separada = isset($mesa_separada_id)?"= $mesa_separada_id":" IS NULL";
-                $mesa_separada_id = isset($mesa_separada_id)?$mesa_separada_id:0;
+                $mesa_separada = isset($mesa_separada_id) ? "= $mesa_separada_id" : " IS NULL";
+                $mesa_separada_id = isset($mesa_separada_id) ? $mesa_separada_id : 0;
                 $sql = "SELECT mesa_cliente.id AS cliente_id, 
                             mesas.nombre AS nombre_mesa, 
                             mesa_cliente.nombre AS nombre_cliente, 
@@ -187,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $id_cliente = $cliente->cliente_id;
                     $nombre_cliente = $cliente->nombre_cliente;
                     $nombre_mesero = $cliente->nombre_mesero;
-                    $mesa_separada = isset($mesa_separada)?$mesa_separada:0;
+                    $mesa_separada = isset($mesa_separada) ? $mesa_separada : 0;
 
                     echo '<p><strong>MESA OCUPADA:</strong></p>
                     <p>Cliente: ' . $nombre_cliente . '</p>
@@ -227,11 +229,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql = "UPDATE mesa_cliente SET estado = 2 WHERE id=:id_cliente";
                 $result = $pdo->prepare($sql);
                 $result->execute(array(":id_cliente" => $id_cliente));
+                
                 if ($result->rowCount() > 0) {
+                    // Una vez se cambia el estado obtenemos el numero de personas para calcular la hora a la que se iran.
+                    $sql = "SELECT * FROM mesa_cliente WHERE id = $id_cliente";
+                    $result = $pdo->query($sql);
+                    $result = $result->fetch(PDO::FETCH_OBJ);
+                    $no_personas = $result->n_adultos+$result->n_ninos;
+
+                    $arrayDatos = array(
+                        "dia" => date('N'),
+                        "no_personas" => $no_personas,
+                        "hora" => date('H'),
+                        "minutos" => date('i')
+                    );
+        
+                    // Convertir el array a JSON 
+                    $jsonDatos = json_encode($arrayDatos);
+                    
+                    // Obtenemos la hora de salida.
+                    $salida = predict_IA($jsonDatos);
+                    $hora = $salida["Hora:"];
+                    $minuto = sprintf("%02d",$salida["Minuto:"]);
+                    $salida = "$hora:$minuto";
+
+                    $sql = "INSERT INTO `prediccion_salida`(`mesa`, `fecha`, `hora`, `minuto`) 
+                    VALUES ($id_mesa,'$fecha',$hora,$minuto)";
+                    $result = $pdo->query($sql);
+
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>¡Se asigno mesa correctamente!</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
+                            <strong>¡Se asigno mesa correctamente!</strong>
+                            <br>Hora estimada de salida: '. $salida .'
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
                 }
             }
         } elseif ($accion == 'liberarMesa') {
@@ -239,10 +269,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_cliente = $data['id_cliente'];
             $id_mesa_separada = $data['id_mesa_separada'];
             $hora_salida = date('H:i:s');
-            
-            if($id_mesa_separada != 0){
+
+            if ($id_mesa_separada != 0) {
                 $sql = "UPDATE mesas_separadas SET estado = 0 WHERE id = $id_mesa_separada";
-            }else{
+            } else {
                 $sql = "UPDATE mesas SET estado = 0 WHERE id =$id_mesa";
             }
             // Consulta para asignar mesa a cliente, y cambiar estado de la mesa
@@ -257,8 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <strong>¡Se libero Mesa!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
-                }
-                else{
+                } else {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>¡NOOOOOOOOOOOOOOOOOOOO!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

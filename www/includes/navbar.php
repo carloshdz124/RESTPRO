@@ -30,7 +30,7 @@
                             style="color:#212529;">
                             <i class="fs-4 bi-table"></i> <span class="ms-1">ROL</span></a>
                     </li>
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <a href="<?php echo $ubicacion; ?>vistas/tareas_preapertura/tareas_preapertura.php"
                             style="color:#212529;" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-list-task icon-index"></i>
@@ -41,7 +41,7 @@
                         <a href="<?php echo $ubicacion; ?>vistas/reportes/reportes.php"
                             class="nav-link px-0 align-middle" style="color:#212529;">
                             <i class="fs-4 bi-speedometer2"></i> <span class="ms-1">REPORTES</span> </a>
-                    </li>
+                    </li-->
                     <li>
                         <a href="<?php echo $ubicacion; ?>vistas/estaciones/estaciones.php"
                             class="nav-link px-0 align-middle" style="color:#212529;">
@@ -66,11 +66,11 @@
                         <span class="mx-1">Usuario</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">Configuración</a></li>
+                        <!--li><a class="dropdown-item" href="#">Configuración</a></li>
                         <li><a class="dropdown-item" href="#">Perfil</a></li>
                         <li>
                             <hr class="dropdown-divider">
-                        </li>
+                        </li-->
                         <li><a class="dropdown-item" href="<?php echo $ubicacion; ?>config/eliminar_sesion.php">Cerrar
                                 sesión</a></li>
                     </ul>

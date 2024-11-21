@@ -26,7 +26,7 @@ include_once "includes/header.php";
                 </div>
             </div>
         </div>
-        <div class="col">
+        <!--div class="col">
             <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
                     <i class="bi bi-list-task icon-index"></i>
@@ -38,16 +38,17 @@ include_once "includes/header.php";
                         tareas</a>
                 </div>
             </div>
-        </div>
+        </div-->
         <div class="col">
             <div class="card" style="width: 14rem; margin: 0 auto;">
                 <div class="card-icon-container">
-                    <i class="bi bi-card-text icon-index"></i>
+                    <i class="bi bi-file-earmark-plus icon-index"></i>
+                    
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">reportes</h5>
-                    <a href="<?php echo $ubicacion; ?>vistas/reportes/reportes.php" class="btn btn-primary">Ir a
-                        reportes</a>
+                    <h5 class="card-title">Agregar</h5>
+                    <a href="<?php echo $ubicacion; ?>vistas/agregar/agregar.php" class="btn btn-primary">Ir a
+                        agregar</a>
                 </div>
             </div>
         </div>
@@ -88,27 +89,6 @@ include_once "includes/header.php";
         </div>
     </div>
 </div>
-<script>
-document.getElementById("miBoton").addEventListener("click", function() {
-    fetch('http://ia:5000/hola') // Cambia a 'http://localhost:5000/hola' si estás en el mismo entorno
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar el mensaje');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Muestra el mensaje en tu aplicación
-            document.getElementById("mensaje").innerText = data.message;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById("mensaje").innerText = 'Error al mostrar mensaje';
-        });
-});
-
-</script>
-
 <?php
 include_once "includes/footer.php";
 ?>

@@ -1,3 +1,27 @@
+
+
+// Llamamos al endpoint de lista de espera para que se muestre la lista de espera actualizada en tiempo real.
+$(document).ready(function () {
+    $('#verListaSalida').on('show.bs.modal', function () {
+        $.ajax({
+            // Ruta al archivo PHP que consulta los datos
+            url: '../endpoints/lista_prediccion.php',
+            method: 'GET',
+            success: function (response) {
+                // Inserta el contenido generado en el modal
+                $('#tablaResultados').html(response);
+            },
+            error: function () {
+                $('#tablaResultados').html('Hubo un error al cargar los datos.');
+            }
+        });
+    });
+});
+
+
+// Elimina los parámetros GET de la URL
+window.history.replaceState({}, document.title, window.location.pathname);
+
 // Funcion para eliminar reservacion    
 function eliminarReservacion(id_reservacion, nombre){
     if(confirm('¿Estas seguro que deseas eliminar la reservacion de ' + nombre +'?')){

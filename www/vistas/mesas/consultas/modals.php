@@ -174,6 +174,44 @@
 </div>
 
 
+<!-- Modal Ver mesas disponibles para cliente -->
+<div class="modal fade" id="verListaSalida" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista de salidas esperadas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="was-validated" action="#" method="POST">
+                <div class="modal-body">
+                    
+                    <div class="mb-3">
+                        <!-- Aqui mostramos los datos siendo una respuesta AJAX -->
+                        <div>
+                            <p><strong>MESAS LIBRES: </strong></p>
+                            <table class="table table-dark centrar" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Mesa</th>
+                                        <th scope="col">N. personas</th>
+                                        <th scope="col">hora de salida</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-secondary" id="tablaResultados">
+                                    <!-- Aquí se mostrarán los clientes disponibles -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Reservaciones registradas -->
 <div class="modal fade" id="modalReservacionHoy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

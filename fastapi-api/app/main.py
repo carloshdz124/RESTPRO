@@ -52,7 +52,7 @@ def process_data(value: int):
     return {"input": value, "output": result}
 
 
-@app.get("/predict")
+@app.post("/predict")
 def process_data(prediccion: prediccion):
 
     input = np.zeros((1,4))
