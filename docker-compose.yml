@@ -53,17 +53,15 @@ services:
     depends_on:
       - postgres_db
 
-  ia:
-    image: python:3.9  # Usa la versión de Python que necesites
+  fastapi-api:
+    build:
+      context: ./fastapi-api  # Ruta del servicio FastAPI
     volumes:
-      - ./ia:/app  # Mapea tu carpeta de scripts de Python
+      - ./fastapi-api:/app  # Mapea la carpeta de tu aplicación
     working_dir: /app
-    command: |
-      bash -c "pip install -r requirements.txt && python app.py"  # Instalar dependencias y luego ejecutar la aplicación
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000  # Inicia FastAPI
     ports:
-      - "8000:5000"
-    depends_on:
-      - postgres_db  # Tu API dependerá de PostgreSQL
+      - "8000:8000"  # Expone el puerto 8000
 
 volumes:
   db_data:

@@ -1,6 +1,5 @@
 # python/app.py
 from flask import Flask, jsonify, request
-import mysql.connector
 import random
 
 app = Flask(__name__)
